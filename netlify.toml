@@ -1,0 +1,12 @@
+[build]
+command = "pnpm i && pnpm build"
+publish = "dist"
+
+[context.production]
+command = "pnpm i && pnpm build"
+
+[[redirects]]
+from = "/admin"
+to = "https://faxbot.net/admin-demo/"
+status = 302
+force = true
