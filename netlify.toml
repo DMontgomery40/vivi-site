@@ -1,13 +1,12 @@
 [build]
+command = "corepack pnpm i && corepack pnpm build"
 publish = "dist"
+
+[context.production]
+command = "corepack pnpm i && corepack pnpm build"
 
 [[redirects]]
 from = "/admin"
 to = "https://faxbot.net/admin-demo/"
 status = 302
 force = true
-
-[[redirects]]
-from = "/architecture"
-to = "/index.html"
-status = 200

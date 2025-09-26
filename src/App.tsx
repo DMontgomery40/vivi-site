@@ -80,19 +80,6 @@ export default function App() {
         <div className="flex items-center gap-6">
           <motion.a 
             className="hidden sm:flex items-center gap-2 text-slate-300 hover:text-white transition-colors group"
-            href="/architecture"
-            onClick={(e) => {
-              e.preventDefault();
-              window.history.pushState({}, '', '/architecture');
-              window.dispatchEvent(new PopStateEvent('popstate'));
-            }}
-            whileHover={{ scale: 1.05 }}
-          >
-            <span className="text-sm font-medium">Technical Details</span>
-            <ArrowRight className="h-4 w-4 group-hover:translate-x-0.5 transition-transform" />
-          </motion.a>
-          <motion.a 
-            className="hidden sm:flex items-center gap-2 text-slate-300 hover:text-white transition-colors group"
             href="https://faxbot.net/admin-demo/" 
             target="_blank" 
             rel="noreferrer"
@@ -207,29 +194,6 @@ export default function App() {
               </motion.div>
             </motion.div>
 
-            {/* Architecture Link */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.8 }}
-              className="flex justify-center mb-16"
-            >
-              <motion.a
-                href="/architecture"
-                onClick={(e) => {
-                  e.preventDefault();
-                  window.history.pushState({}, '', '/architecture');
-                  window.dispatchEvent(new PopStateEvent('popstate'));
-                }}
-                className="group flex items-center gap-3 text-slate-400 hover:text-pink transition-colors px-6 py-3 rounded-xl border border-slate-700/50 hover:border-pink/50 backdrop-blur-sm"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <Settings className="h-5 w-5" />
-                <span className="font-medium">Read the Technical Deep Dive</span>
-                <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
-              </motion.a>
-            </motion.div>
           </div>
         </motion.section>
 
@@ -536,23 +500,17 @@ Your Plugins (Your Application Domain)
               <p className="text-xl text-slate-400 max-w-3xl mx-auto mb-8">
                 How the plugin architecture actually works under the hood
               </p>
-              <motion.a
-                href="/architecture"
-                onClick={(e) => {
-                  e.preventDefault();
-                  window.history.pushState({}, '', '/architecture');
-                  window.dispatchEvent(new PopStateEvent('popstate'));
-                }}
-                className="inline-flex items-center gap-2 bg-gradient-to-r from-pink to-sky hover:from-magenta hover:to-ocean text-white font-bold px-6 py-3 rounded-xl transition-all duration-300 shadow-lg shadow-pink/25 hover:shadow-pink/40 hover:scale-105"
+              <motion.div
+                className="inline-flex items-center gap-2 bg-gradient-to-r from-pink to-sky text-white font-bold px-6 py-3 rounded-xl shadow-lg shadow-pink/25"
                 whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
               >
-                Read Full Technical Details
-                <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
-              </motion.a>
+                <Settings className="h-5 w-5" />
+                <span>Technical Deep Dive Below</span>
+                <ChevronDown className="h-5 w-5" />
+              </motion.div>
             </motion.div>
 
-            {/* Plugin Contracts */}
+            {/* Application Kernel Details */}
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -561,25 +519,40 @@ Your Plugins (Your Application Domain)
               className="mb-16"
             >
               <h3 className="text-3xl font-bold text-center mb-8 bg-gradient-to-r from-pink to-sky bg-clip-text text-transparent">
-                Plugin Contracts
+                Application Kernel for Regulated Software
               </h3>
-              <p className="text-lg text-slate-300 text-center mb-8">
-                Every plugin implements standardized interfaces:
-              </p>
-              <div className="bg-gradient-to-br from-slate-900/50 to-slate-800/30 border border-slate-700/50 backdrop-blur-xl rounded-3xl p-8">
-                <pre className="text-slate-300 text-sm md:text-base leading-relaxed overflow-x-auto">
-{`class CommunicationPlugin(Plugin):
-    def send_message(self, message: CanonicalMessage) -> DeliveryStatus
-    def receive_messages(self) -> List[CanonicalMessage]
+              <div className="bg-gradient-to-br from-slate-900/50 to-slate-800/30 border border-slate-700/50 backdrop-blur-xl rounded-3xl p-8 md:p-12">
+                <div className="prose prose-lg prose-invert max-w-none">
+                  <p className="text-slate-300 text-lg leading-relaxed mb-6">
+                    Vivified is an application kernel for regulated software. It lets you assemble products from interchangeable parts and keep them safe under real‑world constraints. Capabilities are expressed as traits, everything else is a plugin, and policy decides who can do what. The result is a system you can rewire live — swapping transports, storage, identity, and UI modules — without breaking your contracts or your compliance story.
+                  </p>
+                  <p className="text-slate-300 text-lg leading-relaxed">
+                    Out of the box, Vivified ships with an Admin Console that is trait‑aware: it adapts diagnostics, setup, and help to the active provider's capabilities instead of hard‑coding brand names. It includes SDKs for Node and Python that mirror the API and stay honest to the OpenAPI spec, so you can move quickly without guessing. It also includes two built‑in MCP servers (Node and Python) that can run over stdio, HTTP, or SSE. That means you can expose the platform's capabilities to AI agents in environments with different security postures — from fully offline stdio to HIPAA‑friendly SSE — without rebuilding anything.
+                  </p>
+                </div>
+              </div>
+            </motion.div>
 
-class StoragePlugin(Plugin):
-    def store(self, data: Any, metadata: Dict) -> StorageResult
-    def retrieve(self, id: str) -> Any
-
-class IdentityPlugin(Plugin):
-    def authenticate(self, credentials: Dict) -> AuthResult
-    def get_user_permissions(self, user_id: str) -> List[Permission]`}
-                </pre>
+            {/* Traits and Policy */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: 0.1 }}
+              className="mb-16"
+            >
+              <h3 className="text-3xl font-bold text-center mb-8 bg-gradient-to-r from-pink to-sky bg-clip-text text-transparent">
+                Traits and Policy Engine
+              </h3>
+              <div className="bg-gradient-to-br from-slate-900/50 to-slate-800/30 border border-slate-700/50 backdrop-blur-xl rounded-3xl p-8 md:p-12">
+                <div className="prose prose-lg prose-invert max-w-none">
+                  <p className="text-slate-300 text-lg leading-relaxed mb-6">
+                    Under the hood, the kernel separates "what is possible" from "what is allowed." Providers declare capabilities through canonical traits such as <code className="text-sky bg-slate-800/50 px-2 py-1 rounded">webhook.verification</code>, <code className="text-sky bg-slate-800/50 px-2 py-1 rounded">auth.methods</code>, <code className="text-sky bg-slate-800/50 px-2 py-1 rounded">supports_inbound</code>, <code className="text-sky bg-slate-800/50 px-2 py-1 rounded">requires_ami</code>, or <code className="text-sky bg-slate-800/50 px-2 py-1 rounded">needs_storage</code>. Your app then loads plugins — transport, storage, identity, and more — and the UI simply renders what those traits say exists.
+                  </p>
+                  <p className="text-slate-300 text-lg leading-relaxed">
+                    Authorization is handled by policy: roles and attributes can enable or hide actions per tenant, group, user, or session. This keeps the experience clean for a low‑access user while giving admins a deep, actionable view — with different diagnostics, different help, and different next steps — even when both users share the same providers.
+                  </p>
+                </div>
               </div>
             </motion.div>
 
@@ -639,7 +612,7 @@ if not trait_engine.compatible(user.traits, plugin.traits):
               </div>
             </motion.div>
 
-            {/* AI Integration */}
+            {/* Security and Compliance */}
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -648,26 +621,85 @@ if not trait_engine.compatible(user.traits, plugin.traits):
               className="mb-16"
             >
               <h3 className="text-3xl font-bold text-center mb-8 bg-gradient-to-r from-pink to-sky bg-clip-text text-transparent">
-                AI Integration with Guardrails
+                Built for Regulated Environments
               </h3>
-              <div className="grid md:grid-cols-2 gap-8">
-                <div className="bg-gradient-to-br from-slate-900/50 to-slate-800/30 border border-slate-700/50 backdrop-blur-xl rounded-3xl p-8">
-                  <h4 className="text-xl font-semibold text-sky mb-4">Built-in LLM Integration</h4>
-                  <ul className="text-slate-300 space-y-2">
-                    <li>• Multiple MCP transports (stdio, HTTP, SSE)</li>
-                    <li>• Content filtering and PHI detection</li>
-                    <li>• Rate limiting and audit logging</li>
-                    <li>• Plugin-specific AI tools with appropriate permissions</li>
-                  </ul>
+              <div className="bg-gradient-to-br from-slate-900/50 to-slate-800/30 border border-slate-700/50 backdrop-blur-xl rounded-3xl p-8 md:p-12">
+                <div className="prose prose-lg prose-invert max-w-none">
+                  <p className="text-slate-300 text-lg leading-relaxed mb-6">
+                    The platform is designed for environments that cannot afford surprises. Webhooks return 202 and are idempotent by default. Secrets never appear in logs, and PHI is treated as toxic: it's redacted in audit records and kept out of observable payloads. Sessions use secure cookies with CSRF protection, and elevation states (like <code className="text-sky bg-slate-800/50 px-2 py-1 rounded">mfa_verified</code>) are time‑bound and automatically drop.
+                  </p>
+                  <p className="text-slate-300 text-lg leading-relaxed">
+                    Observability is consistent and boring: there is exactly one metrics endpoint on the API port, a single health monitor/circuit breaker, and the server never forks multiple metrics stacks that fight each other.
+                  </p>
                 </div>
-                <div className="bg-gradient-to-br from-slate-900/50 to-slate-800/30 border border-slate-700/50 backdrop-blur-xl rounded-3xl p-8">
-                  <h4 className="text-xl font-semibold text-sky mb-4">Security First</h4>
-                  <ul className="text-slate-300 space-y-2">
-                    <li>• Proper security boundaries</li>
-                    <li>• PHI detection and filtering</li>
-                    <li>• Audit trails for all AI interactions</li>
-                    <li>• Configurable content policies</li>
-                  </ul>
+              </div>
+            </motion.div>
+
+            {/* Configuration Philosophy */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: 0.4 }}
+              className="mb-16"
+            >
+              <h3 className="text-3xl font-bold text-center mb-8 bg-gradient-to-r from-pink to-sky bg-clip-text text-transparent">
+                Configuration That Follows Reality
+              </h3>
+              <div className="bg-gradient-to-br from-slate-900/50 to-slate-800/30 border border-slate-700/50 backdrop-blur-xl rounded-3xl p-8 md:p-12">
+                <div className="prose prose-lg prose-invert max-w-none">
+                  <p className="text-slate-300 text-lg leading-relaxed mb-6">
+                    Configuration follows reality, not convenience. Vivified resolves configuration from a hierarchical, database‑first model with environment fallback only when the database is down. That means you can give a hospital tenant strict HIPAA defaults while letting a non‑HIPAA tenant use lighter‑weight features, all in the same cluster.
+                  </p>
+                  <p className="text-slate-300 text-lg leading-relaxed">
+                    The Admin Console shows the effective configuration with source badges, and the SDKs see the same truth the UI does.
+                  </p>
+                </div>
+              </div>
+            </motion.div>
+
+            {/* Modular by Design */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: 0.5 }}
+              className="mb-16"
+            >
+              <h3 className="text-3xl font-bold text-center mb-8 bg-gradient-to-r from-pink to-sky bg-clip-text text-transparent">
+                Built to be Replaced in Pieces
+              </h3>
+              <div className="bg-gradient-to-br from-slate-900/50 to-slate-800/30 border border-slate-700/50 backdrop-blur-xl rounded-3xl p-8 md:p-12">
+                <div className="prose prose-lg prose-invert max-w-none">
+                  <p className="text-slate-300 text-lg leading-relaxed mb-6">
+                    Vivified is built to be replaced in pieces, not all at once. If you need to change how files are stored, swap the storage plugin. If you need different authentication, switch identity. If a provider has an outage or fails a regional compliance test, point the transport layer at a different plugin without changing the code that calls it.
+                  </p>
+                  <p className="text-slate-300 text-lg leading-relaxed">
+                    The kernel keeps your contracts steady with an OpenAPI‑driven surface and CI guardrails that fail fast when routes or schemas drift.
+                  </p>
+                </div>
+              </div>
+            </motion.div>
+
+            {/* The Big Idea */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: 0.6 }}
+              className="mb-16"
+            >
+              <div className="bg-gradient-to-br from-sky/10 to-ocean/10 border border-sky/30 backdrop-blur-xl rounded-3xl p-8 md:p-12 text-center">
+                <h3 className="text-3xl font-bold mb-8 bg-gradient-to-r from-pink to-sky bg-clip-text text-transparent">
+                  The Big Idea
+                </h3>
+                <div className="prose prose-lg prose-invert max-w-none">
+                  <p className="text-slate-200 text-lg leading-relaxed mb-6">
+                    The big idea is that you shouldn't need to fork your product to pass a compliance review or to integrate a new provider. Instead, you declare capabilities as traits, enforce access as policy, plug in the parts you want, and keep shipping.
+                  </p>
+                  <p className="text-slate-200 text-lg leading-relaxed">
+                    The Admin Console, SDKs, and MCP servers are there from day one so teams can build, operate, and automate without waiting for a "phase two."
+                  </p>
                 </div>
               </div>
             </motion.div>
