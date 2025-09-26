@@ -1,9 +1,9 @@
 [build]
-command = "npm install --legacy-peer-deps && npm run build"
+command = "corepack pnpm i && corepack pnpm build"
 publish = "dist"
 
 [context.production]
-command = "npm install --legacy-peer-deps && npm run build"
+command = "corepack pnpm i && corepack pnpm build"
 
 [[redirects]]
 from = "/admin"
