@@ -237,11 +237,8 @@ export default function App() {
               className="text-center mb-20"
             >
               <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-white to-slate-300 bg-clip-text text-transparent mb-6">
-                I Accidentally Built the Wrong Thing
+                How This Actually Started
               </h2>
-              <p className="text-xl text-slate-400 max-w-3xl mx-auto">
-                (And It Was Perfect)
-              </p>
             </motion.div>
 
             <motion.div
@@ -253,37 +250,40 @@ export default function App() {
             >
               <div className="bg-gradient-to-br from-slate-900/50 to-slate-800/30 border border-slate-700/50 backdrop-blur-xl rounded-3xl p-8 md:p-12">
                 <p className="text-slate-300 text-lg leading-relaxed mb-6">
-                  Started building a fax server because healthcare is stuck in 1995. Just a simple caterpillar 🐛 of a project. But I panicked—what if hospitals trusted this thing with actual PHI and I broke something? What if HIPAA auditors showed up?
+                  I had heart failure after COVID (myocarditis) and suddenly found myself faxing a lot of medical records. Healthcare is genuinely stuck in 1995 - everything still runs on fax machines. So I started building a simple fax server.
                 </p>
                 <p className="text-slate-300 text-lg leading-relaxed mb-6">
-                  So I went completely overboard:
+                  But then I got scared. What if a hospital actually used this thing with real patient data and I screwed something up? What if HIPAA auditors came knocking? I'd never built anything for healthcare before.
+                </p>
+                <p className="text-slate-300 text-lg leading-relaxed mb-6">
+                  So I went way overboard on the architecture:
                 </p>
                 <ul className="text-slate-300 space-y-3 mb-6">
                   <li className="flex items-start gap-3">
                     <div className="w-2 h-2 bg-pink rounded-full mt-3 flex-shrink-0"></div>
-                    Made every component swappable (user management, storage, communication, even the UI)
+                    Made every component swappable so I could switch providers if one failed compliance
                   </li>
                   <li className="flex items-start gap-3">
                     <div className="w-2 h-2 bg-pink rounded-full mt-3 flex-shrink-0"></div>
-                    Built security boundaries so tight that plugins can't break core compliance
+                    Built security boundaries everywhere so plugins couldn't accidentally leak data
                   </li>
                   <li className="flex items-start gap-3">
                     <div className="w-2 h-2 bg-pink rounded-full mt-3 flex-shrink-0"></div>
-                    Created a universal message format so anything could talk to anything else
+                    Created a universal message format so different systems could talk without breaking
                   </li>
                   <li className="flex items-start gap-3">
                     <div className="w-2 h-2 bg-pink rounded-full mt-3 flex-shrink-0"></div>
-                    Added AI integration because LLMs need guardrails, especially around sensitive data
+                    Added AI integration because I knew LLMs would need proper guardrails around medical data
                   </li>
                 </ul>
                 <p className="text-xl text-white font-semibold">
-                  Then I realized: <span className="text-pink">I hadn't built a fax server. The caterpillar had become a butterfly 🦋</span>
+                  Six months later, I looked at what I'd built. This wasn't a fax server anymore.
                 </p>
                 <p className="text-2xl font-bold text-center mt-6 bg-gradient-to-r from-pink via-magenta to-sky bg-clip-text text-transparent">
-                  I'd built Vivified.
+                  It was a platform for building regulated software.
                 </p>
               </div>
-          </motion.div>
+            </motion.div>
 
             <div className="grid md:grid-cols-3 gap-8">
               <EnhancedFeature 
