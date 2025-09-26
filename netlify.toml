@@ -1,12 +1,17 @@
 [build]
-command = "corepack pnpm i && corepack pnpm build"
+command = "npm install --legacy-peer-deps && npm run build"
 publish = "dist"
 
 [context.production]
-command = "corepack pnpm i && corepack pnpm build"
+command = "npm install --legacy-peer-deps && npm run build"
 
 [[redirects]]
 from = "/admin"
 to = "https://faxbot.net/admin-demo/"
 status = 302
 force = true
+
+[[redirects]]
+from = "/*"
+to = "/index.html"
+status = 200

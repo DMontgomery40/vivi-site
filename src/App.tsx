@@ -1,6 +1,7 @@
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import { ArrowRight, Plug, Puzzle, Settings, Zap, Code, Layers, Sparkles, ChevronDown, Github, Mail, ExternalLink, Shield, Database, Brain, Terminal, Users, Lock, Heart } from "lucide-react";
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 export default function App() {
   const { scrollY } = useScroll();
@@ -78,6 +79,15 @@ export default function App() {
         </motion.div>
         
         <div className="flex items-center gap-6">
+          <motion.div
+            className="hidden sm:flex items-center gap-2 text-slate-300 hover:text-white transition-colors group cursor-pointer"
+            whileHover={{ scale: 1.05 }}
+          >
+            <Link to="/architecture" className="flex items-center gap-2">
+              <span className="text-sm font-medium">Technical Details</span>
+              <ArrowRight className="h-4 w-4 group-hover:translate-x-0.5 transition-transform" />
+            </Link>
+          </motion.div>
           <motion.a 
             className="hidden sm:flex items-center gap-2 text-slate-300 hover:text-white transition-colors group"
             href="https://faxbot.net/admin-demo/" 
@@ -194,6 +204,25 @@ export default function App() {
               </motion.div>
             </motion.div>
 
+            {/* Architecture Link */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.8 }}
+              className="flex justify-center mb-16"
+            >
+              <motion.div
+                className="group flex items-center gap-3 text-slate-400 hover:text-pink transition-colors px-6 py-3 rounded-xl border border-slate-700/50 hover:border-pink/50 backdrop-blur-sm cursor-pointer"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <Link to="/architecture" className="flex items-center gap-3">
+                  <Settings className="h-5 w-5" />
+                  <span className="font-medium">Read the Technical Deep Dive</span>
+                  <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                </Link>
+              </motion.div>
+            </motion.div>
           </div>
         </motion.section>
 
