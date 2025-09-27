@@ -1,100 +1,61 @@
-import { motion } from "framer-motion";
 import { ArrowLeft, Shield, Users, Key, Settings, Eye, Lock, Workflow, GitBranch } from "lucide-react";
 import { Link } from "react-router-dom";
 
 export default function TraitSystem() {
   return (
     <div className="min-h-screen relative overflow-hidden">
-      {/* Animated Background */}
+      {/* Background */}
       <div className="fixed inset-0 -z-10">
         <div className="absolute inset-0 bg-gradient-to-br from-ink via-night to-deep" />
-        <div className="absolute inset-0 bg-grid opacity-20" />
+        <div className="absolute inset-0 bg-grid opacity-10" />
       </div>
 
       {/* Navigation */}
-      <motion.header 
-        initial={{ y: -100, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.8, delay: 0.2 }}
-        className="relative z-50 flex items-center justify-between px-6 lg:px-12 py-6"
-      >
-        <motion.div 
-          className="flex items-center gap-3"
-          whileHover={{ scale: 1.05 }}
-          transition={{ type: "spring", stiffness: 400 }}
-        >
-          <div className="relative">
-            <div className="h-10 w-10 rounded-2xl bg-gradient-to-br from-sky to-ocean border border-sky/30 grid place-items-center shadow-lg shadow-sky/25">
-              <Shield className="h-5 w-5 text-white" />
-            </div>
-            <div className="absolute -inset-1 bg-gradient-to-r from-sky to-ocean rounded-2xl blur opacity-30 animate-pulse" />
+      <header className="relative z-50 flex items-center justify-between px-6 lg:px-12 py-6">
+        <Link to="/" className="flex items-center gap-3 hover:scale-105 transition-transform duration-200">
+          <div className="h-10 w-10 rounded-2xl bg-gradient-to-br from-sky to-ocean border border-sky/30 grid place-items-center shadow-lg shadow-sky/25">
+            <Shield className="h-5 w-5 text-white" />
           </div>
           <div className="text-2xl font-black tracking-tight bg-gradient-to-r from-pink via-magenta to-sky bg-clip-text text-transparent">
             Vivified
           </div>
-        </motion.div>
+        </Link>
         
         <div className="flex items-center gap-6">
-          <motion.div
-            className="flex items-center gap-2 text-slate-300 hover:text-white transition-colors group cursor-pointer"
-            whileHover={{ scale: 1.05 }}
-          >
-            <Link to="/" className="flex items-center gap-2">
-              <ArrowLeft className="h-4 w-4 group-hover:-translate-x-0.5 transition-transform" />
-              <span className="text-sm font-medium">Back to Home</span>
-            </Link>
-          </motion.div>
+          <Link to="/" className="flex items-center gap-2 text-slate-300 hover:text-white transition-colors group">
+            <ArrowLeft className="h-4 w-4 group-hover:-translate-x-0.5 transition-transform" />
+            <span className="text-sm font-medium">Back to Home</span>
+          </Link>
         </div>
-      </motion.header>
+      </header>
 
       <main className="relative z-10">
         {/* Hero Section */}
         <section className="py-20 px-6 lg:px-12">
           <div className="max-w-4xl mx-auto text-center">
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 1, ease: "easeOut" }}
-              className="mb-8 flex items-center justify-center"
-            >
+            <div className="mb-8 flex items-center justify-center">
               <div className="text-6xl drop-shadow-2xl filter brightness-110">🔐</div>
-            </motion.div>
+            </div>
 
-            <motion.h1
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.3 }}
-              className="text-5xl md:text-6xl lg:text-7xl font-black leading-[0.9] mb-8"
-            >
+            <h1 className="text-5xl md:text-6xl lg:text-7xl font-black leading-[0.9] mb-8">
               <span className="block bg-gradient-to-r from-white via-slate-100 to-slate-300 bg-clip-text text-transparent">
                 Trait-Based
               </span>
-              <span className="block bg-gradient-to-r from-pink via-magenta to-sky bg-clip-text text-transparent animate-gradient">
+              <span className="block bg-gradient-to-r from-pink via-magenta to-sky bg-clip-text text-transparent">
                 Security & Policy
               </span>
-            </motion.h1>
+            </h1>
 
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.5 }}
-              className="text-xl md:text-2xl text-slate-300 max-w-3xl mx-auto leading-relaxed mb-12"
-            >
+            <p className="text-xl md:text-2xl text-slate-300 max-w-3xl mx-auto leading-relaxed mb-12">
               How Vivified separates "what is possible" from "what is allowed" through traits and policy
-            </motion.p>
+            </p>
           </div>
         </section>
 
         {/* Trait System Overview */}
         <section className="py-16 px-6 lg:px-12">
           <div className="max-w-6xl mx-auto">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8 }}
-              className="bg-gradient-to-br from-slate-900/50 to-slate-800/30 border border-slate-700/50 backdrop-blur-xl rounded-3xl p-8 md:p-12 mb-16"
-            >
+            <div className="bg-gradient-to-br from-slate-900/50 to-slate-800/30 border border-slate-700/50 backdrop-blur-xl rounded-3xl p-8 md:p-12 mb-16">
               <h2 className="text-3xl font-bold mb-8 bg-gradient-to-r from-pink to-sky bg-clip-text text-transparent">
                 How Traits Work
               </h2>
@@ -112,17 +73,11 @@ export default function TraitSystem() {
                   user traits, plugin traits, and data traits before allowing any operation.
                 </p>
               </div>
-            </motion.div>
+            </div>
 
             {/* Trait Examples */}
             <div className="grid md:grid-cols-3 gap-8 mb-16">
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.8 }}
-                className="bg-gradient-to-br from-slate-900/50 to-slate-800/30 border border-slate-700/50 backdrop-blur-xl rounded-3xl p-8"
-              >
+              <div className="bg-gradient-to-br from-slate-900/50 to-slate-800/30 border border-slate-700/50 backdrop-blur-xl rounded-3xl p-8">
                 <div className="flex items-center gap-3 mb-6">
                   <Users className="h-8 w-8 text-sky" />
                   <h3 className="text-2xl font-bold text-sky">User Traits</h3>
@@ -140,15 +95,9 @@ export default function TraitSystem() {
                 <p className="text-slate-300 text-sm">
                   User traits determine their experience and access level in the system.
                 </p>
-              </motion.div>
+              </div>
 
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.8, delay: 0.1 }}
-                className="bg-gradient-to-br from-slate-900/50 to-slate-800/30 border border-slate-700/50 backdrop-blur-xl rounded-3xl p-8"
-              >
+              <div className="bg-gradient-to-br from-slate-900/50 to-slate-800/30 border border-slate-700/50 backdrop-blur-xl rounded-3xl p-8">
                 <div className="flex items-center gap-3 mb-6">
                   <Settings className="h-8 w-8 text-pink" />
                   <h3 className="text-2xl font-bold text-pink">Plugin Traits</h3>
@@ -166,15 +115,9 @@ export default function TraitSystem() {
                 <p className="text-slate-300 text-sm">
                   Plugin traits declare what they can handle and what they require from the environment.
                 </p>
-              </motion.div>
+              </div>
 
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.8, delay: 0.2 }}
-                className="bg-gradient-to-br from-slate-900/50 to-slate-800/30 border border-slate-700/50 backdrop-blur-xl rounded-3xl p-8"
-              >
+              <div className="bg-gradient-to-br from-slate-900/50 to-slate-800/30 border border-slate-700/50 backdrop-blur-xl rounded-3xl p-8">
                 <div className="flex items-center gap-3 mb-6">
                   <Lock className="h-8 w-8 text-purple" />
                   <h3 className="text-2xl font-bold text-purple">Data Traits</h3>
@@ -192,17 +135,11 @@ export default function TraitSystem() {
                 <p className="text-slate-300 text-sm">
                   Data traits label information with security and handling requirements.
                 </p>
-              </motion.div>
+              </div>
             </div>
 
             {/* Policy Engine */}
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: 0.3 }}
-              className="bg-gradient-to-br from-slate-900/50 to-slate-800/30 border border-slate-700/50 backdrop-blur-xl rounded-3xl p-8 md:p-12 mb-16"
-            >
+            <div className="bg-gradient-to-br from-slate-900/50 to-slate-800/30 border border-slate-700/50 backdrop-blur-xl rounded-3xl p-8 md:p-12 mb-16">
               <h2 className="text-3xl font-bold mb-8 bg-gradient-to-r from-pink to-sky bg-clip-text text-transparent">
                 Policy Engine Enforcement
               </h2>
@@ -227,16 +164,10 @@ else:
                 The policy engine automatically enforces trait compatibility across all system interactions. 
                 No manual permission checks needed—the system knows what's allowed.
               </p>
-            </motion.div>
+            </div>
 
             {/* Dynamic UI Rendering */}
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: 0.4 }}
-              className="bg-gradient-to-br from-slate-900/50 to-slate-800/30 border border-slate-700/50 backdrop-blur-xl rounded-3xl p-8 md:p-12"
-            >
+            <div className="bg-gradient-to-br from-slate-900/50 to-slate-800/30 border border-slate-700/50 backdrop-blur-xl rounded-3xl p-8 md:p-12">
               <h2 className="text-3xl font-bold mb-8 bg-gradient-to-r from-pink to-sky bg-clip-text text-transparent">
                 Traits-First UI Adaptation
               </h2>
@@ -257,7 +188,7 @@ else:
                   </p>
                 </div>
               </div>
-            </motion.div>
+            </div>
           </div>
         </section>
       </main>

@@ -1,100 +1,61 @@
-import { motion } from "framer-motion";
 import { ArrowLeft, Network, MessageSquare, Shield, Zap, Database, Code, Clock, CheckCircle, GitBranch, Server } from "lucide-react";
 import { Link } from "react-router-dom";
 
 export default function ThreeLaneArchitecture() {
   return (
     <div className="min-h-screen relative overflow-hidden">
-      {/* Animated Background */}
+      {/* Background */}
       <div className="fixed inset-0 -z-10">
         <div className="absolute inset-0 bg-gradient-to-br from-ink via-night to-deep" />
-        <div className="absolute inset-0 bg-grid opacity-20" />
+        <div className="absolute inset-0 bg-grid opacity-10" />
       </div>
 
       {/* Navigation */}
-      <motion.header 
-        initial={{ y: -100, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.8, delay: 0.2 }}
-        className="relative z-50 flex items-center justify-between px-6 lg:px-12 py-6"
-      >
-        <motion.div 
-          className="flex items-center gap-3"
-          whileHover={{ scale: 1.05 }}
-          transition={{ type: "spring", stiffness: 400 }}
-        >
-          <div className="relative">
-            <div className="h-10 w-10 rounded-2xl bg-gradient-to-br from-sky to-ocean border border-sky/30 grid place-items-center shadow-lg shadow-sky/25">
-              <Network className="h-5 w-5 text-white" />
-            </div>
-            <div className="absolute -inset-1 bg-gradient-to-r from-sky to-ocean rounded-2xl blur opacity-30 animate-pulse" />
+      <header className="relative z-50 flex items-center justify-between px-6 lg:px-12 py-6">
+        <Link to="/" className="flex items-center gap-3 hover:scale-105 transition-transform duration-200">
+          <div className="h-10 w-10 rounded-2xl bg-gradient-to-br from-sky to-ocean border border-sky/30 grid place-items-center shadow-lg shadow-sky/25">
+            <Network className="h-5 w-5 text-white" />
           </div>
           <div className="text-2xl font-black tracking-tight bg-gradient-to-r from-pink via-magenta to-sky bg-clip-text text-transparent">
             Vivified
           </div>
-        </motion.div>
+        </Link>
         
         <div className="flex items-center gap-6">
-          <motion.div
-            className="flex items-center gap-2 text-slate-300 hover:text-white transition-colors group cursor-pointer"
-            whileHover={{ scale: 1.05 }}
-          >
-            <Link to="/" className="flex items-center gap-2">
-              <ArrowLeft className="h-4 w-4 group-hover:-translate-x-0.5 transition-transform" />
-              <span className="text-sm font-medium">Back to Home</span>
-            </Link>
-          </motion.div>
+          <Link to="/" className="flex items-center gap-2 text-slate-300 hover:text-white transition-colors group">
+            <ArrowLeft className="h-4 w-4 group-hover:-translate-x-0.5 transition-transform" />
+            <span className="text-sm font-medium">Back to Home</span>
+          </Link>
         </div>
-      </motion.header>
+      </header>
 
       <main className="relative z-10">
         {/* Hero Section */}
         <section className="py-20 px-6 lg:px-12">
           <div className="max-w-4xl mx-auto text-center">
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 1, ease: "easeOut" }}
-              className="mb-8 flex items-center justify-center"
-            >
+            <div className="mb-8 flex items-center justify-center">
               <div className="text-6xl drop-shadow-2xl filter brightness-110">🛣️</div>
-            </motion.div>
+            </div>
 
-            <motion.h1
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.3 }}
-              className="text-5xl md:text-6xl lg:text-7xl font-black leading-[0.9] mb-8"
-            >
+            <h1 className="text-5xl md:text-6xl lg:text-7xl font-black leading-[0.9] mb-8">
               <span className="block bg-gradient-to-r from-white via-slate-100 to-slate-300 bg-clip-text text-transparent">
                 Three-Lane
               </span>
-              <span className="block bg-gradient-to-r from-pink via-magenta to-sky bg-clip-text text-transparent animate-gradient">
+              <span className="block bg-gradient-to-r from-pink via-magenta to-sky bg-clip-text text-transparent">
                 Communication
               </span>
-            </motion.h1>
+            </h1>
 
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.5 }}
-              className="text-xl md:text-2xl text-slate-300 max-w-4xl mx-auto leading-relaxed mb-12"
-            >
+            <p className="text-xl md:text-2xl text-slate-300 max-w-4xl mx-auto leading-relaxed mb-12">
               The core innovation that makes plugin architecture actually work in production
-            </motion.p>
+            </p>
           </div>
         </section>
 
         {/* Overview */}
         <section className="py-16 px-6 lg:px-12">
           <div className="max-w-6xl mx-auto">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8 }}
-              className="bg-gradient-to-br from-slate-900/50 to-slate-800/30 border border-slate-700/50 backdrop-blur-xl rounded-3xl p-8 md:p-12 mb-16"
-            >
+            <div className="bg-gradient-to-br from-slate-900/50 to-slate-800/30 border border-slate-700/50 backdrop-blur-xl rounded-3xl p-8 md:p-12 mb-16">
               <h2 className="text-3xl font-bold mb-8 bg-gradient-to-r from-pink to-sky bg-clip-text text-transparent text-center">
                 Why Three Lanes?
               </h2>
@@ -110,16 +71,10 @@ export default function ThreeLaneArchitecture() {
                   security. Each lane has specific protocols, SLOs, and governance rules.
                 </p>
               </div>
-            </motion.div>
+            </div>
 
             {/* Performance SLOs */}
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: 0.1 }}
-              className="bg-gradient-to-br from-slate-900/50 to-slate-800/30 border border-slate-700/50 backdrop-blur-xl rounded-3xl p-8 md:p-12 mb-16"
-            >
+            <div className="bg-gradient-to-br from-slate-900/50 to-slate-800/30 border border-slate-700/50 backdrop-blur-xl rounded-3xl p-8 md:p-12 mb-16">
               <h3 className="text-2xl font-bold mb-8 bg-gradient-to-r from-pink to-sky bg-clip-text text-transparent text-center">
                 Production-Grade Performance SLOs
               </h3>
@@ -160,20 +115,14 @@ export default function ThreeLaneArchitecture() {
                   Error budgets: 99.9% within p99, with Grafana alerts from day-1
                 </p>
               </div>
-            </motion.div>
+            </div>
           </div>
         </section>
 
         {/* Canonical Lane */}
         <section className="py-16 px-6 lg:px-12 bg-gradient-to-b from-slate-900/20 to-transparent">
           <div className="max-w-6xl mx-auto">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8 }}
-              className="bg-gradient-to-br from-sky/10 to-ocean/10 border border-sky/30 backdrop-blur-xl rounded-3xl p-8 md:p-12 mb-16"
-            >
+            <div className="bg-gradient-to-br from-sky/10 to-ocean/10 border border-sky/30 backdrop-blur-xl rounded-3xl p-8 md:p-12 mb-16">
               <div className="flex items-center gap-4 mb-8">
                 <MessageSquare className="h-12 w-12 text-sky" />
                 <div>
@@ -241,16 +190,10 @@ export default function ThreeLaneArchitecture() {
                   </div>
                 </div>
               </div>
-            </motion.div>
+            </div>
 
             {/* NATS Implementation */}
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: 0.1 }}
-              className="bg-gradient-to-br from-slate-900/50 to-slate-800/30 border border-slate-700/50 backdrop-blur-xl rounded-3xl p-8 md:p-12"
-            >
+            <div className="bg-gradient-to-br from-slate-900/50 to-slate-800/30 border border-slate-700/50 backdrop-blur-xl rounded-3xl p-8 md:p-12">
               <h3 className="text-2xl font-bold mb-6 bg-gradient-to-r from-pink to-sky bg-clip-text text-transparent">
                 NATS JetStream Implementation
               </h3>
@@ -302,20 +245,14 @@ async def publish_canonical():
                   </ul>
                 </div>
               </div>
-            </motion.div>
+            </div>
           </div>
         </section>
 
         {/* Operator Lane */}
         <section className="py-16 px-6 lg:px-12">
           <div className="max-w-6xl mx-auto">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8 }}
-              className="bg-gradient-to-br from-pink/10 to-magenta/10 border border-pink/30 backdrop-blur-xl rounded-3xl p-8 md:p-12 mb-16"
-            >
+            <div className="bg-gradient-to-br from-pink/10 to-magenta/10 border border-pink/30 backdrop-blur-xl rounded-3xl p-8 md:p-12 mb-16">
               <div className="flex items-center gap-4 mb-8">
                 <Network className="h-12 w-12 text-pink" />
                 <div>
@@ -391,16 +328,10 @@ message CallResponse {
                   </div>
                 </div>
               </div>
-            </motion.div>
+            </div>
 
             {/* Implementation Example */}
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: 0.1 }}
-              className="bg-gradient-to-br from-slate-900/50 to-slate-800/30 border border-slate-700/50 backdrop-blur-xl rounded-3xl p-8 md:p-12"
-            >
+            <div className="bg-gradient-to-br from-slate-900/50 to-slate-800/30 border border-slate-700/50 backdrop-blur-xl rounded-3xl p-8 md:p-12">
               <h3 className="text-2xl font-bold mb-6 bg-gradient-to-r from-pink to-sky bg-clip-text text-transparent">
                 Gateway Implementation
               </h3>
@@ -432,20 +363,14 @@ resp = stub.Call(operator_pb2.CallRequest(
 ), timeout=2.0)`}
                 </pre>
               </div>
-            </motion.div>
+            </div>
           </div>
         </section>
 
         {/* Proxy Lane */}
         <section className="py-16 px-6 lg:px-12 bg-gradient-to-b from-slate-900/20 to-transparent">
           <div className="max-w-6xl mx-auto">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8 }}
-              className="bg-gradient-to-br from-purple/10 to-deep/10 border border-purple/30 backdrop-blur-xl rounded-3xl p-8 md:p-12"
-            >
+            <div className="bg-gradient-to-br from-purple/10 to-deep/10 border border-purple/30 backdrop-blur-xl rounded-3xl p-8 md:p-12">
               <div className="flex items-center gap-4 mb-8">
                 <Shield className="h-12 w-12 text-purple" />
                 <div>
@@ -523,20 +448,14 @@ resp = stub.Call(operator_pb2.CallRequest(
                   </div>
                 </div>
               </div>
-            </motion.div>
+            </div>
           </div>
         </section>
 
         {/* Observability & Monitoring */}
         <section className="py-16 px-6 lg:px-12">
           <div className="max-w-6xl mx-auto">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8 }}
-              className="bg-gradient-to-br from-slate-900/50 to-slate-800/30 border border-slate-700/50 backdrop-blur-xl rounded-3xl p-8 md:p-12"
-            >
+            <div className="bg-gradient-to-br from-slate-900/50 to-slate-800/30 border border-slate-700/50 backdrop-blur-xl rounded-3xl p-8 md:p-12">
               <h2 className="text-3xl font-bold mb-8 bg-gradient-to-r from-pink to-sky bg-clip-text text-transparent text-center">
                 Production Observability
               </h2>
@@ -587,20 +506,14 @@ vegeta attack -rate=500 -targets=targets.txt`}
                   <p className="text-slate-300 text-sm">CI micro-benchmarks, fail PR if p95 drifts &gt;15%</p>
                 </div>
               </div>
-            </motion.div>
+            </div>
           </div>
         </section>
 
         {/* Why This Matters */}
         <section className="py-16 px-6 lg:px-12">
           <div className="max-w-4xl mx-auto">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8 }}
-              className="bg-gradient-to-br from-sky/10 to-ocean/10 border border-sky/30 backdrop-blur-xl rounded-3xl p-8 md:p-12 text-center"
-            >
+            <div className="bg-gradient-to-br from-sky/10 to-ocean/10 border border-sky/30 backdrop-blur-xl rounded-3xl p-8 md:p-12 text-center">
               <h2 className="text-3xl font-bold mb-8 bg-gradient-to-r from-pink to-sky bg-clip-text text-transparent">
                 Why This Changes Everything
               </h2>
@@ -620,7 +533,7 @@ vegeta attack -rate=500 -targets=targets.txt`}
                   normally takes enterprise teams years to build.
                 </p>
               </div>
-            </motion.div>
+            </div>
           </div>
         </section>
       </main>

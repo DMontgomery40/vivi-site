@@ -1,100 +1,61 @@
-import { motion } from "framer-motion";
 import { ArrowLeft, MapPin, CheckCircle, Clock, Zap, GitBranch, Server, Shield, Code, Users } from "lucide-react";
 import { Link } from "react-router-dom";
 
 export default function ImplementationRoadmap() {
   return (
     <div className="min-h-screen relative overflow-hidden">
-      {/* Animated Background */}
+      {/* Background */}
       <div className="fixed inset-0 -z-10">
         <div className="absolute inset-0 bg-gradient-to-br from-ink via-night to-deep" />
-        <div className="absolute inset-0 bg-grid opacity-20" />
+        <div className="absolute inset-0 bg-grid opacity-10" />
       </div>
 
       {/* Navigation */}
-      <motion.header 
-        initial={{ y: -100, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.8, delay: 0.2 }}
-        className="relative z-50 flex items-center justify-between px-6 lg:px-12 py-6"
-      >
-        <motion.div 
-          className="flex items-center gap-3"
-          whileHover={{ scale: 1.05 }}
-          transition={{ type: "spring", stiffness: 400 }}
-        >
-          <div className="relative">
-            <div className="h-10 w-10 rounded-2xl bg-gradient-to-br from-sky to-ocean border border-sky/30 grid place-items-center shadow-lg shadow-sky/25">
-              <MapPin className="h-5 w-5 text-white" />
-            </div>
-            <div className="absolute -inset-1 bg-gradient-to-r from-sky to-ocean rounded-2xl blur opacity-30 animate-pulse" />
+      <header className="relative z-50 flex items-center justify-between px-6 lg:px-12 py-6">
+        <Link to="/" className="flex items-center gap-3 hover:scale-105 transition-transform duration-200">
+          <div className="h-10 w-10 rounded-2xl bg-gradient-to-br from-sky to-ocean border border-sky/30 grid place-items-center shadow-lg shadow-sky/25">
+            <MapPin className="h-5 w-5 text-white" />
           </div>
           <div className="text-2xl font-black tracking-tight bg-gradient-to-r from-pink via-magenta to-sky bg-clip-text text-transparent">
             Vivified
           </div>
-        </motion.div>
+        </Link>
         
         <div className="flex items-center gap-6">
-          <motion.div
-            className="flex items-center gap-2 text-slate-300 hover:text-white transition-colors group cursor-pointer"
-            whileHover={{ scale: 1.05 }}
-          >
-            <Link to="/" className="flex items-center gap-2">
-              <ArrowLeft className="h-4 w-4 group-hover:-translate-x-0.5 transition-transform" />
-              <span className="text-sm font-medium">Back to Home</span>
-            </Link>
-          </motion.div>
+          <Link to="/" className="flex items-center gap-2 text-slate-300 hover:text-white transition-colors group">
+            <ArrowLeft className="h-4 w-4 group-hover:-translate-x-0.5 transition-transform" />
+            <span className="text-sm font-medium">Back to Home</span>
+          </Link>
         </div>
-      </motion.header>
+      </header>
 
       <main className="relative z-10">
         {/* Hero Section */}
         <section className="py-20 px-6 lg:px-12">
           <div className="max-w-4xl mx-auto text-center">
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 1, ease: "easeOut" }}
-              className="mb-8 flex items-center justify-center"
-            >
+            <div className="mb-8 flex items-center justify-center">
               <div className="text-6xl drop-shadow-2xl filter brightness-110">🗺️</div>
-            </motion.div>
+            </div>
 
-            <motion.h1
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.3 }}
-              className="text-5xl md:text-6xl lg:text-7xl font-black leading-[0.9] mb-8"
-            >
+            <h1 className="text-5xl md:text-6xl lg:text-7xl font-black leading-[0.9] mb-8">
               <span className="block bg-gradient-to-r from-white via-slate-100 to-slate-300 bg-clip-text text-transparent">
                 Implementation
               </span>
-              <span className="block bg-gradient-to-r from-pink via-magenta to-sky bg-clip-text text-transparent animate-gradient">
+              <span className="block bg-gradient-to-r from-pink via-magenta to-sky bg-clip-text text-transparent">
                 Roadmap
               </span>
-            </motion.h1>
+            </h1>
 
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.5 }}
-              className="text-xl md:text-2xl text-slate-300 max-w-3xl mx-auto leading-relaxed mb-12"
-            >
+            <p className="text-xl md:text-2xl text-slate-300 max-w-3xl mx-auto leading-relaxed mb-12">
               A realistic 5-phase plan to build the complete enterprise platform
-            </motion.p>
+            </p>
           </div>
         </section>
 
         {/* Repository Structure */}
         <section className="py-16 px-6 lg:px-12">
           <div className="max-w-6xl mx-auto">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8 }}
-              className="bg-gradient-to-br from-slate-900/50 to-slate-800/30 border border-slate-700/50 backdrop-blur-xl rounded-3xl p-8 md:p-12 mb-16"
-            >
+            <div className="bg-gradient-to-br from-slate-900/50 to-slate-800/30 border border-slate-700/50 backdrop-blur-xl rounded-3xl p-8 md:p-12 mb-16">
               <h2 className="text-3xl font-bold mb-8 bg-gradient-to-r from-pink to-sky bg-clip-text text-transparent">
                 Repository Structure
               </h2>
@@ -126,36 +87,24 @@ export default function ImplementationRoadmap() {
               <p className="text-lg text-slate-300 mt-6">
                 Clear separation: core vs plugins vs SDK. Designed for scalable development and deployment.
               </p>
-            </motion.div>
+            </div>
           </div>
         </section>
 
         {/* Phase Roadmap */}
         <section className="py-16 px-6 lg:px-12 bg-gradient-to-b from-slate-900/20 to-transparent">
           <div className="max-w-6xl mx-auto">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8 }}
-              className="text-center mb-16"
-            >
+            <div className="text-center mb-16">
               <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-white to-slate-300 bg-clip-text text-transparent mb-6">
                 5-Phase Development Plan
               </h2>
               <p className="text-xl text-slate-400 max-w-3xl mx-auto">
                 Each phase delivers incremental value and validates the architecture
               </p>
-            </motion.div>
+            </div>
 
             {/* Phase 1 */}
-            <motion.div
-              initial={{ opacity: 0, x: -50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8 }}
-              className="mb-16"
-            >
+            <div className="mb-16">
               <div className="bg-gradient-to-br from-slate-900/50 to-slate-800/30 border border-slate-700/50 backdrop-blur-xl rounded-3xl p-8 md:p-12">
                 <div className="flex items-center gap-4 mb-8">
                   <div className="h-16 w-16 rounded-2xl bg-gradient-to-br from-sky to-ocean grid place-items-center">
@@ -223,16 +172,10 @@ export default function ImplementationRoadmap() {
                   </div>
                 </div>
               </div>
-            </motion.div>
+            </div>
 
             {/* Phase 2 */}
-            <motion.div
-              initial={{ opacity: 0, x: 50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: 0.1 }}
-              className="mb-16"
-            >
+            <div className="mb-16">
               <div className="bg-gradient-to-br from-slate-900/50 to-slate-800/30 border border-slate-700/50 backdrop-blur-xl rounded-3xl p-8 md:p-12">
                 <div className="flex items-center gap-4 mb-8">
                   <div className="h-16 w-16 rounded-2xl bg-gradient-to-br from-pink to-magenta grid place-items-center">
@@ -292,16 +235,10 @@ if not trait_engine.compatible(
                   </div>
                 </div>
               </div>
-            </motion.div>
+            </div>
 
             {/* Phase 3 */}
-            <motion.div
-              initial={{ opacity: 0, x: -50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className="mb-16"
-            >
+            <div className="mb-16">
               <div className="bg-gradient-to-br from-slate-900/50 to-slate-800/30 border border-slate-700/50 backdrop-blur-xl rounded-3xl p-8 md:p-12">
                 <div className="flex items-center gap-4 mb-8">
                   <div className="h-16 w-16 rounded-2xl bg-gradient-to-br from-purple to-deep grid place-items-center">
@@ -354,16 +291,10 @@ EmailGateway → send welcome email`}
                   </div>
                 </div>
               </div>
-            </motion.div>
+            </div>
 
             {/* Phase 4 */}
-            <motion.div
-              initial={{ opacity: 0, x: 50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: 0.3 }}
-              className="mb-16"
-            >
+            <div className="mb-16">
               <div className="bg-gradient-to-br from-slate-900/50 to-slate-800/30 border border-slate-700/50 backdrop-blur-xl rounded-3xl p-8 md:p-12">
                 <div className="flex items-center gap-4 mb-8">
                   <div className="h-16 w-16 rounded-2xl bg-gradient-to-br from-green-500 to-emerald-600 grid place-items-center">
@@ -427,16 +358,10 @@ EmailGateway → send welcome email`}
                   </p>
                 </div>
               </div>
-            </motion.div>
+            </div>
 
             {/* Phase 5 */}
-            <motion.div
-              initial={{ opacity: 0, x: -50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: 0.4 }}
-              className="mb-16"
-            >
+            <div className="mb-16">
               <div className="bg-gradient-to-br from-slate-900/50 to-slate-800/30 border border-slate-700/50 backdrop-blur-xl rounded-3xl p-8 md:p-12">
                 <div className="flex items-center gap-4 mb-8">
                   <div className="h-16 w-16 rounded-2xl bg-gradient-to-br from-yellow-500 to-orange-500 grid place-items-center">
@@ -508,16 +433,10 @@ EmailGateway → send welcome email`}
                   </p>
                 </div>
               </div>
-            </motion.div>
+            </div>
 
             {/* Timeline Summary */}
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: 0.5 }}
-              className="bg-gradient-to-br from-sky/10 to-ocean/10 border border-sky/30 backdrop-blur-xl rounded-3xl p-8 md:p-12 text-center"
-            >
+            <div className="bg-gradient-to-br from-sky/10 to-ocean/10 border border-sky/30 backdrop-blur-xl rounded-3xl p-8 md:p-12 text-center">
               <h3 className="text-2xl font-bold mb-6 bg-gradient-to-r from-pink to-sky bg-clip-text text-transparent">
                 Development Timeline
               </h3>
@@ -554,7 +473,7 @@ EmailGateway → send welcome email`}
               <p className="text-slate-300 mt-4">
                 Each phase delivers working software that validates the architecture and provides immediate value.
               </p>
-            </motion.div>
+            </div>
           </div>
         </section>
       </main>
