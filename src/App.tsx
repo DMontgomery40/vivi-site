@@ -1,5 +1,5 @@
-import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
-import { ArrowRight, Plug, Puzzle, Settings, Zap, Code, Layers, Sparkles, ChevronDown, Github, Mail, ExternalLink, Shield, Database, Brain, Terminal, Users, Lock, Heart } from "lucide-react";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { ArrowRight, Settings, Zap, ChevronDown, Github, Mail, ExternalLink, Shield, Database, Terminal, Users, Lock, Heart, Network, MessageSquare, FileCode, Eye, Container } from "lucide-react";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
@@ -80,12 +80,22 @@ export default function App() {
         
         <div className="flex items-center gap-6">
           <motion.div
-            className="hidden sm:flex items-center gap-2 text-slate-300 hover:text-white transition-colors group cursor-pointer"
-            whileHover={{ scale: 1.05 }}
+            className="hidden lg:flex items-center gap-6 text-slate-300"
           >
-            <Link to="/architecture" className="flex items-center gap-2">
-              <span className="text-sm font-medium">Technical Details</span>
-              <ArrowRight className="h-4 w-4 group-hover:translate-x-0.5 transition-transform" />
+            <Link to="/three-lane" className="text-sm font-medium hover:text-white transition-colors">
+              3-Lane System
+            </Link>
+            <Link to="/trait-system" className="text-sm font-medium hover:text-white transition-colors">
+              Security & Policy
+            </Link>
+            <Link to="/developer-tools" className="text-sm font-medium hover:text-white transition-colors">
+              Developer Tools
+            </Link>
+            <Link to="/roadmap" className="text-sm font-medium hover:text-white transition-colors">
+              Roadmap
+            </Link>
+            <Link to="/architecture" className="text-sm font-medium hover:text-white transition-colors">
+              Architecture
             </Link>
           </motion.div>
           <motion.a 
@@ -95,7 +105,7 @@ export default function App() {
             rel="noreferrer"
             whileHover={{ scale: 1.05 }}
           >
-            <span className="text-sm font-medium">See Faxbot Demo</span>
+            <span className="text-sm font-medium">Live Demo</span>
             <ExternalLink className="h-4 w-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
           </motion.a>
         </div>
@@ -117,20 +127,20 @@ export default function App() {
               <div className="text-8xl drop-shadow-2xl filter brightness-110">🦋</div>
             </motion.div>
 
-          <motion.h1
+            <motion.h1
               initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.3 }}
               className="text-6xl md:text-7xl lg:text-8xl font-black leading-[0.9] mb-8"
             >
               <span className="block bg-gradient-to-r from-white via-slate-100 to-slate-300 bg-clip-text text-transparent">
-                The security-first
+                Enterprise Application
               </span>
               <span className="block bg-gradient-to-r from-pink via-magenta to-sky bg-clip-text text-transparent animate-gradient">
-                platform where
+                Kernel for
               </span>
               <span className="block bg-gradient-to-r from-white via-slate-100 to-slate-300 bg-clip-text text-transparent">
-                everything is a plugin
+                Regulated Software
               </span>
           </motion.h1>
 
@@ -138,11 +148,11 @@ export default function App() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.5 }}
-              className="text-xl md:text-2xl text-slate-300 max-w-3xl mx-auto leading-relaxed mb-8"
+              className="text-xl md:text-2xl text-slate-300 max-w-4xl mx-auto leading-relaxed mb-8"
             >
-              Enterprise-grade architecture, open-source foundation, infinite possibilities. 
+              Assemble products from interchangeable parts. Keep them safe under real-world constraints.
               <br />
-              <span className="text-sky font-medium">Built by accident while solving healthcare's fax problem.</span>
+              <span className="text-sky font-medium">3-lane communication • Plugin-first architecture • Trait-based security • Policy-driven governance</span>
             </motion.p>
             
             <motion.p
@@ -226,7 +236,7 @@ export default function App() {
           </div>
         </motion.section>
 
-        {/* The Real Story Section */}
+        {/* Core Concept Section */}
         <section className="py-32 px-6 lg:px-12 relative">
           <div className="max-w-6xl mx-auto">
             <motion.div
@@ -237,78 +247,131 @@ export default function App() {
               className="text-center mb-20"
             >
               <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-white to-slate-300 bg-clip-text text-transparent mb-6">
-                How This Actually Started
+                What Vivified Actually Is
               </h2>
+              <p className="text-xl text-slate-400 max-w-4xl mx-auto">
+                An application kernel that lets you rewire live systems—swapping transports, storage, identity, and UI modules—without breaking contracts or compliance.
+              </p>
             </motion.div>
 
+            {/* Three-Lane Communication Model */}
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8, delay: 0.2 }}
-              className="prose prose-lg prose-invert max-w-4xl mx-auto mb-16"
+              className="mb-16"
             >
               <div className="bg-gradient-to-br from-slate-900/50 to-slate-800/30 border border-slate-700/50 backdrop-blur-xl rounded-3xl p-8 md:p-12">
-                <p className="text-slate-300 text-lg leading-relaxed mb-6">
-                  I had heart failure after COVID (myocarditis) and suddenly found myself faxing a lot of medical records. Healthcare is genuinely stuck in 1995 - everything still runs on fax machines. So I started building a simple fax server.
+                <h3 className="text-3xl font-bold text-center mb-8 bg-gradient-to-r from-pink to-sky bg-clip-text text-transparent">
+                  Three-Lane Communication Architecture
+                </h3>
+                <p className="text-lg text-slate-300 text-center mb-8">
+                  Plugins communicate through three distinct, secure channels:
                 </p>
-                <p className="text-slate-300 text-lg leading-relaxed mb-6">
-                  But then I got scared. What if a hospital actually used this thing with real patient data and I screwed something up? What if HIPAA auditors came knocking? I'd never built anything for healthcare before.
-                </p>
-                <p className="text-slate-300 text-lg leading-relaxed mb-6">
-                  So I went way overboard on the architecture:
-                </p>
-                <ul className="text-slate-300 space-y-3 mb-6">
-                  <li className="flex items-start gap-3">
-                    <div className="w-2 h-2 bg-pink rounded-full mt-3 flex-shrink-0"></div>
-                    Made every component swappable so I could switch providers if one failed compliance
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <div className="w-2 h-2 bg-pink rounded-full mt-3 flex-shrink-0"></div>
-                    Built security boundaries everywhere so plugins couldn't accidentally leak data
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <div className="w-2 h-2 bg-pink rounded-full mt-3 flex-shrink-0"></div>
-                    Created a universal message format so different systems could talk without breaking
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <div className="w-2 h-2 bg-pink rounded-full mt-3 flex-shrink-0"></div>
-                    Added AI integration because I knew LLMs would need proper guardrails around medical data
-                  </li>
-                </ul>
-                <p className="text-xl text-white font-semibold">
-                  Six months later, I looked at what I'd built. This wasn't a fax server anymore.
-                </p>
-                <p className="text-2xl font-bold text-center mt-6 bg-gradient-to-r from-pink via-magenta to-sky bg-clip-text text-transparent">
-                  It was a platform for building regulated software.
-                </p>
+                
+                <div className="grid md:grid-cols-3 gap-6">
+                  <div className="bg-gradient-to-br from-sky/10 to-ocean/10 border border-sky/30 rounded-2xl p-6">
+                    <div className="flex items-center gap-3 mb-4">
+                      <MessageSquare className="h-6 w-6 text-sky" />
+                      <h4 className="text-xl font-bold text-sky">Canonical Lane</h4>
+                    </div>
+                    <p className="text-slate-300 text-sm leading-relaxed">
+                      Universal data models and events. All plugins speak a "common language" through canonical schemas (CanonicalMessage, CanonicalIdentity). Central event bus with policy filtering.
+                    </p>
+                  </div>
+                  
+                  <div className="bg-gradient-to-br from-pink/10 to-magenta/10 border border-pink/30 rounded-2xl p-6">
+                    <div className="flex items-center gap-3 mb-4">
+                      <Network className="h-6 w-6 text-pink" />
+                      <h4 className="text-xl font-bold text-pink">Operator Lane</h4>
+                    </div>
+                    <p className="text-slate-300 text-sm leading-relaxed">
+                      Direct RPC/API calls between services using well-defined resource IDs. Core gateway authenticates, authorizes, and audits every call.
+                    </p>
+                  </div>
+                  
+                  <div className="bg-gradient-to-br from-purple/10 to-deep/10 border border-purple/30 rounded-2xl p-6">
+                    <div className="flex items-center gap-3 mb-4">
+                      <Shield className="h-6 w-6 text-purple" />
+                      <h4 className="text-xl font-bold text-purple">Proxy Lane</h4>
+                    </div>
+                    <p className="text-slate-300 text-sm leading-relaxed">
+                      Heavily sandboxed gateway for non-standard interactions. External API calls go through core's proxy with whitelisted domains and full audit logging.
+                    </p>
+                  </div>
+                </div>
+                
+                <div className="mt-8 p-6 bg-gradient-to-r from-slate-800/50 to-slate-700/30 rounded-2xl">
+                  <p className="text-lg text-slate-200 font-medium text-center">
+                    <strong>Key Insight:</strong> Core intercepts and governs ALL communication. No plugin can bypass security, policy, or audit requirements.
+                  </p>
+                </div>
               </div>
             </motion.div>
 
-            <div className="grid md:grid-cols-3 gap-8">
-              <EnhancedFeature 
-                icon={<Shield className="h-8 w-8" />} 
-                title="Security-First" 
-                text="HIPAA-aligned controls, HMAC verification, short-TTL tokens, and compliant logging built into the core platform."
-                delay={0}
-              />
-              <EnhancedFeature 
-                icon={<Plug className="h-8 w-8" />} 
-                title="Everything's a Plugin" 
-                text="User management, storage, communication, even the UI. Mix and match 20+ providers with clean boundaries."
-                delay={0.1}
-              />
-              <EnhancedFeature 
-                icon={<Brain className="h-8 w-8" />} 
-                title="AI Integration" 
-                text="Official MCP servers (Node & Python) for stdio/HTTP/SSE with webhook support and proper guardrails."
-                delay={0.2}
-              />
-            </div>
+            {/* Plugin-First Architecture */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: 0.4 }}
+              className="mb-16"
+            >
+              <div className="bg-gradient-to-br from-slate-900/50 to-slate-800/30 border border-slate-700/50 backdrop-blur-xl rounded-3xl p-8 md:p-12">
+                <h3 className="text-3xl font-bold text-center mb-8 bg-gradient-to-r from-pink to-sky bg-clip-text text-transparent">
+                  Plugin-First Architecture with Zero-Trust Security
+                </h3>
+                
+                <div className="grid md:grid-cols-2 gap-8 mb-8">
+                  <div>
+                    <h4 className="text-xl font-bold text-sky mb-4">Everything is a Plugin</h4>
+                    <ul className="space-y-3 text-slate-300">
+                      <li className="flex items-start gap-3">
+                        <Container className="h-5 w-5 text-sky mt-0.5 flex-shrink-0" />
+                        <span>Polyglot containerized services (Docker, any language)</span>
+                      </li>
+                      <li className="flex items-start gap-3">
+                        <FileCode className="h-5 w-5 text-sky mt-0.5 flex-shrink-0" />
+                        <span>Standardized contracts (CommunicationPlugin, StoragePlugin, IdentityPlugin)</span>
+                      </li>
+                      <li className="flex items-start gap-3">
+                        <Settings className="h-5 w-5 text-sky mt-0.5 flex-shrink-0" />
+                        <span>JSON/YAML manifests with traits, dependencies, lifecycle hooks</span>
+                      </li>
+                    </ul>
+                  </div>
+                  
+                  <div>
+                    <h4 className="text-xl font-bold text-pink mb-4">Zero-Trust Security</h4>
+                    <ul className="space-y-3 text-slate-300">
+                      <li className="flex items-start gap-3">
+                        <Lock className="h-5 w-5 text-pink mt-0.5 flex-shrink-0" />
+                        <span>Core handles ALL security—plugins never see raw credentials</span>
+                      </li>
+                      <li className="flex items-start gap-3">
+                        <Eye className="h-5 w-5 text-pink mt-0.5 flex-shrink-0" />
+                        <span>Every plugin operation validated and auditable</span>
+                      </li>
+                      <li className="flex items-start gap-3">
+                        <Shield className="h-5 w-5 text-pink mt-0.5 flex-shrink-0" />
+                        <span>Sandboxed execution with network and resource isolation</span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+                
+                <div className="bg-gradient-to-r from-slate-800/50 to-slate-700/30 rounded-2xl p-6">
+                  <p className="text-lg text-slate-200 font-medium text-center">
+                    Plugins focus on business logic. Core handles UI, security, configuration, and cross-plugin coordination.
+                  </p>
+                </div>
+              </div>
+            </motion.div>
           </div>
         </section>
 
-        {/* What Vivified Actually Is Section */}
+        {/* Core Platform Services Section */}
         <section className="py-32 px-6 lg:px-12 relative">
           <div className="max-w-6xl mx-auto">
             <motion.div
@@ -323,69 +386,149 @@ export default function App() {
               </h2>
             </motion.div>
 
-            <div className="grid lg:grid-cols-2 gap-12 items-start">
+            <div className="grid lg:grid-cols-3 gap-8 mb-16">
               <motion.div
-                initial={{ opacity: 0, x: -30 }}
-                whileInView={{ opacity: 1, x: 0 }}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.8 }}
-                className="space-y-6"
+                className="bg-gradient-to-br from-slate-900/50 to-slate-800/30 border border-slate-700/50 backdrop-blur-xl rounded-3xl p-8"
               >
-                <div className="bg-gradient-to-br from-slate-900/50 to-slate-800/30 border border-slate-700/50 backdrop-blur-xl rounded-3xl p-8">
-                  <h3 className="text-2xl font-bold text-sky mb-4">Core Platform</h3>
-                  <ul className="space-y-3 text-slate-300">
-                    <li className="flex items-start gap-3">
-                      <Users className="h-5 w-5 text-sky mt-0.5 flex-shrink-0" />
-                      <span><strong>GUI-first Admin Console:</strong> One interface for everything—no CLI-only features allowed</span>
-                    </li>
-                    <li className="flex items-start gap-3">
-                      <Settings className="h-5 w-5 text-sky mt-0.5 flex-shrink-0" />
-                      <span><strong>Traits-first architecture:</strong> UI dynamically renders based on active provider capabilities</span>
-                    </li>
-                    <li className="flex items-start gap-3">
-                      <Database className="h-5 w-5 text-sky mt-0.5 flex-shrink-0" />
-                      <span><strong>Multi-backend adapters:</strong> Mix and match 20+ providers with clean boundaries</span>
-                    </li>
-                    <li className="flex items-start gap-3">
-                      <Lock className="h-5 w-5 text-sky mt-0.5 flex-shrink-0" />
-                      <span><strong>HIPAA-aligned controls:</strong> HMAC verification, audit trails, compliant logging</span>
-                    </li>
-                  </ul>
+                <div className="flex items-center gap-3 mb-6">
+                  <Users className="h-8 w-8 text-sky" />
+                  <h3 className="text-2xl font-bold text-sky">Identity & Access</h3>
                 </div>
+                <ul className="space-y-3 text-slate-300 text-sm">
+                  <li>• User management with API key auth</li>
+                  <li>• Role/trait assignment system</li>
+                  <li>• OAuth integration support</li>
+                  <li>• Session management with CSRF protection</li>
+                  <li>• Enterprise IdP integration (LDAP, SAML)</li>
+                </ul>
               </motion.div>
-
+              
               <motion.div
-                initial={{ opacity: 0, x: 30 }}
-                whileInView={{ opacity: 1, x: 0 }}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8, delay: 0.1 }}
+                className="bg-gradient-to-br from-slate-900/50 to-slate-800/30 border border-slate-700/50 backdrop-blur-xl rounded-3xl p-8"
+              >
+                <div className="flex items-center gap-3 mb-6">
+                  <Settings className="h-8 w-8 text-pink" />
+                  <h3 className="text-2xl font-bold text-pink">Configuration</h3>
+                </div>
+                <ul className="space-y-3 text-slate-300 text-sm">
+                  <li>• Hierarchical config store</li>
+                  <li>• Database-first with env fallback</li>
+                  <li>• Encrypted secrets storage</li>
+                  <li>• Multi-tenant configuration</li>
+                  <li>• Feature flags and dynamic updates</li>
+                </ul>
+              </motion.div>
+              
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.8, delay: 0.2 }}
-                className="space-y-6"
+                className="bg-gradient-to-br from-slate-900/50 to-slate-800/30 border border-slate-700/50 backdrop-blur-xl rounded-3xl p-8"
               >
-                <div className="bg-gradient-to-br from-slate-900/50 to-slate-800/30 border border-slate-700/50 backdrop-blur-xl rounded-3xl p-8">
-                  <h3 className="text-2xl font-bold text-sky mb-4">Your Application</h3>
-                  <ul className="space-y-3 text-slate-300">
-                    <li className="flex items-start gap-3">
-                      <Code className="h-5 w-5 text-sky mt-0.5 flex-shrink-0" />
-                      <span>Whatever you build on top using our plugin contracts</span>
-                    </li>
-                    <li className="flex items-start gap-3">
-                      <Sparkles className="h-5 w-5 text-sky mt-0.5 flex-shrink-0" />
-                      <span>Gets enterprise admin console, multi-provider architecture, AI integration, and compliance for free</span>
-                    </li>
-                    <li className="flex items-start gap-3">
-                      <Layers className="h-5 w-5 text-sky mt-0.5 flex-shrink-0" />
-                      <span>Could be cybersecurity tools, educational platforms, ERP systems—platform adapts to your domain</span>
-                    </li>
-                  </ul>
+                <div className="flex items-center gap-3 mb-6">
+                  <Network className="h-8 w-8 text-purple" />
+                  <h3 className="text-2xl font-bold text-purple">Orchestration</h3>
                 </div>
-
-                <div className="bg-gradient-to-br from-sky/10 to-ocean/10 border border-sky/30 backdrop-blur-xl rounded-3xl p-8">
-                  <p className="text-lg text-slate-200 font-medium">
-                    <strong>Translation:</strong> We handle all the enterprise infrastructure (admin console, provider adapters, AI integration, compliance). You focus on your domain-specific business logic.
-                  </p>
-                </div>
+                <ul className="space-y-3 text-slate-300 text-sm">
+                  <li>• Plugin registry and health monitoring</li>
+                  <li>• Event bus routing (NATS/Redis)</li>
+                  <li>• RPC gateway with auth/audit</li>
+                  <li>• Policy engine enforcement</li>
+                  <li>• Workflow orchestration</li>
+                </ul>
               </motion.div>
             </div>
+            
+            <div className="grid lg:grid-cols-3 gap-8">
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8, delay: 0.3 }}
+                className="bg-gradient-to-br from-slate-900/50 to-slate-800/30 border border-slate-700/50 backdrop-blur-xl rounded-3xl p-8"
+              >
+                <div className="flex items-center gap-3 mb-6">
+                  <Database className="h-8 w-8 text-sky" />
+                  <h3 className="text-2xl font-bold text-sky">Storage & Data</h3>
+                </div>
+                <ul className="space-y-3 text-slate-300 text-sm">
+                  <li>• Shared object storage (S3/local)</li>
+                  <li>• Database abstraction layer</li>
+                  <li>• Canonical model engine</li>
+                  <li>• Schema registry and transformers</li>
+                  <li>• Cross-plugin ID management</li>
+                </ul>
+              </motion.div>
+              
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8, delay: 0.4 }}
+                className="bg-gradient-to-br from-slate-900/50 to-slate-800/30 border border-slate-700/50 backdrop-blur-xl rounded-3xl p-8"
+              >
+                <div className="flex items-center gap-3 mb-6">
+                  <Container className="h-8 w-8 text-pink" />
+                  <h3 className="text-2xl font-bold text-pink">Plugin Management</h3>
+                </div>
+                <ul className="space-y-3 text-slate-300 text-sm">
+                  <li>• Registration and validation</li>
+                  <li>• Lifecycle management</li>
+                  <li>• Sandboxing and isolation</li>
+                  <li>• Health monitoring</li>
+                  <li>• Hot-swap capabilities</li>
+                </ul>
+              </motion.div>
+              
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8, delay: 0.5 }}
+                className="bg-gradient-to-br from-slate-900/50 to-slate-800/30 border border-slate-700/50 backdrop-blur-xl rounded-3xl p-8"
+              >
+                <div className="flex items-center gap-3 mb-6">
+                  <Eye className="h-8 w-8 text-purple" />
+                  <h3 className="text-2xl font-bold text-purple">Audit & Compliance</h3>
+                </div>
+                <ul className="space-y-3 text-slate-300 text-sm">
+                  <li>• Structured audit logging</li>
+                  <li>• HIPAA/SOC2 alignment</li>
+                  <li>• PHI redaction and protection</li>
+                  <li>• Metrics and monitoring</li>
+                  <li>• Compliance reporting</li>
+                </ul>
+              </motion.div>
+            </div>
+            
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: 0.6 }}
+              className="mt-16"
+            >
+              <div className="bg-gradient-to-br from-sky/10 to-ocean/10 border border-sky/30 backdrop-blur-xl rounded-3xl p-8 md:p-12 text-center">
+                <h3 className="text-2xl font-bold mb-6 bg-gradient-to-r from-pink to-sky bg-clip-text text-transparent">
+                  The Result: Enterprise-Grade Infrastructure as Code
+                </h3>
+                <p className="text-lg text-slate-200 font-medium max-w-4xl mx-auto leading-relaxed">
+                  All these services work together to create a platform where you can assemble products from interchangeable parts, 
+                  maintain security and compliance, and adapt to changing requirements without breaking existing functionality.
+                  <br /><br />
+                  <span className="text-sky">You build the domain logic. We provide the enterprise foundation.</span>
+                </p>
+              </div>
+            </motion.div>
           </div>
         </section>
 
