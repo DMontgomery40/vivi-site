@@ -1,0 +1,64 @@
+SSH Access – Quick Reference (One‑Day Setup)
+
+Overview
+- This Mac is isolated (own VLAN via Firewalla). Use one of the two options below for remote SSH access. Disable after 24h.
+
+Option A: Tailscale SSH (no open ports)
+1) Install Tailscale on this Mac and sign in.
+2) Enable Tailscale SSH in Tailscale admin or local settings.
+3) Install Tailscale on your laptop and sign in.
+4) Connect: ssh davidmontgomery@<mac-hostname>.ts.net
+5) Disable tomorrow from Tailscale admin.
+
+Option B: Open a temporary SSH port via Firewalla (key‑only)
+Generate a fresh key on your laptop
+- macOS/Linux:
+  ssh-keygen -t ed25519 -C "vivified-temp-$(date +%Y%m%d)" -f ~/.ssh/vivified_temp
+  cat ~/.ssh/vivified_temp.pub
+- Windows (PowerShell):
+  ssh-keygen.exe -t ed25519 -C "vivified-temp-YYYYMMDD" -f $env:USERPROFILE\.ssh\vivified_temp
+  Get-Content $env:USERPROFILE\.ssh\vivified_temp.pub
+
+Install your public key on the Mac
+- Already prepared: ~/.ssh/authorized_keys contains your GitHub keys.
+- To add a new key quickly:
+  echo "<YOUR_PUBLIC_KEY_LINE>" >> ~/.ssh/authorized_keys && chmod 600 ~/.ssh/authorized_keys
+
+Enable SSH service (admin once on the Mac)
+  sudo systemsetup -setremotelogin on
+  # Restrict SSH to your user
+  sudo dseditgroup -o create com.apple.access_ssh 2>/dev/null || true
+  sudo dseditgroup -o edit -a davidmontgomery -t user com.apple.access_ssh
+  # Optional hardening (key-only)
+  sudo sh -c 'printf "\nPubkeyAuthentication yes\nPasswordAuthentication no\nMaxAuthTries 3\nLoginGraceTime 30\n" >> /etc/ssh/sshd_config'
+  sudo launchctl kickstart -k system/com.openssh.sshd
+
+Firewalla port forward (time‑boxed and source‑restricted)
+- Forward external TCP 22222 to <MAC_LAN_IP>:22
+- Restrict source to your current WAN IP(s) if possible.
+- Set an auto‑disable after 24h or reminder to remove it.
+
+Connect from your laptop
+  # Replace <PUBLIC_IP> with your current public IP of the home network
+  ssh -p 22222 -i ~/.ssh/vivified_temp davidmontgomery@<PUBLIC_IP>
+
+Useful lookups on the Mac
+  # Get local IP
+  ipconfig getifaddr en0   # Wi‑Fi (or en1 for Ethernet)
+  # Public IP
+  curl ifconfig.me
+
+Disable after you’re done
+  # Turn off Remote Login
+  sudo systemsetup -setremotelogin off
+  # Remove Firewalla forward rule or let it auto‑expire
+
+Notes
+- Authorized keys file location: /Users/davidmontgomery/.ssh/authorized_keys
+- To refresh from GitHub keys quickly:
+  curl -fsSL https://github.com/DMontgomery40.keys >> ~/.ssh/authorized_keys && chmod 600 ~/.ssh/authorized_keys
+- For short‑term agent access, create a temporary user and add its key; remove user next day:
+  sudo sysadminctl -addUser opsagent -shell /bin/bash
+  sudo dseditgroup -o edit -a opsagent -t user com.apple.access_ssh
+  sudo sysadminctl -deleteUser opsagent -secure || true
+
