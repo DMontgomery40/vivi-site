@@ -302,6 +302,60 @@ export default function App() {
           </div>
         </section>
 
+        {/* What's Working Now (Reality Check) */}
+        <section className="py-24 px-6 lg:px-12 bg-gradient-to-b from-slate-950/60 to-slate-950/20">
+          <div className="max-w-7xl mx-auto">
+            <div className="text-center mb-16">
+              <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-white to-slate-300 bg-clip-text text-transparent mb-6">
+                What’s Working Now
+              </h2>
+              <p className="text-xl text-slate-400 max-w-4xl mx-auto">
+                The current Vivified kernel and Admin Console features you can use today.
+              </p>
+            </div>
+
+            <div className="grid lg:grid-cols-3 gap-8">
+              <div className="bg-slate-900/50 border border-slate-700/50 rounded-3xl p-8">
+                <div className="flex items-center gap-3 mb-4">
+                  <Shield className="w-6 h-6 text-sky" />
+                  <div className="text-lg font-semibold">Security & Data</div>
+                </div>
+                <ul className="text-slate-300 space-y-3 text-sm leading-relaxed">
+                  <li>PostgreSQL is the default database (asyncpg). SQLite only for tests/DEV_MODE.</li>
+                  <li>RAG uses Redis by default for persistent vectors; optional Redis Stack (HNSW) supported.</li>
+                  <li>TBAC classification gates: <code className="text-sky">phi</code> → <code className="text-sky">hipaa_cleared</code>, <code className="text-sky">pii</code> → <code className="text-sky">pii_cleared</code> (overridable in Config).</li>
+                  <li>All egress is funneled through a Gateway allowlist; operator calls require explicit allow rules.</li>
+                </ul>
+              </div>
+
+              <div className="bg-slate-900/50 border border-slate-700/50 rounded-3xl p-8">
+                <div className="flex items-center gap-3 mb-4">
+                  <Settings className="w-6 h-6 text-sky" />
+                  <div className="text-lg font-semibold">Admin Console</div>
+                </div>
+                <ul className="text-slate-300 space-y-3 text-sm leading-relaxed">
+                  <li>AI Studio: repository‑wide RAG with embeddings; query is trait‑filtered by TBAC.</li>
+                  <li>LLM Connectors: OpenAI, Claude, Local (Ollama), plus DeepSeek. Models populate dynamically; pricing badges supported.</li>
+                  <li>Quick switches for RAG backend: Redis (6379) or Redis Stack (6380).</li>
+                  <li>Plugin Setup Wizard with AI assistance: draft manifest, validate, apply allowlists, register, download scaffold.</li>
+                </ul>
+              </div>
+
+              <div className="bg-slate-900/50 border border-slate-700/50 rounded-3xl p-8">
+                <div className="flex items-center gap-3 mb-4">
+                  <GitBranch className="w-6 h-6 text-sky" />
+                  <div className="text-lg font-semibold">Plugins & SDK</div>
+                </div>
+                <ul className="text-slate-300 space-y-3 text-sm leading-relaxed">
+                  <li>Scaffolds for LLM OSS and RAG DB (pgvector) with example endpoints; operator allowlists auto‑suggested.</li>
+                  <li>Operator Lane enforced with explicit allowlist keys and full audit trail.</li>
+                  <li>Docs kept current (mkdocs) with pilot guides and deep dives.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* Enterprise Infrastructure */}
         <section id="core-services" className="py-24 px-6 lg:px-12 bg-gradient-to-b from-slate-900/20 to-transparent">
           <div className="max-w-7xl mx-auto">
