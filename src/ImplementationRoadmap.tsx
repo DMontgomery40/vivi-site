@@ -46,9 +46,14 @@ export default function ImplementationRoadmap() {
               </span>
             </h1>
 
-            <p className="text-xl md:text-2xl text-slate-300 max-w-3xl mx-auto leading-relaxed mb-12">
-              A realistic 5-phase plan to build the complete enterprise platform
+            <p className="text-xl md:text-2xl text-slate-300 max-w-3xl mx-auto leading-relaxed mb-6">
+              A realistic plan highlighting what’s shipped, in progress, and planned.
             </p>
+            <div className="text-slate-300 text-sm">
+              <span className="inline-flex items-center gap-2 mr-4"><span className="w-2 h-2 rounded-full bg-emerald-400 inline-block"></span> Shipped</span>
+              <span className="inline-flex items-center gap-2 mr-4"><span className="w-2 h-2 rounded-full bg-yellow-400 inline-block"></span> In Progress</span>
+              <span className="inline-flex items-center gap-2"><span className="w-2 h-2 rounded-full bg-slate-500 inline-block"></span> Planned</span>
+            </div>
           </div>
         </section>
 
@@ -193,23 +198,23 @@ export default function ImplementationRoadmap() {
                     <ul className="space-y-3 text-slate-300">
                       <li className="flex items-start gap-3">
                         <Users className="h-5 w-5 text-pink mt-0.5 flex-shrink-0" />
-                        <span>User authentication and API key management</span>
+                        <span>User authentication and API key management <span className="ml-2 inline-block align-middle w-2 h-2 rounded-full bg-emerald-400" title="Shipped" /></span>
                       </li>
                       <li className="flex items-start gap-3">
                         <Shield className="h-5 w-5 text-pink mt-0.5 flex-shrink-0" />
-                        <span>Basic trait and permission engine</span>
+                        <span>Trait‑based access (TBAC classification gates) <span className="ml-2 inline-block align-middle w-2 h-2 rounded-full bg-emerald-400" title="Shipped" /></span>
                       </li>
                       <li className="flex items-start gap-3">
                         <Server className="h-5 w-5 text-pink mt-0.5 flex-shrink-0" />
-                        <span>Hierarchical configuration service</span>
+                        <span>Config service with Admin UI surfaces <span className="ml-2 inline-block align-middle w-2 h-2 rounded-full bg-yellow-400" title="In Progress" /></span>
                       </li>
                       <li className="flex items-start gap-3">
                         <CheckCircle className="h-5 w-5 text-pink mt-0.5 flex-shrink-0" />
-                        <span>Secure plugin registration with validation</span>
+                        <span>Plugin Setup Wizard with validation <span className="ml-2 inline-block align-middle w-2 h-2 rounded-full bg-emerald-400" title="Shipped" /></span>
                       </li>
                       <li className="flex items-start gap-3">
                         <Code className="h-5 w-5 text-pink mt-0.5 flex-shrink-0" />
-                        <span>Initial Admin Console backend</span>
+                        <span>Admin Console (AI Studio, connectors, RAG toggle) <span className="ml-2 inline-block align-middle w-2 h-2 rounded-full bg-emerald-400" title="Shipped" /></span>
                       </li>
                     </ul>
                   </div>
@@ -256,15 +261,15 @@ if not trait_engine.compatible(
                     <ul className="space-y-3 text-slate-300">
                       <li className="flex items-start gap-3">
                         <div className="w-3 h-3 rounded-full bg-sky mt-2 flex-shrink-0"></div>
-                        <span><strong>Canonical Lane:</strong> NATS/Redis event bus with policy filtering</span>
+                        <span><strong>Canonical Lane:</strong> Normalized models + policy gates; transport options vary (e.g., NATS/Redis streaming) <span className="ml-2 inline-block align-middle w-2 h-2 rounded-full bg-yellow-400" title="In Progress" /></span>
                       </li>
                       <li className="flex items-start gap-3">
                         <div className="w-3 h-3 rounded-full bg-pink mt-2 flex-shrink-0"></div>
-                        <span><strong>Operator Lane:</strong> RPC gateway with auth and audit</span>
+                        <span><strong>Operator Lane:</strong> RPC via Core gateway with auth/audit <span className="ml-2 inline-block align-middle w-2 h-2 rounded-full bg-yellow-400" title="In Progress" /></span>
                       </li>
                       <li className="flex items-start gap-3">
                         <div className="w-3 h-3 rounded-full bg-purple mt-2 flex-shrink-0"></div>
-                        <span><strong>Proxy Lane:</strong> Sandboxed external API gateway</span>
+                        <span><strong>Proxy Lane:</strong> Sandboxed external API gateway (allowlisted domains) <span className="ml-2 inline-block align-middle w-2 h-2 rounded-full bg-emerald-400" title="Shipped" /></span>
                       </li>
                     </ul>
                   </div>
@@ -312,19 +317,19 @@ EmailGateway → send welcome email`}
                     <ul className="space-y-3 text-slate-300">
                       <li className="flex items-center gap-3">
                         <Shield className="h-5 w-5 text-green-400 flex-shrink-0" />
-                        <span>Fine-grained access control</span>
+                        <span>Fine‑grained access control <span className="ml-2 inline-block align-middle w-2 h-2 rounded-full bg-yellow-400" title="In Progress" /></span>
                       </li>
                       <li className="flex items-center gap-3">
                         <Shield className="h-5 w-5 text-green-400 flex-shrink-0" />
-                        <span>Comprehensive audit logging</span>
+                        <span>Comprehensive audit logging <span className="ml-2 inline-block align-middle w-2 h-2 rounded-full bg-emerald-400" title="Shipped" /></span>
                       </li>
                       <li className="flex items-center gap-3">
                         <Shield className="h-5 w-5 text-green-400 flex-shrink-0" />
-                        <span>Container sandboxing review</span>
+                        <span>Container sandboxing review <span className="ml-2 inline-block align-middle w-2 h-2 rounded-full bg-yellow-400" title="In Progress" /></span>
                       </li>
                       <li className="flex items-center gap-3">
                         <Shield className="h-5 w-5 text-green-400 flex-shrink-0" />
-                        <span>Network segmentation</span>
+                        <span>Network segmentation <span className="ml-2 inline-block align-middle w-2 h-2 rounded-full bg-slate-500" title="Planned" /></span>
                       </li>
                     </ul>
                   </div>
@@ -334,15 +339,15 @@ EmailGateway → send welcome email`}
                     <ul className="space-y-3 text-slate-300">
                       <li className="flex items-center gap-3">
                         <Users className="h-5 w-5 text-green-400 flex-shrink-0" />
-                        <span>Complete user management UI</span>
+                        <span>Complete user management UI <span className="ml-2 inline-block align-middle w-2 h-2 rounded-full bg-yellow-400" title="In Progress" /></span>
                       </li>
                       <li className="flex items-center gap-3">
                         <Server className="h-5 w-5 text-green-400 flex-shrink-0" />
-                        <span>Plugin management interface</span>
+                        <span>Plugin management interface <span className="ml-2 inline-block align-middle w-2 h-2 rounded-full bg-emerald-400" title="Shipped" /></span>
                       </li>
                       <li className="flex items-center gap-3">
                         <Code className="h-5 w-5 text-green-400 flex-shrink-0" />
-                        <span>Configuration management</span>
+                        <span>Configuration management <span className="ml-2 inline-block align-middle w-2 h-2 rounded-full bg-yellow-400" title="In Progress" /></span>
                       </li>
                       <li className="flex items-center gap-3">
                         <CheckCircle className="h-5 w-5 text-green-400 flex-shrink-0" />

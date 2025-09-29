@@ -55,6 +55,9 @@ export default function App() {
             <a href="#developer-tools" className="text-sm font-medium hover:text-white transition-colors">
               Developer Tools
             </a>
+            <Link to="/admin-console" className="text-sm font-medium hover:text-white transition-colors">
+              Admin Console
+            </Link>
             <Link to="/roadmap" className="text-sm font-medium hover:text-white transition-colors">
               Roadmap
             </Link>
@@ -139,6 +142,54 @@ export default function App() {
           </div>
         </motion.section>
 
+        {/* Built-in AI & RAG */}
+        <section className="py-24 px-6 lg:px-12">
+          <div className="max-w-6xl mx-auto">
+            <div className="text-center mb-16">
+              <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-white to-slate-300 bg-clip-text text-transparent mb-6">
+                Built-in AI Studio & RAG
+              </h2>
+              <p className="text-xl text-slate-400 max-w-4xl mx-auto">
+                Use the Admin Console to index your repo, explore embeddings, and switch vector backends. Connect OpenAI, Claude, Ollama, and DeepSeek with dynamic model pickers.
+              </p>
+            </div>
+            <div className="grid lg:grid-cols-3 gap-8">
+              <div className="bg-slate-900/50 border border-slate-700/50 rounded-3xl p-8">
+                <div className="text-lg font-semibold text-sky mb-2">Models & Connectors</div>
+                <ul className="text-slate-300 space-y-2 text-sm">
+                  <li>OpenAI, Claude, DeepSeek, and local Ollama</li>
+                  <li>Dynamic dropdowns with pricing badges</li>
+                  <li>Keys stored in Config; traits gate visibility</li>
+                </ul>
+              </div>
+              <div className="bg-slate-900/50 border border-slate-700/50 rounded-3xl p-8">
+                <div className="text-lg font-semibold text-sky mb-2">Vectors & Indexing</div>
+                <ul className="text-slate-300 space-y-2 text-sm">
+                  <li>Redis default vectors; Redis Stack optional (HNSW)</li>
+                  <li>Reindex and backend toggle from the Console</li>
+                  <li>TBAC filters applied to search results</li>
+                </ul>
+              </div>
+              <div className="bg-slate-900/50 border border-slate-700/50 rounded-3xl p-8">
+                <div className="text-lg font-semibold text-sky mb-2">Security & Governance</div>
+                <ul className="text-slate-300 space-y-2 text-sm">
+                  <li>Gateway allowlist for all egress</li>
+                  <li>Classification gates: phi→hipaa_cleared; pii→pii_cleared</li>
+                  <li>DEV_MODE one‑click sign‑in for local dev</li>
+                </ul>
+              </div>
+            </div>
+            <div className="text-center mt-10">
+              <Link to="/admin-console">
+                <button className="inline-flex items-center gap-2 bg-gradient-to-r from-sky to-ocean text-white font-bold px-8 py-4 rounded-xl shadow-lg shadow-sky/25 hover:shadow-sky/40 hover:scale-105 transition-all duration-200">
+                  <Settings className="h-5 w-5" />
+                  <span>Explore the Admin Console</span>
+                </button>
+              </Link>
+            </div>
+          </div>
+        </section>
+
         {/* What This Actually Is */}
         <section className="py-24 px-6 lg:px-12 relative">
           <div className="max-w-6xl mx-auto">
@@ -197,21 +248,21 @@ export default function App() {
                       <MessageSquare className="h-5 w-5 text-sky flex-shrink-0" />
                       <div>
                         <div className="font-medium text-sky">Canonical Lane</div>
-                        <div className="text-sm text-slate-400">Universal data models, &lt;15ms p50, NATS JetStream</div>
+                        <div className="text-sm text-slate-400">Normalized models; pluggable transport; policy + audit</div>
                       </div>
                     </div>
                     <div className="flex items-center gap-3">
                       <Zap className="h-5 w-5 text-pink flex-shrink-0" />
                       <div>
                         <div className="font-medium text-pink">Operator Lane</div>
-                        <div className="text-sm text-slate-400">Low-latency gRPC, &lt;5ms p50, zero-copy</div>
+                        <div className="text-sm text-slate-400">Low-latency RPC via Core gateway</div>
                       </div>
                     </div>
                     <div className="flex items-center gap-3">
                       <Shield className="h-5 w-5 text-purple flex-shrink-0" />
                       <div>
                         <div className="font-medium text-purple">Proxy Lane</div>
-                        <div className="text-sm text-slate-400">Heavily guarded external calls, mTLS</div>
+                        <div className="text-sm text-slate-400">Guarded external calls with strict allowlists</div>
                       </div>
                     </div>
                   </div>

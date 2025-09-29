@@ -1,3 +1,8 @@
+Status Note (Updated):
+• Shipped: Admin Console with AI Studio (RAG), dynamic model connectors (OpenAI/Claude/Ollama/DeepSeek), PostgreSQL default DB, Redis vectors (Redis Stack optional), TBAC classification gates, Gateway/Operator allowlists with audit.
+• In Progress: Operator gateway hardening and transport choices for canonical messaging; expanded Admin Console configuration surfaces.
+• Planned: Full schema registry UI, automated deprecation bot, and CI performance gates.
+
 Vivified Modular Platform – Execution Plan
 Overview: This plan describes how to evolve Vivified (built on the Faxbot foundation) into a production-grade modular framework with plugin-based extensibility. We will design a 3-lane communication model for plugin interactions, enforce a plugin-first architecture with strong security and compliance guarantees, establish core platform services (identity, config, routing, etc.), and provide developer tooling (SDKs, validators, sandbox). Finally, we outline a phased implementation roadmap with clear milestones and deliverables.
 1. Three-Lane Plugin Communication Model

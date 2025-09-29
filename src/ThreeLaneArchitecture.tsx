@@ -47,7 +47,7 @@ export default function ThreeLaneArchitecture() {
             </h1>
 
             <p className="text-xl md:text-2xl text-slate-300 max-w-4xl mx-auto leading-relaxed mb-12">
-              The core innovation that makes plugin architecture actually work in production
+              The communication model we ship and the targets we’re building toward.
             </p>
           </div>
         </section>
@@ -56,9 +56,14 @@ export default function ThreeLaneArchitecture() {
         <section className="py-16 px-6 lg:px-12">
           <div className="max-w-6xl mx-auto">
             <div className="bg-gradient-to-br from-slate-900/50 to-slate-800/30 border border-slate-700/50 backdrop-blur-xl rounded-3xl p-8 md:p-12 mb-16">
-              <h2 className="text-3xl font-bold mb-8 bg-gradient-to-r from-pink to-sky bg-clip-text text-transparent text-center">
+              <h2 className="text-3xl font-bold mb-2 bg-gradient-to-r from-pink to-sky bg-clip-text text-transparent text-center">
                 Why Three Lanes?
               </h2>
+              <div className="text-center mb-6">
+                <span className="inline-flex items-center gap-2 text-xs text-slate-300 mr-3"><span className="w-2 h-2 rounded-full bg-emerald-400 inline-block"></span> Shipped</span>
+                <span className="inline-flex items-center gap-2 text-xs text-slate-300 mr-3"><span className="w-2 h-2 rounded-full bg-yellow-400 inline-block"></span> Preview</span>
+                <span className="inline-flex items-center gap-2 text-xs text-slate-300"><span className="w-2 h-2 rounded-full bg-slate-500 inline-block"></span> Planned</span>
+              </div>
               <div className="prose prose-lg prose-invert max-w-none">
                 <p className="text-slate-300 text-lg leading-relaxed mb-6">
                   Most "plugin systems" fail in production because they treat all communication the same way. 
@@ -75,9 +80,10 @@ export default function ThreeLaneArchitecture() {
 
             {/* Performance SLOs */}
             <div className="bg-gradient-to-br from-slate-900/50 to-slate-800/30 border border-slate-700/50 backdrop-blur-xl rounded-3xl p-8 md:p-12 mb-16">
-              <h3 className="text-2xl font-bold mb-8 bg-gradient-to-r from-pink to-sky bg-clip-text text-transparent text-center">
-                Production-Grade Performance SLOs
+              <h3 className="text-2xl font-bold mb-2 bg-gradient-to-r from-pink to-sky bg-clip-text text-transparent text-center">
+                Performance SLO Targets
               </h3>
+              <p className="text-center text-slate-400 text-sm mb-6">Targets are design goals; not all transports are enabled in current builds.</p>
               <div className="overflow-x-auto">
                 <table className="w-full text-left border-collapse">
                   <thead>
@@ -127,7 +133,7 @@ export default function ThreeLaneArchitecture() {
                 <MessageSquare className="h-12 w-12 text-sky" />
                 <div>
                   <h2 className="text-4xl font-bold text-sky mb-2">Canonical Lane</h2>
-                  <p className="text-slate-300">Universal data models for plugin interoperability</p>
+                  <p className="text-slate-300">Universal data models for plugin interoperability <span className="ml-2 inline-block align-middle w-2 h-2 rounded-full bg-emerald-400" title="Shipped" /></p>
                 </div>
               </div>
 
@@ -155,7 +161,7 @@ export default function ThreeLaneArchitecture() {
                 </div>
 
                 <div>
-                  <h3 className="text-2xl font-bold text-pink mb-4">Wire Format</h3>
+                  <h3 className="text-2xl font-bold text-pink mb-4">Wire Format (reference)</h3>
                   <div className="bg-slate-900/70 rounded-2xl p-4">
                     <pre className="text-slate-300 text-sm">
 {`Envelope {
@@ -192,11 +198,12 @@ export default function ThreeLaneArchitecture() {
               </div>
             </div>
 
-            {/* NATS Implementation */}
+            {/* Messaging Example */}
             <div className="bg-gradient-to-br from-slate-900/50 to-slate-800/30 border border-slate-700/50 backdrop-blur-xl rounded-3xl p-8 md:p-12">
-              <h3 className="text-2xl font-bold mb-6 bg-gradient-to-r from-pink to-sky bg-clip-text text-transparent">
-                NATS JetStream Implementation
+              <h3 className="text-2xl font-bold mb-2 bg-gradient-to-r from-pink to-sky bg-clip-text text-transparent">
+                Canonical Lane – Messaging Example
               </h3>
+              <p className="text-slate-400 text-sm mb-4">Example uses NATS JetStream for illustration. Current builds ship canonical models + audit/policy gates; transport options may vary by deployment.</p>
               <div className="grid md:grid-cols-2 gap-8">
                 <div>
                   <h4 className="text-xl font-bold text-sky mb-4">Publisher Example</h4>
@@ -257,13 +264,13 @@ async def publish_canonical():
                 <Network className="h-12 w-12 text-pink" />
                 <div>
                   <h2 className="text-4xl font-bold text-pink mb-2">Operator Lane</h2>
-                  <p className="text-slate-300">Low-latency gRPC for direct plugin-to-plugin calls</p>
+                  <p className="text-slate-300">Low-latency RPC via Core gateway <span className="ml-2 inline-block align-middle w-2 h-2 rounded-full bg-yellow-400" title="Preview" /></p>
                 </div>
               </div>
 
               <div className="grid md:grid-cols-2 gap-8 mb-8">
                 <div>
-                  <h3 className="text-2xl font-bold text-sky mb-4">gRPC Gateway Protocol</h3>
+                  <h3 className="text-2xl font-bold text-sky mb-4">Gateway Protocol (design)</h3>
                   <div className="bg-slate-900/70 rounded-2xl p-4 mb-4">
                     <pre className="text-slate-300 text-sm">
 {`message CallRequest {
@@ -309,19 +316,19 @@ message CallResponse {
                 <h3 className="text-xl font-bold text-pink mb-4">Reliability Features</h3>
                 <div className="grid md:grid-cols-3 gap-6">
                   <div>
-                    <h4 className="font-bold text-sky mb-2">Circuit Breakers</h4>
+                    <h4 className="font-bold text-sky mb-2">Circuit Breakers (planned)</h4>
                     <p className="text-slate-300 text-sm">
                       Fail-fast when plugins are down. Hedged requests for P99 tail latency.
                     </p>
                   </div>
                   <div>
-                    <h4 className="font-bold text-sky mb-2">Plugin SLAs</h4>
+                    <h4 className="font-bold text-sky mb-2">Plugin SLAs (planned)</h4>
                     <p className="text-slate-300 text-sm">
                       Plugins must respond &lt;3ms p50 in-cluster or get down-ranked.
                     </p>
                   </div>
                   <div>
-                    <h4 className="font-bold text-sky mb-2">Load Balancing</h4>
+                    <h4 className="font-bold text-sky mb-2">Load Balancing (planned)</h4>
                     <p className="text-slate-300 text-sm">
                       pick_first within cluster, service discovery integration.
                     </p>

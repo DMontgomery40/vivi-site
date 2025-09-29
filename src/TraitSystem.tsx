@@ -72,6 +72,9 @@ export default function TraitSystem() {
                   The UI dynamically renders based on active traits, and the policy engine enforces compatibility between 
                   user traits, plugin traits, and data traits before allowing any operation.
                 </p>
+                <div className="mt-6 p-4 bg-gradient-to-r from-sky/10 to-ocean/10 border border-sky/30 rounded-2xl">
+                  <div className="text-slate-200 text-sm"><strong>Shipped TBAC gates:</strong> data tagged <code className="text-sky">phi</code> requires callers with <code className="text-sky">hipaa_cleared</code>; <code className="text-sky">pii</code> requires <code className="text-sky">pii_cleared</code>. These defaults are overridable via Config.</div>
+                </div>
               </div>
             </div>
 
@@ -164,6 +167,9 @@ else:
                 The policy engine automatically enforces trait compatibility across all system interactions. 
                 No manual permission checks needed—the system knows what's allowed.
               </p>
+              <div className="mt-6 p-4 bg-slate-900/60 border border-slate-700/60 rounded-2xl text-sm text-slate-300">
+                <strong>Reality check:</strong> Trait‑aware UI surfaces ship in the Admin Console today (diagnostics, setup, and model connectors reflect active traits). Fine‑grained custom policies per tenant are expanding steadily.
+              </div>
             </div>
 
             {/* Dynamic UI Rendering */}

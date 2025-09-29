@@ -57,10 +57,10 @@ export default function DeveloperTools() {
           <div className="max-w-6xl mx-auto">
             <div className="text-center mb-16">
               <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-white to-slate-300 bg-clip-text text-transparent mb-6">
-                Multi-Language SDKs
+                SDKs & Scaffolds
               </h2>
               <p className="text-xl text-slate-400 max-w-3xl mx-auto">
-                Identical API surfaces across Python, Node.js, and Go—build in your preferred language
+                Start with the Admin Console’s Plugin Setup Wizard; SDK helpers and scaffolds are available and expanding.
               </p>
             </div>
 
@@ -70,7 +70,7 @@ export default function DeveloperTools() {
                   <div className="h-12 w-12 rounded-2xl bg-gradient-to-br from-blue-500 to-blue-600 grid place-items-center">
                     <span className="text-white font-bold text-lg">Py</span>
                   </div>
-                  <h3 className="text-2xl font-bold text-sky">Python SDK</h3>
+                  <h3 className="text-2xl font-bold text-sky">Python helpers</h3>
                 </div>
                 <div className="bg-slate-900/70 rounded-2xl p-4 mb-4">
                   <pre className="text-slate-300 text-sm">
@@ -86,9 +86,9 @@ class MyPlugin(CommunicationPlugin):
                   </pre>
                 </div>
                 <ul className="space-y-2 text-slate-300 text-sm">
-                  <li>• Flask/FastAPI server setup</li>
-                  <li>• Automatic event bus connection</li>
-                  <li>• Built-in logging and metrics</li>
+                  <li>• Healthcheck + manifest examples</li>
+                  <li>• Logging and audit helpers</li>
+                  <li>• Operator allowlist integration</li>
                 </ul>
               </div>
 
@@ -97,7 +97,7 @@ class MyPlugin(CommunicationPlugin):
                   <div className="h-12 w-12 rounded-2xl bg-gradient-to-br from-green-500 to-green-600 grid place-items-center">
                     <span className="text-white font-bold text-lg">JS</span>
                   </div>
-                  <h3 className="text-2xl font-bold text-pink">Node.js SDK</h3>
+                  <h3 className="text-2xl font-bold text-pink">Node.js helpers</h3>
                 </div>
                 <div className="bg-slate-900/70 rounded-2xl p-4 mb-4">
                   <pre className="text-slate-300 text-sm">
@@ -200,8 +200,8 @@ func (p *MyPlugin) SendMessage(msg *Message) error {
           </div>
         </section>
 
-        {/* CLI and Tooling */}
-        <section className="py-16 px-6 lg:px-12 bg-gradient-to-b from-slate-900/20 to-transparent">
+            {/* CLI and Tooling */}
+            <section className="py-16 px-6 lg:px-12 bg-gradient-to-b from-slate-900/20 to-transparent">
           <div className="max-w-6xl mx-auto">
             <div className="text-center mb-16">
               <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-white to-slate-300 bg-clip-text text-transparent mb-6">
@@ -216,26 +216,19 @@ func (p *MyPlugin) SendMessage(msg *Message) error {
             <div className="bg-gradient-to-br from-slate-900/50 to-slate-800/30 border border-slate-700/50 backdrop-blur-xl rounded-3xl p-8 md:p-12 mb-16">
               <div className="flex items-center gap-3 mb-8">
                 <Terminal className="h-8 w-8 text-sky" />
-                <h3 className="text-3xl font-bold text-sky">Vivified CLI</h3>
+                <h3 className="text-3xl font-bold text-sky">Admin Console Wizard</h3>
               </div>
               
               <div className="grid md:grid-cols-2 gap-8">
                 <div>
-                  <h4 className="text-xl font-bold text-pink mb-4">Plugin Generation</h4>
+                  <h4 className="text-xl font-bold text-pink mb-4">Scaffold Generation</h4>
                   <div className="bg-slate-900/70 rounded-2xl p-4 mb-4">
                     <pre className="text-slate-300 text-sm">
-{`# Create new plugin scaffold
-vivified create-plugin \\
-  --type communication \\
-  --name my-email-service \\
-  --language python
-
-# Generates complete project:
-# - Plugin contract implementation
-# - Manifest with traits/dependencies  
-# - Docker configuration
-# - Unit test stubs
-# - Example transformers`}
+{`# Admin Console → Tools → Plugin Setup Wizard
+# 1) Draft manifest (traits, allowlists)
+# 2) Validate policy
+# 3) Register with Core
+# 4) Download scaffold (healthcheck, manifest, endpoints)`}
                     </pre>
                   </div>
                 </div>
@@ -244,17 +237,14 @@ vivified create-plugin \\
                   <h4 className="text-xl font-bold text-pink mb-4">Validation & Testing</h4>
                   <div className="bg-slate-900/70 rounded-2xl p-4 mb-4">
                     <pre className="text-slate-300 text-sm">
-{`# Validate plugin manifest
-vivified validate plugin.json
+{`# Console tools
+# - Manifest validation (traits, allowlists)
+# - Operator lane allowlist checks
+# - Basic health + audit views
 
-# Test plugin locally
-vivified test --plugin my-plugin
-
-# Start dev environment
-vivified dev-start --with my-plugin
-
-# Deploy to staging
-vivified deploy --env staging`}
+# Local dev (recommended)
+# - Docker Compose per scaffold
+# - Hot reload examples`}
                     </pre>
                   </div>
                 </div>

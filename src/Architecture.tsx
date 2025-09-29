@@ -103,7 +103,7 @@ export default function Architecture() {
                   Vivified is an application kernel for regulated software. It lets you assemble products from interchangeable parts and keep them safe under real‑world constraints. Capabilities are expressed as traits, everything else is a plugin, and policy decides who can do what. The result is a system you can rewire live — swapping transports, storage, identity, and UI modules — without breaking your contracts or your compliance story.
                 </p>
                 <p className="text-slate-300 text-lg leading-relaxed">
-                  Out of the box, Vivified ships with an Admin Console that is trait‑aware: it adapts diagnostics, setup, and help to the active provider's capabilities instead of hard‑coding brand names. It includes SDKs for Node and Python that mirror the API and stay honest to the OpenAPI spec, so you can move quickly without guessing. It also includes two built‑in MCP servers (Node and Python) that can run over stdio, HTTP, or SSE. That means you can expose the platform's capabilities to AI agents in environments with different security postures — from fully offline stdio to HIPAA‑friendly SSE — without rebuilding anything.
+                  Out of the box, Vivified ships with a trait‑aware Admin Console and AI Studio, dynamic model connectors (OpenAI, Claude, Ollama, DeepSeek), PostgreSQL as the default DB, and Redis vectors with optional Redis Stack. SDK helpers exist and expand alongside the Admin flows. Agent/MCP integration is under evaluation and will follow the same trait‑aware and policy‑first principles.
                 </p>
               </div>
             </motion.div>
@@ -178,6 +178,47 @@ export default function Architecture() {
           </div>
         </section>
 
+        {/* Reality Snapshot */}
+        <section className="py-16 px-6 lg:px-12 bg-gradient-to-b from-slate-900/20 to-transparent">
+          <div className="max-w-6xl mx-auto">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+              className="bg-slate-900/50 border border-slate-700/50 rounded-3xl p-8 md:p-12"
+            >
+              <h2 className="text-3xl font-bold mb-6 bg-gradient-to-r from-pink to-sky bg-clip-text text-transparent">What’s Working Now</h2>
+              <div className="grid md:grid-cols-3 gap-6 text-slate-300 text-sm">
+                <div>
+                  <div className="font-semibold text-sky mb-2">Data & Storage</div>
+                  <ul className="space-y-2">
+                    <li>PostgreSQL default DB (asyncpg)</li>
+                    <li>Redis vectors; Redis Stack optional (HNSW)</li>
+                    <li>Config UI reflects effective values</li>
+                  </ul>
+                </div>
+                <div>
+                  <div className="font-semibold text-sky mb-2">Security</div>
+                  <ul className="space-y-2">
+                    <li>TBAC classification gates (phi→hipaa_cleared, pii→pii_cleared)</li>
+                    <li>Gateway allowlist for all egress</li>
+                    <li>Operator allowlists enforced and audited</li>
+                  </ul>
+                </div>
+                <div>
+                  <div className="font-semibold text-sky mb-2">Admin Console</div>
+                  <ul className="space-y-2">
+                    <li>AI Studio with dynamic model connectors</li>
+                    <li>Vector backend toggle + reindex</li>
+                    <li>Plugin Setup Wizard with scaffolds</li>
+                  </ul>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        </section>
+
         {/* Configuration */}
         <section className="py-16 px-6 lg:px-12 bg-gradient-to-b from-slate-900/20 to-transparent">
           <div className="max-w-4xl mx-auto">
@@ -246,7 +287,7 @@ export default function Architecture() {
                   The big idea is that you shouldn't need to fork your product to pass a compliance review or to integrate a new provider. Instead, you declare capabilities as traits, enforce access as policy, plug in the parts you want, and keep shipping.
                 </p>
                 <p className="text-slate-200 text-lg leading-relaxed">
-                  The Admin Console, SDKs, and MCP servers are there from day one so teams can build, operate, and automate without waiting for a "phase two."
+                  The Admin Console ships day one so teams can build, operate, and automate without waiting for a “phase two.” SDK helpers expand alongside these flows.
                 </p>
               </div>
             </motion.div>

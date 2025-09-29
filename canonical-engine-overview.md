@@ -1,3 +1,8 @@
+Status Note (Updated):
+- Shipped: Canonical models with policy/audit gates; PostgreSQL default DB; Admin Console surfaces.
+- Preview: Operator gateway with allowlists; transport options under evaluation for canonical messaging.
+- Planned: Full schema registry UI, automated deprecation bot, and CI perf gates.
+
 1) Canonical Model Engine — keep it powerful but tame
 A. Format, registry, and versioning
 

@@ -1,3 +1,8 @@
+Status Note (Updated):
+- Preview: Operator lane via Core gateway with explicit allowlists and auditing.
+- Shipped: Gateway/egress allowlist enforcement; Admin Console setup flows.
+- Planned: gRPC transport hardening, circuit breakers, SLAs, and full load testing harness.
+
 1) Operator Lane (gRPC): proto + server + client
 
 This uses a simple Gateway service (OperatorGateway.Call) that carries:
