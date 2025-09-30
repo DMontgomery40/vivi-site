@@ -104,7 +104,7 @@ export default function App() {
             </p>
             
             <p className="text-sm italic text-slate-400 max-w-2xl mx-auto mb-12">
-              *Named after my daughter Vivi. The domain vivi.com costs $429k. vivified.dev was $21. 
+              *Named after my daughter Vivi. The domain vivi.com costs $429,000k. vivified.dev was $21. 
               Sometimes constraints breed creativity.*
             </p>
 
