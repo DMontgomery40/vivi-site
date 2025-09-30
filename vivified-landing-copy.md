@@ -298,7 +298,7 @@ A: The platform is designed to run without us. Open source core, documented plug
 A: If it involves users, permissions, data processing, and communication—yes. You get GUI-first admin console, 20+ provider adapters, AI integration, canonical event model, and HIPAA controls out of the box. Healthcare systems, financial tools, and educational platforms are already running on Vivified.
 
 **Q: Why the name Vivified?**
-A: Named after my daughter Vivi. The domain vivi.com costs $429,000k. vivified.dev was $21. Sometimes constraints breed creativity.
+A: Named after my daughter Vivi. The domain vivi.com costs $429,000. vivified.dev was $21. Sometimes constraints breed creativity.
 
 ---
 
