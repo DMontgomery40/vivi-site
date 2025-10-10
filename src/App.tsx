@@ -35,12 +35,17 @@ export default function App() {
       <header className="relative z-50 flex items-center justify-between px-6 lg:px-12 py-6">
         <Link to="/">
           <div className="flex items-center gap-3 hover:scale-105 transition-transform duration-200">
-            <div className="h-10 w-10 rounded-2xl bg-gradient-to-br from-sky to-ocean border border-sky/30 grid place-items-center shadow-lg shadow-sky/25">
-              <Zap className="h-5 w-5 text-white" />
-            </div>
-            <div className="text-2xl font-black tracking-tight bg-gradient-to-r from-pink via-magenta to-sky bg-clip-text text-transparent">
-              Vivified
-            </div>
+            {/* Theme-aware full logo */}
+            <img 
+              src="/vivified_mini_banner_dark.png" 
+              alt="Vivified" 
+              className="hidden dark:block h-8 w-auto" 
+            />
+            <img 
+              src="/vivified_mini_banner_light.png" 
+              alt="Vivified" 
+              className="block dark:hidden h-8 w-auto" 
+            />
           </div>
         </Link>
         
@@ -72,6 +77,25 @@ export default function App() {
             <ExternalLink className="h-4 w-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
           </a>
         </div>
+        {/* Theme toggle */}
+        <button
+          onClick={() => {
+            try {
+              const pref = localStorage.getItem('theme-mode') || 'system';
+              const next = pref === 'system' ? 'dark' : pref === 'dark' ? 'light' : 'system';
+              localStorage.setItem('theme-mode', next);
+              const sysDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+              const wantDark = next === 'dark' || (next === 'system' && sysDark);
+              if (wantDark) document.documentElement.classList.add('dark');
+              else document.documentElement.classList.remove('dark');
+            } catch {}
+          }}
+          className="ml-4 rounded-xl border border-slate-700/40 px-3 py-1.5 text-sm text-slate-300 hover:text-white hover:border-slate-500 transition-colors"
+          aria-label="Toggle theme"
+          title="Toggle theme (system → dark → light)"
+        >
+          Theme
+        </button>
       </header>
 
       <main className="relative z-10">
@@ -82,7 +106,17 @@ export default function App() {
         >
           <div className="max-w-6xl mx-auto text-center">
             <div className="mb-8 flex items-center justify-center">
-              <div className="text-8xl drop-shadow-2xl filter brightness-110">🦋</div>
+              {/* Theme-aware full logo (hero) */}
+              <img
+                src="/vivified_mini_banner_dark.png"
+                alt="Vivified"
+                className="hidden dark:block w-[640px] max-w-[90%] h-auto drop-shadow-2xl"
+              />
+              <img
+                src="/vivified_mini_banner_light.png"
+                alt="Vivified"
+                className="block dark:hidden w-[640px] max-w-[90%] h-auto drop-shadow-2xl"
+              />
             </div>
 
             <h1 className="text-6xl md:text-7xl lg:text-8xl font-black leading-[0.9] mb-8">

@@ -3,19 +3,43 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="dark light" />
     <title>Vivified — Admin Console, AI Studio, and Secure Plugins</title>
     <meta name="description" content="Trait-aware Admin Console with AI Studio (RAG), dynamic model connectors, PostgreSQL+Redis defaults, and strict allowlists for secure plugin development.">
     
-    <!-- Favicon -->
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon.svg" />
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon.svg" />
+    <!-- Favicons / Social -->
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="theme-color" content="#0f0f11" media="(prefers-color-scheme: dark)">
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Vivified" />
+    <meta property="og:description" content="Zero‑trust admin console and plugin platform." />
+    <meta property="og:image" content="/social-card.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Vivified" />
+    <meta name="twitter:description" content="Zero‑trust admin console and plugin platform." />
+    <meta name="twitter:image" content="/social-card.png" />
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
   </head>
   <body>
+    <script>
+      (function() {
+        try {
+          const pref = localStorage.getItem('theme-mode') || 'system';
+          const sysDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          const wantDark = pref === 'dark' || (pref === 'system' && sysDark);
+          if (wantDark) document.documentElement.classList.add('dark');
+          else document.documentElement.classList.remove('dark');
+        } catch {}
+      })();
+    </script>
     <div id="root" class="gradient"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
