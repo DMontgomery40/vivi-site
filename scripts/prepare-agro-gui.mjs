@@ -95,10 +95,10 @@ function rewriteIndexHtml(html) {
     .replace(/(src\s*=\s*\")\/app\.js\b/g, '$1./app.js')
     .replace(/(src\s*=\s*\')\/app\.js\b/g, '$1./app.js');
 
-  // Inject fetch shim EARLY: before other scripts so any early fetch('/api/*') is rewritten
+  // Inject fetch shim + API override right around core-utils so downstream modules bind the corrected api()
   out = out.replace(
     /<script src=\"\.\/js\/core-utils\.js\"><\/script>/,
-    '<script src="./fetch-shim.js"></script>\n    <script src="./js/core-utils.js"></script>'
+    '<script src="./fetch-shim.js"></script>\n    <script src="./js/core-utils.js"></script>\n    <script src="./api-base-override.js"></script>'
   );
 
   // Inject popout scripts (non-module to avoid MIME strictness)
@@ -155,8 +155,8 @@ async function run() {
   // Write popout helpers
   writeFile(path.join(OUT, 'popout-helper.js'), POP_HELPER);
   writeFile(path.join(OUT, 'wire-popout.js'), WIRE_POPOUT);
-  writeFile(path.join(OUT, 'api-base-override.js'), API_BASE_OVERRIDE);
   writeFile(path.join(OUT, 'fetch-shim.js'), FETCH_SHIM);
+  writeFile(path.join(OUT, 'api-base-override.js'), API_BASE_OVERRIDE);
 }
 
 // Inline helper file contents to avoid extra tooling
