@@ -19,12 +19,11 @@ to = "/agro/index.html"
 status = 200
 force = true
 
-# Optional (uncomment when backend is ready):
-# [[redirects]]
-# from = "/api/*"
-# to = "https://agro-api.vivified.dev/api/:splat"
-# status = 200
-# force = true
+[[redirects]]
+from = "/api/*"
+to = "https://01589e7f-a5a7-4d85-a1c3-f764243a647a.cfargotunnel.com/api/:splat"
+status = 200
+force = true
 
 # SPA fallback (must be last)
 [[redirects]]
