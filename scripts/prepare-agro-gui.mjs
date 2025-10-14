@@ -84,13 +84,13 @@ function rewriteIndexHtml(html) {
     `<script src="/agro/fetch-shim.js?v=${bust}"></script>\n    <script src="/agro/js/core-utils.js?v=${bust}"></script>\n    <script src="/agro/api-base-override.js?v=${bust}"></script>`
   );
 
-  // Inject popout scripts (non-module to avoid MIME strictness)
-  if (!out.includes('wire-popout.js')) {
-    out = out.replace(
-      /<\/body>/i,
-      '  \n  <script src="/agro/popout-helper.js"></script>\n  <script src="/agro/wire-popout.js"></script>\n</body>'
-    );
-  }
+  // Popout scripts removed - not needed
+  // if (!out.includes('wire-popout.js')) {
+  //   out = out.replace(
+  //     /<\/body>/i,
+  //     '  \n  <script src="/agro/popout-helper.js"></script>\n  <script src="/agro/wire-popout.js"></script>\n</body>'
+  //   );
+  // }
   // Inject API base override to route GUI calls to /agro-api/* (avoids clobbering site /api)
   if (!out.includes('api-base-override.js')) {
     out = out.replace(
@@ -137,9 +137,9 @@ async function run() {
     }
   }
 
-  // Write popout helpers
-  writeFile(path.join(OUT, 'popout-helper.js'), POP_HELPER);
-  writeFile(path.join(OUT, 'wire-popout.js'), WIRE_POPOUT);
+  // Popout helpers removed - not needed
+  // writeFile(path.join(OUT, 'popout-helper.js'), POP_HELPER);
+  // writeFile(path.join(OUT, 'wire-popout.js'), WIRE_POPOUT);
   writeFile(path.join(OUT, 'fetch-shim.js'), FETCH_SHIM);
   writeFile(path.join(OUT, 'api-base-override.js'), API_BASE_OVERRIDE);
   // Normalize cost_logic.js at build time to avoid double /api prefixes
