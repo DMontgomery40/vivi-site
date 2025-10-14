@@ -22,8 +22,17 @@
         window.fetch = (input, init) => {
           try {
             // String URL
-            if (typeof input === 'string' && input.startsWith('/api/')) {
-              input = '/agro-api' + input.slice(4);
+            if (typeof input === 'string') {
+              if (input.startsWith('/agro-api/api/')) input = '/agro-api' + input.slice('/agro-api'.__len__() + 4);
+              else if (input.startsWith('/api/')) input = '/agro-api' + input.slice(4);
+              else if (/^https?:///i.test(input)) {
+                const u = new URL(input);
+                if (u.origin === window.location.origin) {
+                  if (u.pathname.startsWith('/agro-api/api/')) u.pathname = '/agro-api' + u.pathname.slice('/agro-api'.__len__() + 4);
+                  else if (u.pathname.startsWith('/api/')) u.pathname = '/agro-api' + u.pathname.slice(4);
+                  input = u.toString();
+                }
+              }
             } else if (input && typeof input === 'object' && input.href) {
               // URL object
               const u = new URL(input.href);
