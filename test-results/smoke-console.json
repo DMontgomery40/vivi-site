@@ -5,7 +5,7 @@
   },
   {
     "type": "log",
-    "text": "[CoreUtils] Loaded - API: https://vivified.dev"
+    "text": "[CoreUtils] Loaded - API: https://vivified.dev/agro-api"
   },
   {
     "type": "log",
@@ -49,15 +49,7 @@
   },
   {
     "type": "log",
-    "text": "[app.js] Initializing with API: https://vivified.dev"
-  },
-  {
-    "type": "error",
-    "text": "Failed to load resource: the server responded with a status of 404 ()"
-  },
-  {
-    "type": "error",
-    "text": "Failed to load profiles: SyntaxError: Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON"
+    "text": "[app.js] Initializing with API: https://vivified.dev/agro-api"
   },
   {
     "type": "error",
@@ -68,12 +60,8 @@
     "text": "Failed to load resource: the server responded with a status of 404 ()"
   },
   {
-    "type": "warning",
-    "text": "[Keywords] Load failed: SyntaxError: Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON"
-  },
-  {
     "type": "error",
-    "text": "Failed to load prices: SyntaxError: Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON"
+    "text": "Failed to load resource: the server responded with a status of 404 ()"
   },
   {
     "type": "error",
@@ -81,23 +69,7 @@
   },
   {
     "type": "error",
-    "text": "Failed to load resource: the server responded with a status of 400 ()"
-  },
-  {
-    "type": "error",
-    "text": "Error loading cards: SyntaxError: Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON"
-  },
-  {
-    "type": "error",
     "text": "Failed to load resource: the server responded with a status of 404 ()"
-  },
-  {
-    "type": "error",
-    "text": "Failed to load config: SyntaxError: Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON"
-  },
-  {
-    "type": "error",
-    "text": "[Health] Check failed: SyntaxError: Unexpected token '<', \"<!doctype \"... is not valid JSON"
   },
   {
     "type": "error",
