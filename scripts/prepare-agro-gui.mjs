@@ -95,6 +95,12 @@ function rewriteIndexHtml(html) {
     .replace(/(src\s*=\s*\")\/app\.js\b/g, '$1./app.js')
     .replace(/(src\s*=\s*\')\/app\.js\b/g, '$1./app.js');
 
+  // Inject fetch shim EARLY: before other scripts so any early fetch('/api/*') is rewritten
+  out = out.replace(
+    /<script src=\"\.\/js\/core-utils\.js\"><\/script>/,
+    '<script src="./fetch-shim.js"></script>\n    <script src="./js/core-utils.js"></script>'
+  );
+
   // Inject popout scripts (non-module to avoid MIME strictness)
   if (!out.includes('wire-popout.js')) {
     out = out.replace(
@@ -150,6 +156,7 @@ async function run() {
   writeFile(path.join(OUT, 'popout-helper.js'), POP_HELPER);
   writeFile(path.join(OUT, 'wire-popout.js'), WIRE_POPOUT);
   writeFile(path.join(OUT, 'api-base-override.js'), API_BASE_OVERRIDE);
+  writeFile(path.join(OUT, 'fetch-shim.js'), FETCH_SHIM);
 }
 
 // Inline helper file contents to avoid extra tooling
@@ -255,5 +262,25 @@ const API_BASE_OVERRIDE = `(() => {
     } catch (e) { console.warn('fetch shim failed', e); }
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', attach); else attach();
+})();`;
+
+// Minimal early fetch shim (no CoreUtils dependency). Inserted before any other scripts.
+const FETCH_SHIM = `(() => {
+  try {
+    const orig = window.fetch?.bind(window);
+    if (!orig) return;
+    window.fetch = (input, init) => {
+      try {
+        if (typeof input === 'string' && input.startsWith('/api/')) {
+          input = '/agro-api' + input.slice(4);
+        } else if (input && typeof input === 'object' && input.href) {
+          const u = new URL(input.href);
+          if (u.pathname.startsWith('/api/')) u.pathname = '/agro-api' + u.pathname.slice(4);
+          input = u.toString();
+        }
+      } catch {}
+      return orig(input, init);
+    };
+  } catch {}
 })();`;
 run().catch((e) => { console.error(e); process.exit(1); });
