@@ -2,9 +2,13 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 const REPO = 'DMontgomery40/agro';
-const REF = 'live-demo'; // branch to fetch GUI from
+const REF = 'live-demo'; // branch to fetch GUI from (fallback)
 const RAW = `https://raw.githubusercontent.com/${REPO}/${REF}/gui`;
 const OUT = path.resolve('public/agro');
+// Prefer local GUI directory (ensures the FULL app with scripts)
+const LOCAL_DEFAULT = '/Users/davidmontgomery/agro/gui';
+const LOCAL = process.env.AGRO_GUI_LOCAL || LOCAL_DEFAULT;
+const LOCAL_MODE = fs.existsSync(LOCAL);
 
 const rootFiles = [
   'index.html',
@@ -53,6 +57,22 @@ async function fetchText(url) {
   if (!r.ok) throw new Error(`Failed fetch ${url}: ${r.status}`);
   return await r.text();
 }
+function readLocalText(sub) {
+  const p = path.join(LOCAL, sub);
+  return fs.readFileSync(p, 'utf8');
+}
+function copyLocalDir(dir) {
+  const srcDir = path.join(LOCAL, dir);
+  if (!fs.existsSync(srcDir)) return;
+  const entries = fs.readdirSync(srcDir);
+  for (const f of entries) {
+    const src = path.join(srcDir, f);
+    const dest = path.join(OUT, dir, f);
+    if (fs.statSync(src).isFile()) {
+      writeFile(dest, fs.readFileSync(src));
+    }
+  }
+}
 
 function writeFile(p, content) {
   ensureDir(path.dirname(p));
@@ -86,22 +106,34 @@ function rewriteIndexHtml(html) {
 async function run() {
   ensureDir(OUT);
 
-  // Fetch root files
-  for (const f of rootFiles) {
-    const url = `${RAW}/${f}`;
-    const dest = path.join(OUT, f);
-    let content = await fetchText(url);
-    if (f === 'index.html') content = rewriteIndexHtml(content);
-    writeFile(dest, content);
-  }
-
-  // Fetch dir files
-  for (const [dir, files] of Object.entries(dirs)) {
-    for (const f of files) {
-      const url = `${RAW}/${dir}/${f}`;
-      const dest = path.join(OUT, dir, f);
-      const content = await fetchText(url);
+  if (LOCAL_MODE) {
+    // Copy from local agro/gui for full fidelity
+    for (const f of rootFiles) {
+      const dest = path.join(OUT, f);
+      let content = readLocalText(f);
+      if (f === 'index.html') content = rewriteIndexHtml(content);
       writeFile(dest, content);
+    }
+    // Copy entire js/css directories (not just a fixed list)
+    copyLocalDir('js');
+    copyLocalDir('css');
+    copyLocalDir('profiles');
+  } else {
+    // Remote fallback (GitHub raw)
+    for (const f of rootFiles) {
+      const url = `${RAW}/${f}`;
+      const dest = path.join(OUT, f);
+      let content = await fetchText(url);
+      if (f === 'index.html') content = rewriteIndexHtml(content);
+      writeFile(dest, content);
+    }
+    for (const [dir, files] of Object.entries(dirs)) {
+      for (const f of files) {
+        const url = `${RAW}/${dir}/${f}`;
+        const dest = path.join(OUT, dir, f);
+        const content = await fetchText(url);
+        writeFile(dest, content);
+      }
     }
   }
 
