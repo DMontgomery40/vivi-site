@@ -4,9 +4,13 @@
   "version": "0.0.1",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
+    "prepare-agro": "node scripts/prepare-agro-gui.mjs",
+    "dev": "pnpm run prepare-agro && vite",
+    "build": "pnpm run prepare-agro && vite build",
     "preview": "vite preview --port 5173"
+  },
+  "engines": {
+    "node": ">=18"
   },
   "devDependencies": {
     "@types/node": "^20.11.30",

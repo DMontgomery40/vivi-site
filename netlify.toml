@@ -5,23 +5,28 @@ publish = "dist"
 [context.production]
 command = "corepack pnpm i && corepack pnpm build"
 
+# Keep the Faxbot demo at /admin
 [[redirects]]
 from = "/admin"
 to = "https://faxbot.net/admin-demo/"
 status = 302
 force = true
 
+# Serve the AGRO GUI directly at /agro
 [[redirects]]
-from = "/rag-calculator"
-to = "/rag-calculator.html"
+from = "/agro"
+to = "/agro/index.html"
 status = 200
-
-[[redirects]]
-from = "/docs/*"
-to = "https://docs.vivified.dev/:splat"
-status = 302
 force = true
 
+# Optional (uncomment when backend is ready):
+# [[redirects]]
+# from = "/api/*"
+# to = "https://agro-api.vivified.dev/api/:splat"
+# status = 200
+# force = true
+
+# SPA fallback (must be last)
 [[redirects]]
 from = "/*"
 to = "/index.html"
