@@ -78,9 +78,10 @@ function rewriteIndexHtml(html) {
     .replace(/(src\s*=\s*\')\/app\.js\b/g, '$1/agro/app.js');
 
   // Inject fetch shim + API override right around core-utils so downstream modules bind the corrected api()
+  const bust = Date.now();
   out = out.replace(
     /<script src=\".*?core-utils\.js\"><\/script>/,
-    '<script src="/agro/fetch-shim.js"></script>\n    <script src="/agro/js/core-utils.js"></script>\n    <script src="/agro/api-base-override.js"></script>'
+    `<script src="/agro/fetch-shim.js?v=${bust}"></script>\n    <script src="/agro/js/core-utils.js?v=${bust}"></script>\n    <script src="/agro/api-base-override.js?v=${bust}"></script>`
   );
 
   // Inject popout scripts (non-module to avoid MIME strictness)

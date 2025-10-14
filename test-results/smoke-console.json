@@ -1,0 +1,126 @@
+[
+  {
+    "type": "warning",
+    "text": "An iframe which has both allow-scripts and allow-same-origin for its sandbox attribute can escape its sandboxing."
+  },
+  {
+    "type": "log",
+    "text": "[CoreUtils] Loaded - API: https://vivified.dev"
+  },
+  {
+    "type": "log",
+    "text": "[UiHelpers] Loaded"
+  },
+  {
+    "type": "log",
+    "text": "[Theme] Loaded"
+  },
+  {
+    "type": "log",
+    "text": "[tabs.js] Module loaded"
+  },
+  {
+    "type": "log",
+    "text": "[config.js] Module loaded"
+  },
+  {
+    "type": "log",
+    "text": "[Health] Loaded"
+  },
+  {
+    "type": "log",
+    "text": "[GitHooks] Loaded"
+  },
+  {
+    "type": "log",
+    "text": "[Keywords] Loaded"
+  },
+  {
+    "type": "log",
+    "text": "[Autotune] Loaded"
+  },
+  {
+    "type": "log",
+    "text": "[Search] Loaded"
+  },
+  {
+    "type": "log",
+    "text": "[Secrets] Loaded"
+  },
+  {
+    "type": "log",
+    "text": "[app.js] Initializing with API: https://vivified.dev"
+  },
+  {
+    "type": "error",
+    "text": "Failed to load resource: the server responded with a status of 404 ()"
+  },
+  {
+    "type": "error",
+    "text": "Failed to load resource: the server responded with a status of 404 ()"
+  },
+  {
+    "type": "error",
+    "text": "Error loading cards: SyntaxError: Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON"
+  },
+  {
+    "type": "error",
+    "text": "Failed to load resource: the server responded with a status of 400 ()"
+  },
+  {
+    "type": "error",
+    "text": "Failed to load prices: SyntaxError: Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON"
+  },
+  {
+    "type": "error",
+    "text": "Failed to load resource: the server responded with a status of 404 ()"
+  },
+  {
+    "type": "error",
+    "text": "Failed to load profiles: SyntaxError: Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON"
+  },
+  {
+    "type": "error",
+    "text": "Failed to load resource: the server responded with a status of 404 ()"
+  },
+  {
+    "type": "warning",
+    "text": "[Keywords] Load failed: SyntaxError: Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON"
+  },
+  {
+    "type": "error",
+    "text": "Failed to load resource: the server responded with a status of 404 ()"
+  },
+  {
+    "type": "error",
+    "text": "Failed to load config: SyntaxError: Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON"
+  },
+  {
+    "type": "error",
+    "text": "[Health] Check failed: SyntaxError: Unexpected token '<', \"<!doctype \"... is not valid JSON"
+  },
+  {
+    "type": "error",
+    "text": "Failed to load resource: the server responded with a status of 404 ()"
+  },
+  {
+    "type": "error",
+    "text": "Failed to load resource: the server responded with a status of 404 ()"
+  },
+  {
+    "type": "error",
+    "text": "Failed to load resource: the server responded with a status of 404 ()"
+  },
+  {
+    "type": "error",
+    "text": "Failed to load resource: the server responded with a status of 404 ()"
+  },
+  {
+    "type": "error",
+    "text": "Failed to load resource: the server responded with a status of 404 ()"
+  },
+  {
+    "type": "error",
+    "text": "Failed to load resource: the server responded with a status of 404 ()"
+  }
+]
