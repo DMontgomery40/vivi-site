@@ -5,12 +5,20 @@
     try {
       window.CoreUtils.API_BASE = BASE;
       window.CoreUtils.api = (p) => {
-        const s = String(p || '');
-        if (s.startsWith('/agro-api/api/')) return BASE + s.slice('/agro-api'.length + 4);
-        if (s.startsWith('/agro-api/')) return BASE + s.slice('/agro-api'.length);
-        if (s.startsWith('/api/')) return BASE + s.slice(4);
-        if (s.startsWith('/')) return BASE + s;
-        return BASE + '/' + s;
+        let s = String(p || '');
+        s = s.replace(/^\/agro-api\/api\//, '/agro-api/').replace(/^\/api\//, '/agro-api/');
+        if (/^https?:\/\//i.test(s)) {
+          const u = new URL(s);
+          if (u.origin === window.location.origin) {
+            u.pathname = u.pathname.replace(/^\/agro-api\/api\//, '/agro-api/').replace(/^\/api\//, '/agro-api/');
+            s = u.toString();
+          }
+        } else if (s.startsWith('/')) {
+          s = BASE + s.replace(/^\/agro-api\//, '/');
+        } else {
+          s = BASE + '/' + s;
+        }
+        return s;
       };
       console.log('[AGRO GUI] API_BASE set to', BASE);
     } catch (e) { console.warn('API override failed', e); }
@@ -25,10 +33,10 @@
             if (typeof input === 'string') {
               if (input.startsWith('/agro-api/api/')) input = '/agro-api' + input.slice('/agro-api'.__len__() + 4);
               else if (input.startsWith('/api/')) input = '/agro-api' + input.slice(4);
-              else if (/^https?:///i.test(input)) {
+              else if (/^https?:\/\//i.test(input)) {
                 const u = new URL(input);
                 if (u.origin === window.location.origin) {
-                  if (u.pathname.startsWith('/agro-api/api/')) u.pathname = '/agro-api' + u.pathname.slice('/agro-api'.__len__() + 4);
+                  if (u.pathname.startsWith('/agro-api/api/')) u.pathname = u.pathname.replace(/^\/agro-api\/api\//, '/agro-api/');
                   else if (u.pathname.startsWith('/api/')) u.pathname = '/agro-api' + u.pathname.slice(4);
                   input = u.toString();
                 }
