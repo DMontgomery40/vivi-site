@@ -73,6 +73,13 @@ function rewriteIndexHtml(html) {
       '  \n  <script type="module" src="./wire-popout.js"></script>\n</body>'
     );
   }
+  // Inject API base override to route GUI calls to /agro-api/* (avoids clobbering site /api)
+  if (!out.includes('api-base-override.js')) {
+    out = out.replace(
+      /<\/body>/i,
+      '  \n  <script src="./api-base-override.js"></script>\n</body>'
+    );
+  }
   return out;
 }
 
@@ -101,6 +108,7 @@ async function run() {
   // Write popout helpers
   writeFile(path.join(OUT, 'popout-helper.js'), POP_HELPER);
   writeFile(path.join(OUT, 'wire-popout.js'), WIRE_POPOUT);
+  writeFile(path.join(OUT, 'api-base-override.js'), API_BASE_OVERRIDE);
 }
 
 // Inline helper file contents to avoid extra tooling
@@ -168,4 +176,18 @@ if (typeof fetch !== 'function') {
   console.error('Global fetch not available. Use Node 18+ on Netlify.');
   process.exit(1);
 }
+
+// Force GUI to use same-origin /agro-api/* for backend calls
+const API_BASE_OVERRIDE = `(() => {
+  const BASE = window.location.origin + '/agro-api';
+  function attach() {
+    if (!window.CoreUtils) return;
+    try {
+      window.CoreUtils.API_BASE = BASE;
+      window.CoreUtils.api = (p) => BASE + p;
+      console.log('[AGRO GUI] API_BASE set to', BASE);
+    } catch (e) { console.warn('API override failed', e); }
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', attach); else attach();
+})();`;
 run().catch((e) => { console.error(e); process.exit(1); });

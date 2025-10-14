@@ -19,13 +19,14 @@ to = "/agro/index.html"
 status = 200
 force = true
 
+# SPA fallback (must be last)
+
 [[redirects]]
-from = "/api/*"
+from = "/agro-api/*"
 to = "https://01589e7f-a5a7-4d85-a1c3-f764243a647a.cfargotunnel.com/api/:splat"
 status = 200
 force = true
 
-# SPA fallback (must be last)
 [[redirects]]
 from = "/*"
 to = "/index.html"
