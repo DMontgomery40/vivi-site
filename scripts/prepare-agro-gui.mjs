@@ -142,6 +142,21 @@ async function run() {
   writeFile(path.join(OUT, 'wire-popout.js'), WIRE_POPOUT);
   writeFile(path.join(OUT, 'fetch-shim.js'), FETCH_SHIM);
   writeFile(path.join(OUT, 'api-base-override.js'), API_BASE_OVERRIDE);
+  // Normalize cost_logic.js at build time to avoid double /api prefixes
+  try {
+    const p = path.join(OUT, 'js', 'cost_logic.js');
+    if (fs.existsSync(p)) {
+      let s = fs.readFileSync(p, 'utf8');
+      if (!s.includes('CoreUtils.api')) {
+        s = s.replace("base + '/api/cost/estimate_pipeline'", "(window.CoreUtils&&CoreUtils.api?CoreUtils.api('/api/cost/estimate_pipeline'):base+'/cost/estimate_pipeline')");
+        s = s.replace("base + '/api/cost/estimate'", "(window.CoreUtils&&CoreUtils.api?CoreUtils.api('/api/cost/estimate'):base+'/cost/estimate')");
+        fs.writeFileSync(p, s);
+        console.log('Patched cost_logic.js to use CoreUtils.api for cost endpoints');
+      }
+    }
+  } catch (e) {
+    console.warn('Could not normalize cost_logic.js:', e);
+  }
 
   // Enforce API base default to /agro-api when served under /agro, regardless of upstream core-utils.js
   try {

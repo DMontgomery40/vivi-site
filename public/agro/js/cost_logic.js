@@ -28,8 +28,8 @@
     try{
       const payload = buildPayloadFromUI();
       const base = (apiBase||'').replace(/\/$/,'');
-      let r = await fetch(base + '/api/cost/estimate_pipeline', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload) });
-      if (!r.ok) r = await fetch(base + '/api/cost/estimate', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload) });
+      let r = await fetch((window.CoreUtils&&CoreUtils.api?CoreUtils.api('/api/cost/estimate_pipeline'):base+'/cost/estimate_pipeline'), { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload) });
+      if (!r.ok) r = await fetch((window.CoreUtils&&CoreUtils.api?CoreUtils.api('/api/cost/estimate'):base+'/cost/estimate'), { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload) });
       if (!r.ok) throw new Error(await r.text() || 'Cost estimate failed');
       return await r.json();
     }catch(e){ throw e; }
