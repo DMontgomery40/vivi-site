@@ -23,7 +23,14 @@
   try { window.API_BASE = API_BASE; } catch {}
 
   // Helper: Construct full API URL
-  const api = (p) => `${API_BASE}${p}`;
+  const api = (p) => {
+  const s = String(p || '');
+  if (s.startsWith('/agro-api/api/')) return API_BASE + s.slice('/agro-api'.length + 4);
+  if (s.startsWith('/agro-api/')) return API_BASE + s.slice('/agro-api'.length);
+  if (s.startsWith('/api/')) return API_BASE + s.slice(4);
+  if (s.startsWith('/')) return API_BASE + s;
+  return API_BASE + '/' + s;
+};
 
   // Helper: Query selector (single element)
   const $ = (sel) => document.querySelector(sel);

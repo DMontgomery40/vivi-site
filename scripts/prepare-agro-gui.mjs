@@ -154,10 +154,13 @@ async function run() {
         "if (u.protocol.startsWith('http')) { if (u.pathname.startsWith('/agro')) return u.origin + '/agro-api'; return u.origin; }"
       );
       // Strengthen api() to normalize '/api/*' and de-dupe '/agro-api/api/*'
-      s = s.replace(
-        /const api = \(p\) => `\$\{API_BASE\}`\$\{p\}`;?/,
-        "const api = (p) => {\n  const s = String(p || '');\n  if (s.startsWith('/agro-api/api/')) return API_BASE + s.slice('/agro-api'.length + 4);\n  if (s.startsWith('/agro-api/')) return API_BASE + s.slice('/agro-api'.length);\n  if (s.startsWith('/api/')) return API_BASE + s.slice(4);\n  if (s.startsWith('/')) return API_BASE + s;\n  return API_BASE + '/' + s;\n};"
-      );
+      const SIMPLE_API_SIG = "const api = (p) => `${API_BASE}${p}`;";
+      if (s.includes(SIMPLE_API_SIG)) {
+        s = s.replace(
+          SIMPLE_API_SIG,
+          "const api = (p) => {\n  const s = String(p || '');\n  if (s.startsWith('/agro-api/api/')) return API_BASE + s.slice('/agro-api'.length + 4);\n  if (s.startsWith('/agro-api/')) return API_BASE + s.slice('/agro-api'.length);\n  if (s.startsWith('/api/')) return API_BASE + s.slice(4);\n  if (s.startsWith('/')) return API_BASE + s;\n  return API_BASE + '/' + s;\n};"
+        );
+      }
       if (s !== before) {
         fs.writeFileSync(p, s);
         console.log('Patched core-utils.js to default API_BASE to /agro-api under /agro');
