@@ -12,6 +12,17 @@ status = 302
 force = true
 
 [[redirects]]
+from = "/rag-calculator"
+to = "/rag-calculator.html"
+status = 200
+
+[[redirects]]
+from = "/docs/*"
+to = "https://docs.vivified.dev/:splat"
+status = 302
+force = true
+
+[[redirects]]
 from = "/*"
 to = "/index.html"
 status = 200
