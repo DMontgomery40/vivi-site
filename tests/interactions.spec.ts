@@ -98,4 +98,20 @@ test('AGRO GUI basic interactions: reload, index, chat, editor', async ({ page }
     await expect(ans1).toBeVisible();
     await expect(ans1).not.toHaveText(/Error/i);
   }
+
+  // Analytics → Cost: calculate cost should succeed (no Not Found)
+  const dialogs: string[] = [];
+  page.on('dialog', async (d) => { dialogs.push(d.message()); await d.dismiss(); });
+  await page.locator('button[data-tab="analytics"]').click();
+  await page.locator('.subtab-btn[data-subtab="analytics-cost"]').first().click();
+  const btnEstimate = page.locator('#btn-estimate');
+  await expect(btnEstimate).toBeVisible();
+  await btnEstimate.click();
+  // Daily/Monthly should populate with $...
+  const daily = page.locator('#cost-daily');
+  const monthly = page.locator('#cost-monthly');
+  await expect.poll(async () => (await daily.textContent() || '').trim()).not.toBe('—');
+  await expect.poll(async () => (await monthly.textContent() || '').trim()).not.toBe('—');
+  // No failure dialogs like Not Found
+  expect(dialogs.join('\n')).not.toContain('Not Found');
 });
