@@ -86,6 +86,15 @@ function rewriteIndexHtml(html) {
     .replace(/(href\s*=\s*\")\/gui\//g, '$1./')
     .replace(/(src\s*=\s*\")\/gui\//g, '$1./');
 
+  // Guard rails: rewrite any accidental root-absolute assets to relative
+  out = out
+    .replace(/(src\s*=\s*\")\/js\//g, '$1./js/')
+    .replace(/(src\s*=\s*\')\/js\//g, '$1./js/')
+    .replace(/(href\s*=\s*\")\/css\//g, '$1./css/')
+    .replace(/(href\s*=\s*\')\/css\//g, '$1./css/')
+    .replace(/(src\s*=\s*\")\/app\.js\b/g, '$1./app.js')
+    .replace(/(src\s*=\s*\')\/app\.js\b/g, '$1./app.js');
+
   // Inject popout scripts (non-module to avoid MIME strictness)
   if (!out.includes('wire-popout.js')) {
     out = out.replace(
