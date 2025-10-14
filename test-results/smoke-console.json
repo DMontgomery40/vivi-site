@@ -50,49 +50,5 @@
   {
     "type": "log",
     "text": "[app.js] Initializing with API: https://vivified.dev/agro-api"
-  },
-  {
-    "type": "error",
-    "text": "Failed to load resource: the server responded with a status of 404 ()"
-  },
-  {
-    "type": "error",
-    "text": "Failed to load resource: the server responded with a status of 404 ()"
-  },
-  {
-    "type": "error",
-    "text": "Failed to load resource: the server responded with a status of 404 ()"
-  },
-  {
-    "type": "error",
-    "text": "Failed to load resource: the server responded with a status of 404 ()"
-  },
-  {
-    "type": "error",
-    "text": "Failed to load resource: the server responded with a status of 404 ()"
-  },
-  {
-    "type": "error",
-    "text": "Failed to load resource: the server responded with a status of 404 ()"
-  },
-  {
-    "type": "error",
-    "text": "Failed to load resource: the server responded with a status of 404 ()"
-  },
-  {
-    "type": "error",
-    "text": "Failed to load resource: the server responded with a status of 404 ()"
-  },
-  {
-    "type": "error",
-    "text": "Failed to load resource: the server responded with a status of 404 ()"
-  },
-  {
-    "type": "error",
-    "text": "Failed to load resource: the server responded with a status of 404 ()"
-  },
-  {
-    "type": "error",
-    "text": "Failed to load resource: the server responded with a status of 404 ()"
   }
 ]

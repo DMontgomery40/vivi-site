@@ -41,6 +41,26 @@ to = "https://blonde-champion-counter-eddie.trycloudflare.com/api/:splat"
 status = 200
 force = true
 
+# Special-case editor + editor health to backend non-/api routes
+[[redirects]]
+from = "/agro-api/health/editor"
+to = "https://blonde-champion-counter-eddie.trycloudflare.com/health/editor"
+status = 200
+force = true
+
+[[redirects]]
+from = "/agro-api/editor/*"
+to = "https://blonde-champion-counter-eddie.trycloudflare.com/editor/:splat"
+status = 200
+force = true
+
+# Allow direct /editor/* iframe loads (popout, etc.)
+[[redirects]]
+from = "/editor/*"
+to = "https://blonde-champion-counter-eddie.trycloudflare.com/editor/:splat"
+status = 200
+force = true
+
 
 ## Back-compat for cached pages that still request root /js or /css
 [[redirects]]

@@ -1,32 +1,32 @@
 [
   {
-    "url": "https://vivified.dev/agro-api/api/env/reload",
-    "status": 404,
+    "url": "https://vivified.dev/agro-api/env/reload",
+    "status": 200,
     "ct": "application/json"
   },
   {
-    "url": "https://vivified.dev/agro-api/api/prices",
-    "status": 404,
+    "url": "https://vivified.dev/agro-api/prices",
+    "status": 200,
     "ct": "application/json"
   },
   {
-    "url": "https://vivified.dev/agro-api/api/profiles",
-    "status": 404,
+    "url": "https://vivified.dev/agro-api/profiles",
+    "status": 200,
     "ct": "application/json"
   },
   {
-    "url": "https://vivified.dev/agro-api/api/keywords",
-    "status": 404,
+    "url": "https://vivified.dev/agro-api/keywords",
+    "status": 200,
     "ct": "application/json"
   },
   {
-    "url": "https://vivified.dev/agro-api/api/cards",
-    "status": 404,
+    "url": "https://vivified.dev/agro-api/cards",
+    "status": 200,
     "ct": "application/json"
   },
   {
-    "url": "https://vivified.dev/agro-api/api/config",
-    "status": 404,
+    "url": "https://vivified.dev/agro-api/config",
+    "status": 200,
     "ct": "application/json"
   },
   {
@@ -35,8 +35,8 @@
     "ct": "application/json"
   },
   {
-    "url": "https://vivified.dev/agro-api/api/autotune/status",
-    "status": 404,
+    "url": "https://vivified.dev/agro-api/autotune/status",
+    "status": 200,
     "ct": "application/json"
   },
   {
@@ -45,23 +45,23 @@
     "ct": "application/json"
   },
   {
-    "url": "https://vivified.dev/agro-api/api/autotune/status",
-    "status": 404,
+    "url": "https://vivified.dev/agro-api/autotune/status",
+    "status": 200,
     "ct": "application/json"
   },
   {
-    "url": "https://vivified.dev/agro-api/api/cards",
-    "status": 404,
+    "url": "https://vivified.dev/agro-api/cards",
+    "status": 200,
     "ct": "application/json"
   },
   {
-    "url": "https://vivified.dev/agro-api/api/index/status",
-    "status": 404,
+    "url": "https://vivified.dev/agro-api/index/status",
+    "status": 200,
     "ct": "application/json"
   },
   {
-    "url": "https://vivified.dev/agro-api/api/git/hooks/status",
-    "status": 404,
+    "url": "https://vivified.dev/agro-api/git/hooks/status",
+    "status": 200,
     "ct": "application/json"
   }
 ]
