@@ -19,34 +19,16 @@ const rootFiles = [
   'autotune_policy.json',
 ];
 
-const dirs = {
-  css: ['storage-calculator.css', 'tokens.css'],
-  profiles: ['defaults.json', 'min_local.json', 'onboard-wizard-test-project.json', 'pw-test.json'],
-  js: [
-    'autoprofile_v2.js',
-    'autotune.js',
-    'chat.js',
-    'config.js',
-    'core-utils.js',
-    'cost_logic.js',
-    'eval_runner.js',
-    'git-hooks.js',
-    'golden_questions.js',
-    'health.js',
-    'index-display.js',
-    'keywords.js',
-    'profile_logic.js',
-    'profile_renderer.js',
-    'search.js',
-    'secrets.js',
-    'storage-calculator-template.js',
-    'storage-calculator.js',
-    'tabs.js',
-    'theme.js',
-    'tooltips.js',
-    'ui-helpers.js',
-  ],
-};
+// When building on Netlify, we don't have the local agro/ path. Instead of a
+// static list (which easily goes stale), fetch the directory listing from the
+// GitHub Contents API so we always copy every file under gui/js, gui/css, gui/profiles.
+async function listRemoteDir(dir) {
+  const api = `https://api.github.com/repos/${REPO}/contents/gui/${dir}?ref=${REF}`;
+  const r = await fetch(api);
+  if (!r.ok) throw new Error(`Failed list ${dir}: ${r.status}`);
+  const items = await r.json();
+  return (Array.isArray(items) ? items : []).filter(x => x && x.type === 'file').map(x => x.name);
+}
 
 function ensureDir(p) {
   fs.mkdirSync(p, { recursive: true });
@@ -134,7 +116,7 @@ async function run() {
     copyLocalDir('css');
     copyLocalDir('profiles');
   } else {
-    // Remote fallback (GitHub raw)
+    // Remote fallback (GitHub raw + dynamic listing)
     for (const f of rootFiles) {
       const url = `${RAW}/${f}`;
       const dest = path.join(OUT, f);
@@ -142,7 +124,9 @@ async function run() {
       if (f === 'index.html') content = rewriteIndexHtml(content);
       writeFile(dest, content);
     }
-    for (const [dir, files] of Object.entries(dirs)) {
+    for (const dir of ['js','css','profiles']) {
+      let files = [];
+      try { files = await listRemoteDir(dir); } catch (e) { console.error('List failed', dir, e); }
       for (const f of files) {
         const url = `${RAW}/${dir}/${f}`;
         const dest = path.join(OUT, dir, f);
