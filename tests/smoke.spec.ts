@@ -69,6 +69,13 @@ test('AGRO GUI loads and routes API calls', async ({ page }) => {
   expect(cards.ok).toBeTruthy();
   expect(String(cards.ct)).toContain('application/json');
 
+  // Editor health (GET /agro-api/health/editor)
+  const editorHealth = await page.evaluate(async () => {
+    const res = await fetch('/agro-api/health/editor');
+    return { ok: res.ok, status: res.status, ct: res.headers.get('content-type') };
+  });
+  expect(editorHealth.ok).toBeTruthy();
+
   // Assertions and diagnostics at the end
   console.log('Console (all):', consoleAll);
   console.log('API responses seen:', apiResponses);
