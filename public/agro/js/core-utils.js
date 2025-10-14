@@ -11,7 +11,7 @@
       const override = q.get('api');
       if (override) return override.replace(/\/$/, '');
       // Prefer same-origin whenever we were served over HTTP(S)
-      if (u.protocol.startsWith('http')) return u.origin;
+      if (u.protocol.startsWith('http')) { if (u.pathname.startsWith('/agro')) return u.origin + '/agro-api'; return u.origin; }
       // Fallback to local default
       return 'http://127.0.0.1:8012';
     } catch {

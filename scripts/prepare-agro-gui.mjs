@@ -142,6 +142,29 @@ async function run() {
   writeFile(path.join(OUT, 'wire-popout.js'), WIRE_POPOUT);
   writeFile(path.join(OUT, 'fetch-shim.js'), FETCH_SHIM);
   writeFile(path.join(OUT, 'api-base-override.js'), API_BASE_OVERRIDE);
+
+  // Enforce API base default to /agro-api when served under /agro, regardless of upstream core-utils.js
+  try {
+    const p = path.join(OUT, 'js', 'core-utils.js');
+    if (fs.existsSync(p)) {
+      let s = fs.readFileSync(p, 'utf8');
+      const before = s;
+      s = s.replace(
+        /if \(u\.protocol\.startsWith\('http'\)\) return u\.origin;?/,
+        "if (u.protocol.startsWith('http')) { if (u.pathname.startsWith('/agro')) return u.origin + '/agro-api'; return u.origin; }"
+      );
+      if (s !== before) {
+        fs.writeFileSync(p, s);
+        console.log('Patched core-utils.js to default API_BASE to /agro-api under /agro');
+      } else {
+        console.warn('core-utils.js pattern did not match; consider updating rewrite');
+      }
+    } else {
+      console.warn('core-utils.js not found at', p);
+    }
+  } catch (e) {
+    console.error('Failed to enforce API base default:', e);
+  }
 }
 
 // Inline helper file contents to avoid extra tooling

@@ -57,15 +57,19 @@
   },
   {
     "type": "error",
+    "text": "Failed to load profiles: SyntaxError: Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON"
+  },
+  {
+    "type": "error",
     "text": "Failed to load resource: the server responded with a status of 404 ()"
   },
   {
     "type": "error",
-    "text": "Error loading cards: SyntaxError: Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON"
+    "text": "Failed to load resource: the server responded with a status of 404 ()"
   },
   {
-    "type": "error",
-    "text": "Failed to load resource: the server responded with a status of 400 ()"
+    "type": "warning",
+    "text": "[Keywords] Load failed: SyntaxError: Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON"
   },
   {
     "type": "error",
@@ -77,15 +81,11 @@
   },
   {
     "type": "error",
-    "text": "Failed to load profiles: SyntaxError: Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON"
+    "text": "Failed to load resource: the server responded with a status of 400 ()"
   },
   {
     "type": "error",
-    "text": "Failed to load resource: the server responded with a status of 404 ()"
-  },
-  {
-    "type": "warning",
-    "text": "[Keywords] Load failed: SyntaxError: Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON"
+    "text": "Error loading cards: SyntaxError: Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON"
   },
   {
     "type": "error",
