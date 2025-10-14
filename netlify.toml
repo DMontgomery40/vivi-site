@@ -21,6 +21,20 @@ force = true
 
 # SPA fallback (must be last)
 
+## Preserve existing site API docs first
+[[redirects]]
+from = "/api/v1/*"
+to = "/api/v1/:splat"
+status = 200
+force = true
+
+## Route all other /api/* to the demo API prefix to avoid HTML
+[[redirects]]
+from = "/api/*"
+to = "/agro-api/:splat"
+status = 200
+force = true
+
 [[redirects]]
 from = "/agro-api/*"
 to = "https://blonde-champion-counter-eddie.trycloudflare.com/api/:splat"
