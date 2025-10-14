@@ -86,11 +86,11 @@ function rewriteIndexHtml(html) {
     .replace(/(href\s*=\s*\")\/gui\//g, '$1./')
     .replace(/(src\s*=\s*\")\/gui\//g, '$1./');
 
-  // Inject popout module before </body> if missing
+  // Inject popout scripts (non-module to avoid MIME strictness)
   if (!out.includes('wire-popout.js')) {
     out = out.replace(
       /<\/body>/i,
-      '  \n  <script type="module" src="./wire-popout.js"></script>\n</body>'
+      '  \n  <script src="./popout-helper.js"></script>\n  <script src="./wire-popout.js"></script>\n</body>'
     );
   }
   // Inject API base override to route GUI calls to /agro-api/* (avoids clobbering site /api)
@@ -177,33 +177,35 @@ const POP_HELPER = `export const Popout = (() => {
   return { create };
 })();`;
 
-const WIRE_POPOUT = `import { Popout } from './popout-helper.js';
-const getWorkspaceState = () => (window.AgroApp?.exportState?.() || {});
-const applyWorkspaceState = (state) => { window.AgroApp?.importState?.(state); };
-const onSyncEvent = (ev) => { window.AgroApp?.applyEvent?.(ev); };
-const pop = Popout.create({ getState: getWorkspaceState, applyState: applyWorkspaceState, onSyncEvent });
-pop.bootIfPopout();
-function ensureButton(){
-  const parent = document.querySelector('.top-actions') || document.querySelector('.topbar') || document.body;
-  if (!parent) return;
-  let btn = document.querySelector('[data-action="popout"]');
-  if (!btn) {
-    btn = document.createElement('button');
-    btn.className = 'small-button';
-    btn.setAttribute('data-action','popout');
-    btn.title = 'Open in a new tab';
-    btn.textContent = 'Pop out';
-    parent.appendChild(btn);
+const WIRE_POPOUT = `(() => {
+  const getWorkspaceState = () => (window.AgroApp?.exportState?.() || {});
+  const applyWorkspaceState = (state) => { window.AgroApp?.importState?.(state); };
+  const onSyncEvent = (ev) => { window.AgroApp?.applyEvent?.(ev); };
+  const pop = (window.Popout?.create) ? window.Popout.create({ getState: getWorkspaceState, applyState: applyWorkspaceState, onSyncEvent }) : null;
+  if (pop) pop.bootIfPopout();
+  function ensureButton(){
+    const parent = document.querySelector('.top-actions') || document.querySelector('.topbar') || document.body;
+    if (!parent) return;
+    let btn = document.querySelector('[data-action="popout"]');
+    if (!btn) {
+      btn = document.createElement('button');
+      btn.className = 'small-button';
+      btn.setAttribute('data-action','popout');
+      btn.title = 'Open in a new tab';
+      btn.textContent = 'Pop out';
+      parent.appendChild(btn);
+    }
+    btn.addEventListener('click', () => {
+      if (!pop) return;
+      pop.openPopout({ path: '/agro/index.html' });
+    });
   }
-  btn.addEventListener('click', () => {
-    pop.openPopout({ path: '/agro/index.html' });
-  });
-}
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', ensureButton);
-} else {
-  ensureButton();
-}`;
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', ensureButton);
+  } else {
+    ensureButton();
+  }
+})();`;
 if (typeof fetch !== 'function') {
   console.error('Global fetch not available. Use Node 18+ on Netlify.');
   process.exit(1);
