@@ -81,38 +81,38 @@ function writeFile(p, content) {
 }
 
 function rewriteIndexHtml(html) {
-  // Rewrite asset paths from /gui/... to ./...
+  // Rewrite asset paths from /gui/... to absolute under /agro for robust base-url handling
   let out = html
-    .replace(/(href\s*=\s*\")\/gui\//g, '$1./')
-    .replace(/(src\s*=\s*\")\/gui\//g, '$1./');
+    .replace(/(href\s*=\s*\")\/gui\//g, '$1/agro/')
+    .replace(/(src\s*=\s*\")\/gui\//g, '$1/agro/');
 
   // Guard rails: rewrite any accidental root-absolute assets to relative
   out = out
-    .replace(/(src\s*=\s*\")\/js\//g, '$1./js/')
-    .replace(/(src\s*=\s*\')\/js\//g, '$1./js/')
-    .replace(/(href\s*=\s*\")\/css\//g, '$1./css/')
-    .replace(/(href\s*=\s*\')\/css\//g, '$1./css/')
-    .replace(/(src\s*=\s*\")\/app\.js\b/g, '$1./app.js')
-    .replace(/(src\s*=\s*\')\/app\.js\b/g, '$1./app.js');
+    .replace(/(src\s*=\s*\")\/js\//g, '$1/agro/js/')
+    .replace(/(src\s*=\s*\')\/js\//g, '$1/agro/js/')
+    .replace(/(href\s*=\s*\")\/css\//g, '$1/agro/css/')
+    .replace(/(href\s*=\s*\')\/css\//g, '$1/agro/css/')
+    .replace(/(src\s*=\s*\")\/app\.js\b/g, '$1/agro/app.js')
+    .replace(/(src\s*=\s*\')\/app\.js\b/g, '$1/agro/app.js');
 
   // Inject fetch shim + API override right around core-utils so downstream modules bind the corrected api()
   out = out.replace(
-    /<script src=\"\.\/js\/core-utils\.js\"><\/script>/,
-    '<script src="./fetch-shim.js"></script>\n    <script src="./js/core-utils.js"></script>\n    <script src="./api-base-override.js"></script>'
+    /<script src=\".*?core-utils\.js\"><\/script>/,
+    '<script src="/agro/fetch-shim.js"></script>\n    <script src="/agro/js/core-utils.js"></script>\n    <script src="/agro/api-base-override.js"></script>'
   );
 
   // Inject popout scripts (non-module to avoid MIME strictness)
   if (!out.includes('wire-popout.js')) {
     out = out.replace(
       /<\/body>/i,
-      '  \n  <script src="./popout-helper.js"></script>\n  <script src="./wire-popout.js"></script>\n</body>'
+      '  \n  <script src="/agro/popout-helper.js"></script>\n  <script src="/agro/wire-popout.js"></script>\n</body>'
     );
   }
   // Inject API base override to route GUI calls to /agro-api/* (avoids clobbering site /api)
   if (!out.includes('api-base-override.js')) {
     out = out.replace(
       /<\/body>/i,
-      '  \n  <script src="./api-base-override.js"></script>\n</body>'
+      '  \n  <script src="/agro/api-base-override.js"></script>\n</body>'
     );
   }
   return out;
