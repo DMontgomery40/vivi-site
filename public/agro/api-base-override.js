@@ -4,7 +4,14 @@
     if (!window.CoreUtils) return;
     try {
       window.CoreUtils.API_BASE = BASE;
-      window.CoreUtils.api = (p) => BASE + p;
+      window.CoreUtils.api = (p) => {
+        const s = String(p || '');
+        if (s.startsWith('/agro-api/api/')) return BASE + s.slice('/agro-api'.length + 4);
+        if (s.startsWith('/agro-api/')) return BASE + s.slice('/agro-api'.length);
+        if (s.startsWith('/api/')) return BASE + s.slice(4);
+        if (s.startsWith('/')) return BASE + s;
+        return BASE + '/' + s;
+      };
       console.log('[AGRO GUI] API_BASE set to', BASE);
     } catch (e) { console.warn('API override failed', e); }
 
