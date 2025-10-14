@@ -23,7 +23,7 @@ force = true
 
 [[redirects]]
 from = "/agro-api/*"
-to = "https://01589e7f-a5a7-4d85-a1c3-f764243a647a.cfargotunnel.com/api/:splat"
+to = "https://blonde-champion-counter-eddie.trycloudflare.com/api/:splat"
 status = 200
 force = true
 
