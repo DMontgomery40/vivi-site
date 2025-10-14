@@ -35,13 +35,7 @@ to = "/agro-api/:splat"
 status = 200
 force = true
 
-[[redirects]]
-from = "/agro-api/*"
-to = "https://blonde-champion-counter-eddie.trycloudflare.com/api/:splat"
-status = 200
-force = true
-
-# Special-case editor + editor health to backend non-/api routes
+## Special-case editor + editor health to backend non-/api routes (must come before generic /agro-api/* rule)
 [[redirects]]
 from = "/agro-api/health/editor"
 to = "https://blonde-champion-counter-eddie.trycloudflare.com/health/editor"
@@ -51,6 +45,12 @@ force = true
 [[redirects]]
 from = "/agro-api/editor/*"
 to = "https://blonde-champion-counter-eddie.trycloudflare.com/editor/:splat"
+status = 200
+force = true
+
+[[redirects]]
+from = "/agro-api/*"
+to = "https://blonde-champion-counter-eddie.trycloudflare.com/api/:splat"
 status = 200
 force = true
 
