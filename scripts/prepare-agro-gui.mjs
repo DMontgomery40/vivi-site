@@ -281,6 +281,18 @@ const FETCH_SHIM = `(() => {
       } catch {}
       return orig(input, init);
     };
+    // Also rewrite XMLHttpRequest URLs
+    if (window.XMLHttpRequest) {
+      const Open = window.XMLHttpRequest.prototype.open;
+      window.XMLHttpRequest.prototype.open = function(method, url, ...rest) {
+        try {
+          if (typeof url === 'string' && url.startsWith('/api/')) {
+            url = '/agro-api' + url.slice(4);
+          }
+        } catch {}
+        return Open.call(this, method, url, ...rest);
+      };
+    }
   } catch {}
 })();`;
 run().catch((e) => { console.error(e); process.exit(1); });
