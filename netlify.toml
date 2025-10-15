@@ -28,7 +28,7 @@ to = "/api/v1/:splat"
 status = 200
 force = true
 
-## Route all other /api/* to the demo API prefix to avoid HTML
+## Route all other /api/* to the demo API prefix so we don't collide with real site APIs
 [[redirects]]
 from = "/api/*"
 to = "/agro-api/:splat"
