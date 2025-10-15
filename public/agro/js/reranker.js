@@ -23,35 +23,35 @@ function addFeedbackButtons(messageElement, eventId) {
     if (!eventId) return;
     
     const feedbackDiv = document.createElement('div');
-    feedbackDiv.style.cssText = 'margin-top:12px; padding:12px; background:#0a0a0a; border-radius:6px; border-left:3px solid #9b5eff;';
+    feedbackDiv.style.cssText = 'margin-top:12px; padding:12px; background:var(--card-bg); border-radius:6px; border-left:3px solid var(--link);';
     feedbackDiv.innerHTML = `
         <div style="display:flex; gap:12px; align-items:center; margin-bottom:8px;">
             <button class="feedback-btn" data-event-id="${eventId}" data-signal="thumbsup" 
-                style="background:#00ff88; color:#000; border:none; padding:6px 14px; border-radius:4px; cursor:pointer; font-size:11px; font-weight:600;">
+                style="background:var(--accent); color:var(--accent-contrast); border:none; padding:6px 14px; border-radius:4px; cursor:pointer; font-size:11px; font-weight:600;">
                 👍 Helpful
             </button>
             <button class="feedback-btn" data-event-id="${eventId}" data-signal="thumbsdown"
-                style="background:#ff6b6b; color:#fff; border:none; padding:6px 14px; border-radius:4px; cursor:pointer; font-size:11px; font-weight:600;">
+                style="background:var(--err); color:var(--accent-contrast); border:none; padding:6px 14px; border-radius:4px; cursor:pointer; font-size:11px; font-weight:600;">
                 👎 Not Helpful
             </button>
-            <span style="color:#666;font-size:11px;">or rate:</span>
+            <span style="color:var(--fg-muted);font-size:11px;">or rate:</span>
             ${[1,2,3,4,5].map(n => `<button class="star-btn" data-event-id="${eventId}" data-rating="${n}" 
-                style="background:transparent; color:#ffd700; border:1px solid #444; padding:4px 10px; border-radius:4px; cursor:pointer; font-size:13px;">
+                style="background:transparent; color:var(--warn); border:1px solid var(--line); padding:4px 10px; border-radius:4px; cursor:pointer; font-size:13px;">
                 ${'⭐'.repeat(n)}
             </button>`).join('')}
         </div>
         <details style="margin-top:8px;">
-            <summary style="cursor:pointer; font-size:11px; color:#888;">What was missing? (optional)</summary>
+            <summary style="cursor:pointer; font-size:11px; color:var(--fg-muted);">What was missing? (optional)</summary>
             <textarea class="feedback-note" data-event-id="${eventId}" 
                 placeholder="Help us improve: What information were you looking for?" 
-                style="width:100%; margin-top:8px; padding:8px; background:#000; color:#ddd; border:1px solid #444; border-radius:4px; font-size:11px; font-family:'SF Mono',monospace; resize:vertical; min-height:50px;"></textarea>
+                style="width:100%; margin-top:8px; padding:8px; background: var(--code-bg); color: var(--fg); border:1px solid var(--bg-elev2); border-radius:4px; font-size:11px; font-family:'SF Mono',monospace; resize:vertical; min-height:50px;"></textarea>
             <button class="submit-note-btn" data-event-id="${eventId}"
-                style="margin-top:8px; background:#5b9dff; color:#fff; border:none; padding:4px 12px; border-radius:4px; cursor:pointer; font-size:11px;">
+                style="margin-top:8px; background:var(--link); color: var(--fg); border:none; padding:4px 12px; border-radius:4px; cursor:pointer; font-size:11px;">
                 Submit Note
             </button>
         </details>
-        <div class="feedback-status" style="font-size:11px; color:#666; margin-top:8px;"></div>
-        <div style="font-size:10px; color:#555; margin-top:8px; font-style:italic;">
+        <div class="feedback-status" style="font-size:11px; color:var(--fg-muted); margin-top:8px;"></div>
+        <div style="font-size:10px; color:var(--fg-muted); margin-top:8px; font-style:italic;">
             💡 This helps train search quality (only the reranker, not the chat model)
         </div>
     `;
@@ -102,16 +102,16 @@ async function submitFeedback(eventId, signal, note, feedbackDiv) {
         if (response.ok) {
             const label = signal.startsWith('star') ? `${signal.replace('star', '')} stars` : signal;
             statusSpan.textContent = `✓ Feedback recorded: ${label}`;
-            statusSpan.style.color = '#00ff88';
+            statusSpan.style.color = 'var(--accent)';
             // Disable buttons after feedback
             feedbackDiv.querySelectorAll('.feedback-btn, .star-btn').forEach(b => b.disabled = true);
         } else {
             statusSpan.textContent = '✗ Failed to save';
-            statusSpan.style.color = '#ff6b6b';
+            statusSpan.style.color = 'var(--err)';
         }
     } catch (error) {
         statusSpan.textContent = '✗ Error: ' + error.message;
-        statusSpan.style.color = '#ff6b6b';
+        statusSpan.style.color = 'var(--err)';
     }
 }
 
@@ -203,18 +203,18 @@ function updateRerankerStatusUI(status) {
     
     if (status.running) {
         statusEl.textContent = status.message || `Running ${status.task}...`;
-        statusEl.style.color = '#00ff88';
+        statusEl.style.color = 'var(--accent)';
     } else if (status.result) {
         if (status.result.ok) {
             statusEl.textContent = status.message || 'Task complete';
-            statusEl.style.color = '#00ff88';
+            statusEl.style.color = 'var(--accent)';
         } else {
             statusEl.textContent = status.result.error || 'Task failed';
-            statusEl.style.color = '#ff6b6b';
+            statusEl.style.color = 'var(--err)';
         }
     } else {
         statusEl.textContent = 'Ready';
-        statusEl.style.color = '#666';
+        statusEl.style.color = 'var(--fg-muted)';
     }
 }
 
@@ -229,11 +229,11 @@ function updateTaskResults(status) {
             const match = result.output.match(/mined (\d+) triplets from (\d+) query events/);
             if (match) {
                 mineDiv.innerHTML = `✓ Mined <strong>${match[1]}</strong> triplets from ${match[2]} queries`;
-                mineDiv.style.color = '#00ff88';
+                mineDiv.style.color = 'var(--accent)';
                 updateTripletCount(match[1]);
             } else {
                 mineDiv.textContent = '✓ ' + result.output;
-                mineDiv.style.color = '#00ff88';
+                mineDiv.style.color = 'var(--accent)';
             }
         }
     } else if (task === 'training' && result?.output) {
@@ -244,17 +244,17 @@ function updateTaskResults(status) {
             if (match) {
                 const acc = (parseFloat(match[1]) * 100).toFixed(1);
                 trainDiv.innerHTML = `✓ Training complete! Dev accuracy: <strong>${acc}%</strong>`;
-                trainDiv.style.color = '#00ff88';
+                trainDiv.style.color = 'var(--accent)';
             } else {
                 trainDiv.textContent = '✓ Training complete';
-                trainDiv.style.color = '#00ff88';
+                trainDiv.style.color = 'var(--accent)';
             }
         }
     } else if (task === 'evaluating' && result?.output) {
         const evalDiv = document.getElementById('reranker-eval-result');
         if (evalDiv) {
             evalDiv.textContent = '✓ Evaluation complete';
-            evalDiv.style.color = '#00ff88';
+            evalDiv.style.color = 'var(--accent)';
         }
         // Parse and display metrics
         parseAndDisplayMetrics(result.output);
@@ -284,26 +284,26 @@ function parseAndDisplayMetrics(output) {
         metricsDiv.innerHTML = `
             <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px;">
                 <div>
-                    <div style="font-size:11px; color:#888; margin-bottom:4px;">MRR (Mean Reciprocal Rank)</div>
-                    <div style="font-size:32px; color:#00ff88; font-weight:700;">${mrr}%</div>
-                    <div style="font-size:10px; color:#666;">Evaluated on ${n} items</div>
+                    <div style="font-size:11px; color:var(--fg-muted); margin-bottom:4px;">MRR (Mean Reciprocal Rank)</div>
+                    <div style="font-size:32px; color:var(--accent); font-weight:700;">${mrr}%</div>
+                    <div style="font-size:10px; color:var(--fg-muted);">Evaluated on ${n} items</div>
                 </div>
                 <div style="display:grid; grid-template-columns:repeat(2,1fr); gap:8px;">
                     <div>
-                        <div style="font-size:10px; color:#888;">Hit@1</div>
-                        <div style="font-size:20px; color:#5b9dff; font-weight:600;">${hit1}%</div>
+                        <div style="font-size:10px; color:var(--fg-muted);">Hit@1</div>
+                        <div style="font-size:20px; color:var(--link); font-weight:600;">${hit1}%</div>
                     </div>
                     <div>
-                        <div style="font-size:10px; color:#888;">Hit@3</div>
-                        <div style="font-size:20px; color:#5b9dff; font-weight:600;">${hit3}%</div>
+                        <div style="font-size:10px; color:var(--fg-muted);">Hit@3</div>
+                        <div style="font-size:20px; color:var(--link); font-weight:600;">${hit3}%</div>
                     </div>
                     <div>
-                        <div style="font-size:10px; color:#888;">Hit@5</div>
-                        <div style="font-size:20px; color:#5b9dff; font-weight:600;">${hit5}%</div>
+                        <div style="font-size:10px; color:var(--fg-muted);">Hit@5</div>
+                        <div style="font-size:20px; color:var(--link); font-weight:600;">${hit5}%</div>
                     </div>
                     <div>
-                        <div style="font-size:10px; color:#888;">Hit@10</div>
-                        <div style="font-size:20px; color:#5b9dff; font-weight:600;">${hit10}%</div>
+                        <div style="font-size:10px; color:var(--fg-muted);">Hit@10</div>
+                        <div style="font-size:20px; color:var(--link); font-weight:600;">${hit10}%</div>
                     </div>
                 </div>
             </div>
@@ -315,7 +315,7 @@ function updateTripletCount(count) {
     const countDiv = document.getElementById('reranker-triplet-count');
     if (countDiv) {
         countDiv.textContent = count + ' triplets';
-        countDiv.style.color = '#00ff88';
+        countDiv.style.color = 'var(--accent)';
     }
 }
 
@@ -328,7 +328,7 @@ async function updateRerankerStats() {
         const config = await fetch('/api/config').then(r => r.json()).catch(() => ({env:{}}));
         const enabled = config.env?.AGRO_RERANKER_ENABLED === '1';
         statusDiv.textContent = enabled ? '✓ Enabled' : '✗ Disabled';
-        statusDiv.style.color = enabled ? '#00ff88' : '#ff6b6b';
+        statusDiv.style.color = enabled ? 'var(--accent)' : 'var(--err)';
     }
     
     // Count logged queries
@@ -338,7 +338,7 @@ async function updateRerankerStats() {
             const logsResp = await fetch('/api/reranker/logs/count');
             const data = await logsResp.json();
             queryCountDiv.textContent = (data.count || 0) + ' queries';
-            queryCountDiv.style.color = '#00ff88';
+            queryCountDiv.style.color = 'var(--accent)';
         } catch {
             queryCountDiv.textContent = 'N/A';
         }
@@ -351,7 +351,7 @@ async function updateRerankerStats() {
             const tripletsResp = await fetch('/api/reranker/triplets/count');
             const data = await tripletsResp.json();
             tripletCountDiv.textContent = (data.count || 0) + ' triplets';
-            tripletCountDiv.style.color = '#00ff88';
+            tripletCountDiv.style.color = 'var(--accent)';
         } catch {
             tripletCountDiv.textContent = 'N/A';
         }
@@ -378,9 +378,9 @@ async function updateRerankerStats() {
         const nohitsList = document.getElementById('reranker-nohits-list');
         if (nohitsList && data.queries && data.queries.length > 0) {
             nohitsList.innerHTML = data.queries.map(q => 
-                `<div style="padding:6px; border-bottom:1px solid #222;">
-                    <div style="color:#ddd;">${q.query}</div>
-                    <div style="font-size:10px; color:#666;">${q.ts}</div>
+                `<div style="padding:6px; border-bottom:1px solid var(--line);">
+                    <div style="color: var(--fg);">${q.query}</div>
+                    <div style="font-size:10px; color:var(--fg-muted);">${q.ts}</div>
                 </div>`
             ).join('');
         }
@@ -399,19 +399,19 @@ async function viewLogs() {
         
         if (data.logs && data.logs.length > 0) {
             viewer.innerHTML = data.logs.slice(-50).map(log => {
-                const color = log.type === 'query' ? '#5b9dff' : '#ff9b5e';
-                return `<div style="margin-bottom:8px; padding:8px; background:#000; border-left:2px solid ${color};">
+                const color = log.type === 'query' ? 'var(--link)' : 'var(--warn)';
+                return `<div style="margin-bottom:8px; padding:8px; background: var(--code-bg); border-left:2px solid ${color};">
                     <div style="color:${color}; font-size:10px;">${log.ts} - ${log.type}</div>
-                    <div style="color:#ddd;">${log.query_raw || JSON.stringify(log).slice(0, 100)}</div>
+                    <div style="color: var(--fg);">${log.query_raw || JSON.stringify(log).slice(0, 100)}</div>
                 </div>`;
             }).join('');
             viewer.style.display = 'block';
         } else {
-            viewer.innerHTML = '<div style="color:#666; text-align:center; padding:20px;">No logs found</div>';
+            viewer.innerHTML = '<div style="color:var(--fg-muted); text-align:center; padding:20px;">No logs found</div>';
             viewer.style.display = 'block';
         }
     } catch (error) {
-        viewer.innerHTML = `<div style="color:#ff6b6b;">Error loading logs: ${error.message}</div>`;
+        viewer.innerHTML = `<div style="color:var(--err);">Error loading logs: ${error.message}</div>`;
         viewer.style.display = 'block';
     }
 }
@@ -460,12 +460,12 @@ async function setupNightlyJob() {
         const data = await response.json();
         if (statusDiv) {
             statusDiv.textContent = data.ok ? `✓ Nightly job scheduled for ${time}` : '✗ ' + (data.error || 'Failed');
-            statusDiv.style.color = data.ok ? '#00ff88' : '#ff6b6b';
+            statusDiv.style.color = data.ok ? 'var(--accent)' : 'var(--err)';
         }
     } catch (error) {
         if (statusDiv) {
             statusDiv.textContent = '✗ ' + error.message;
-            statusDiv.style.color = '#ff6b6b';
+            statusDiv.style.color = 'var(--err)';
         }
     }
 }
@@ -477,12 +477,12 @@ async function removeNightlyJob() {
         const data = await response.json();
         if (statusDiv) {
             statusDiv.textContent = data.ok ? '✓ Nightly job removed' : '✗ ' + (data.error || 'Failed');
-            statusDiv.style.color = data.ok ? '#00ff88' : '#ff6b6b';
+            statusDiv.style.color = data.ok ? 'var(--accent)' : 'var(--err)';
         }
     } catch (error) {
         if (statusDiv) {
             statusDiv.textContent = '✗ ' + error.message;
-            statusDiv.style.color = '#ff6b6b';
+            statusDiv.style.color = 'var(--err)';
         }
     }
 }
@@ -570,19 +570,19 @@ async function runSmokeTest() {
         
         if (resultDiv && data.ok) {
             resultDiv.innerHTML = `
-                <div style="color:#00ff88; margin-bottom:8px;">✓ Smoke test passed!</div>
+                <div style="color:var(--accent); margin-bottom:8px;">✓ Smoke test passed!</div>
                 <div>Query logged: ${data.logged ? '✓' : '✗'}</div>
                 <div>Results retrieved: ${data.results_count || 0}</div>
                 <div>Reranker applied: ${data.reranked ? '✓' : '✗'}</div>
                 <div>Event ID: <code>${data.event_id || 'N/A'}</code></div>
-                <div style="margin-top:8px; color:#666;">Full log entry created successfully.</div>
+                <div style="margin-top:8px; color:var(--fg-muted);">Full log entry created successfully.</div>
             `;
         } else if (resultDiv) {
-            resultDiv.innerHTML = `<div style="color:#ff6b6b;">✗ Test failed: ${data.error || 'Unknown'}</div>`;
+            resultDiv.innerHTML = `<div style="color:var(--err);">✗ Test failed: ${data.error || 'Unknown'}</div>`;
         }
     } catch (error) {
         if (resultDiv) {
-            resultDiv.innerHTML = `<div style="color:#ff6b6b;">✗ Error: ${error.message}</div>`;
+            resultDiv.innerHTML = `<div style="color:var(--err);">✗ Error: ${error.message}</div>`;
         }
     }
 }

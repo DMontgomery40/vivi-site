@@ -11,7 +11,7 @@
       const override = q.get('api');
       if (override) return override.replace(/\/$/, '');
       // Prefer same-origin whenever we were served over HTTP(S)
-      if (u.protocol.startsWith('http')) { if (u.pathname.startsWith('/agro')) return u.origin + '/agro-api'; return u.origin; }
+      if (u.protocol.startsWith('http')) return u.origin;
       // Fallback to local default
       return 'http://127.0.0.1:8012';
     } catch {
@@ -23,14 +23,7 @@
   try { window.API_BASE = API_BASE; } catch {}
 
   // Helper: Construct full API URL
-  const api = (p) => {
-  const s = String(p || '');
-  if (s.startsWith('/agro-api/api/')) return API_BASE + s.slice('/agro-api'.length + 4);
-  if (s.startsWith('/agro-api/')) return API_BASE + s.slice('/agro-api'.length);
-  if (s.startsWith('/api/')) return API_BASE + s.slice(4);
-  if (s.startsWith('/')) return API_BASE + s;
-  return API_BASE + '/' + s;
-};
+  const api = (p) => `${API_BASE}${p}`;
 
   // Helper: Query selector (single element)
   const $ = (sel) => document.querySelector(sel);
