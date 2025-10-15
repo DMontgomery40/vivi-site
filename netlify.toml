@@ -38,26 +38,26 @@ force = true
 ## Special-case editor + editor health to backend non-/api routes (must come before generic /agro-api/* rule)
 [[redirects]]
 from = "/agro-api/health/editor"
-to = "https://friendly-technological-drug-name.trycloudflare.com.trycloudflare.com/health/editor"
+to = "https://friendly-technological-drug-name.trycloudflare.com/health/editor"
 status = 200
 force = true
 
 [[redirects]]
 from = "/agro-api/editor/*"
-to = "https://friendly-technological-drug-name.trycloudflare.com.trycloudflare.com/editor/:splat"
+to = "https://friendly-technological-drug-name.trycloudflare.com/editor/:splat"
 status = 200
 force = true
 
 [[redirects]]
 from = "/agro-api/*"
-to = "https://friendly-technological-drug-name.trycloudflare.com.trycloudflare.com/api/:splat"
+to = "https://friendly-technological-drug-name.trycloudflare.com/api/:splat"
 status = 200
 force = true
 
 # Allow direct /editor/* iframe loads (popout, etc.)
 [[redirects]]
 from = "/editor/*"
-to = "https://friendly-technological-drug-name.trycloudflare.com.trycloudflare.com/editor/:splat"
+to = "https://friendly-technological-drug-name.trycloudflare.com/editor/:splat"
 status = 200
 force = true
 
