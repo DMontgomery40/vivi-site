@@ -50,6 +50,10 @@ document.getElementById('go').addEventListener('click', async () => {
   out.textContent = 'Checking…';
   const res = await login(order, zip);
   if (res && res.ok) {
+    // Store clear permission in sessionStorage
+    if (res.canClear) {
+      sessionStorage.setItem('canClear', 'true');
+    }
     window.location.href = '/shoes/returns-portal.html';
   } else {
     out.textContent = 'Order not found. Please contact support later.';

@@ -1,73 +1,85 @@
-# VIVIFIED SHOES - SECURE COMMUNICATION SYSTEM
+# MORGAN SECURE COMMUNICATION - SETUP INSTRUCTIONS
 
-## FOR ERICA'S EYES ONLY
-
-### What This Is
-This is a covert communication channel disguised as a shoe shopping website. Morgan can use this to safely communicate without Dylan knowing.
-
-### Important Security Notes
-- **DO NOT** save this file anywhere Dylan could access
-- **DO NOT** bookmark the portal page
-- Morgan should **ONLY** access from her iPhone (harder to monitor than PC)
-- The site looks like a normal shoe store if someone glances at it
-- Quick exit: Click "Customer support" to immediately jump to Amazon
+**DESTROY THIS FILE AFTER READING**
 
 ---
 
-## How to Access (Instructions for Morgan)
+## MORGAN'S LOGIN
 
-### Step 1: Go to the Shoes Page
-On your iPhone, go to: **vivified.dev/shoes**
+**Website:** vivified.dev/shoes
 
-You'll see a page with sneakers. It looks like a normal shoe shopping site.
+**Step 1:** Click the "Air Jordan 1 'Gordon 92'" shoe ($199)
 
-### Step 2: Click the Secret Shoe
-Scroll down and find the shoe called:
-**"Air Jordan 1 'Gordon 92'"** - $199
+**Step 2:** Enter login:
+- Order #: `ORD-745620`
+- ZIP: `80203`
 
-Click the **"Shop Now"** button on that specific shoe.
-
-### Step 3: Login Page
-You'll see a page that says "Track your return"
-
-Enter these credentials EXACTLY:
-
-- **Order #**: `ORD-745620`
-- **ZIP code**: `80203`
-
-Click **Continue**
-
-### Step 4: Message Portal
-After logging in, you can send and receive messages securely.
-
-Messages are encrypted and stored safely. They auto-refresh every 20 seconds.
+**Step 3:** Click Continue → You're in the secure message portal
 
 ---
 
-## Erica's Login Credentials
+## ERICA'S LOGIN
 
-For Erica to access the same portal:
+**Step 1:** Click the "Air Jordan 1 'Gordon 92'" shoe
 
-- **Order #**: `ORD-274913`
-- **ZIP code**: `80112`
-
----
-
-## Emergency Notes
-
-- The session expires after 1 hour of inactivity
-- Messages are encrypted end-to-end
-- Just come back to vivified.dev/shoes and click the Gordon 92 shoe again to login
-- If anything seems suspicious, use the "Customer support" link to immediately exit to Amazon
+**Step 2:** Enter login:
+- Order #: `ORD-274913`
+- ZIP: `80112`
 
 ---
 
-## What to Tell Morgan Tomorrow at the Park
+## DEV/TESTING LOGIN (David)
 
-"Hey, I found this cool shoe site - vivified.dev/shoes. They have some sick Jordans. Check out the Air Jordan 1 'Gordon 92' - they look fire. If you want to track any orders, use order number ORD-745620 and your ZIP 80203."
+**Step 1:** Click the "Air Jordan 1 'Gordon 92'" shoe
 
-Keep it casual. Don't make it sound rehearsed.
+**Step 2:** Enter login:
+- Order #: `ORD-999999`
+- ZIP: `00000`
 
 ---
 
-**After Morgan has memorized the credentials and site name, destroy this document.**
+## HOW TO USE
+
+### Send Messages
+1. Type message in the text box
+2. Click "Submit"
+3. Message appears immediately
+
+### Read Messages
+- Messages auto-refresh every 20 seconds
+- Or reload the page to see new messages
+
+### Clear All Messages (MORGAN & DEV ONLY)
+1. Click red "Cancel Order" button (only visible to authorized users)
+2. Confirm the warning dialog
+3. ALL messages are permanently deleted
+
+⚠️ **WARNING:** Clearing cannot be undone. Use in emergency only.
+
+---
+
+## EMERGENCY EXIT
+
+Click "Support" link at top → jumps to Amazon (quick escape)
+
+---
+
+## SECURITY NOTES
+
+- Messages encrypted end-to-end
+- Access from iPhone only (safer than PC)
+- Session expires after 1 hour
+- NO bookmarks - always go to vivified.dev/shoes first
+- Looks like normal shoe shopping site if anyone glances
+
+---
+
+## WHAT TO TELL MORGAN AT THE PARK
+
+"Check out vivified.dev/shoes - they have sick Air Jordans. Look at the Gordon 92s, they're $199. If you need to track an order later, your number is ORD-745620, ZIP 80203."
+
+Keep it casual. Don't rehearse it.
+
+---
+
+**DESTROY THIS DOCUMENT AFTER MORGAN MEMORIZES HER CREDENTIALS**

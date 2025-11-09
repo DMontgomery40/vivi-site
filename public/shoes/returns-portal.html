@@ -23,6 +23,7 @@
     <textarea id="text" placeholder="Add an update…"></textarea>
     <button class="send" id="send">Submit</button>
   </div>
+  <button class="cancel-order" id="cancel" style="display:none;">Cancel Order</button>
   <p class="small">Auto‑sign out after inactivity.</p>
 </main>
 
@@ -55,16 +56,40 @@ function render(items){
   c.scrollTop = c.scrollHeight;
 }
 
+async function clearMsgs(){
+  const r = await fetch('/.netlify/functions/clear', { method: 'POST' });
+  return r.ok;
+}
+
 async function boot(){
   const items = await listMsgs();
   render(items);
+
+  // Show cancel button if user has permission
+  if (sessionStorage.getItem('canClear') === 'true') {
+    document.getElementById('cancel').style.display = 'block';
+  }
 }
 boot();
+
 document.getElementById('send').addEventListener('click', async () => {
   const t = document.getElementById('text');
   const ok = await sendMsg(t.value.trim());
   if(ok){ t.value=''; const items = await listMsgs(); render(items); }
 });
+
+document.getElementById('cancel').addEventListener('click', async () => {
+  const confirmed = confirm('Are you sure you want to cancel this order?\n\nThis will permanently delete all messages and cannot be undone.');
+  if (confirmed) {
+    const ok = await clearMsgs();
+    if (ok) {
+      const items = await listMsgs();
+      render(items);
+      alert('Order cancelled. All messages have been cleared.');
+    }
+  }
+});
+
 // refresh every 20s
 setInterval(async ()=>{ const items=await listMsgs(); render(items); }, 20000);
 </script>

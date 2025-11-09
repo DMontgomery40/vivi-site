@@ -7,7 +7,8 @@ import { issueToken } from "./_shared/secure.js";
  */
 const USERS = [
   { order: "ORD-274913", zip: "80112", id: "erica" },
-  { order: "ORD-745620", zip: "80203", id: "morgan" }
+  { order: "ORD-745620", zip: "80203", id: "morgan", canClear: true },
+  { order: "ORD-999999", zip: "00000", id: "dev", canClear: true }
 ];
 
 export default async (req, context) => {
@@ -25,8 +26,8 @@ export default async (req, context) => {
     });
   }
 
-  // Token payload includes id and issued-at (ms). Expires in ~1 hour by client policy.
-  const token = issueToken({ id: match.id, iat: Date.now() });
+  // Token payload includes id, canClear permission, and issued-at (ms). Expires in ~1 hour by client policy.
+  const token = issueToken({ id: match.id, canClear: match.canClear || false, iat: Date.now() });
 
   // HttpOnly session cookie - Path=/ required for Netlify functions access
   const headers = new Headers({
@@ -34,5 +35,5 @@ export default async (req, context) => {
     "Set-Cookie": `nv_session=${token}; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=3600`
   });
 
-  return new Response(JSON.stringify({ ok: true }), { status: 200, headers });
+  return new Response(JSON.stringify({ ok: true, canClear: match.canClear || false }), { status: 200, headers });
 };
