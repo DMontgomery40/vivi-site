@@ -19,7 +19,7 @@ export default async (req, context) => {
   if (!text) return new Response("Bad Request", { status: 400 });
   if (text.length > 2000) return new Response("Payload Too Large", { status: 413 });
 
-  const store = getStore({ name: "comms", consistency: "strong" });
+  const store = getStore({ name: "comms", siteID: context.site.id, token: context.token });
   let doc = { version: 1, messages: [] };
   const existing = await store.get("chat");
   if (existing) { try { doc = JSON.parse(existing); } catch {} }

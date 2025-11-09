@@ -10,7 +10,7 @@ export default async (req, context) => {
   const payload = verifyToken(token);
   if (!payload) return new Response("Unauthorized", { status: 401 });
 
-  const store = getStore({ name: "comms", consistency: "strong" });
+  const store = getStore({ name: "comms", siteID: context.site.id, token: context.token });
   const raw = await store.get("chat");
   let doc = { version: 1, messages: [] };
   if (raw) {
