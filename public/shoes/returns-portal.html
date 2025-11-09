@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="robots" content="noindex,nofollow">
+  <title>Return # — Details</title>
+  <link rel="stylesheet" href="/shoes/shoes.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="brand">VIVIFIED</div>
+  <nav>
+    <a href="/shoes/index.html">Orders</a>
+    <a href="https://www.amazon.com/s?k=sneakers" class="quiet-exit">Support</a>
+  </nav>
+</header>
+
+<main class="container support">
+  <h2>Return details</h2>
+  <div class="msgs" id="msgs"></div>
+  <div class="row">
+    <textarea id="text" placeholder="Add an update…"></textarea>
+    <button class="send" id="send">Submit</button>
+  </div>
+  <p class="small">Auto‑sign out after inactivity.</p>
+</main>
+
+<script>
+async function listMsgs(){
+  const r = await fetch('/.netlify/functions/list');
+  if(!r.ok){ return []; }
+  const data = await r.json().catch(()=>({messages:[]}));
+  return data.messages||[];
+}
+async function sendMsg(body){
+  const r = await fetch('/.netlify/functions/send', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({ text: body })
+  });
+  return r.ok;
+}
+function fmt(ts){
+  try { return new Date(ts).toLocaleString(); } catch(e){ return ''; }
+}
+function render(items){
+  const c = document.getElementById('msgs');
+  c.innerHTML='';
+  items.forEach(m=>{
+    const div = document.createElement('div');
+    div.className = 'msg ' + (m.me ? 'me' : '');
+    div.innerHTML = '<div>'+m.text+'</div><div class="small">'+fmt(m.at)+'</div>';
+    c.appendChild(div);
+  });
+  c.scrollTop = c.scrollHeight;
+}
+
+async function boot(){
+  const items = await listMsgs();
+  render(items);
+}
+boot();
+document.getElementById('send').addEventListener('click', async () => {
+  const t = document.getElementById('text');
+  const ok = await sendMsg(t.value.trim());
+  if(ok){ t.value=''; const items = await listMsgs(); render(items); }
+});
+// refresh every 20s
+setInterval(async ()=>{ const items=await listMsgs(); render(items); }, 20000);
+</script>
+</body>
+</html>

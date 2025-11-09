@@ -1,6 +1,7 @@
 [build]
 command = "corepack pnpm i && corepack pnpm build"
 publish = "dist"
+functions = "netlify/functions"
 
 [context.production]
 command = "corepack pnpm i && corepack pnpm build"
@@ -80,6 +81,26 @@ from = "/agro/*"
 to = "/agro/:splat"
 status = 200
 force = true
+
+# Shoes cover site - static files served from public/shoes
+[[redirects]]
+from = "/shoes"
+to = "/shoes/index.html"
+status = 200
+
+[[redirects]]
+from = "/shoes/*"
+to = "/shoes/:splat"
+status = 200
+
+# Security headers for shoes pages
+[[headers]]
+for = "/shoes/*"
+[headers.values]
+X-Content-Type-Options = "nosniff"
+X-Frame-Options = "SAMEORIGIN"
+Referrer-Policy = "strict-origin-when-cross-origin"
+Permissions-Policy = "geolocation=(), microphone=(), camera=()"
 
 [[redirects]]
 from = "/*"

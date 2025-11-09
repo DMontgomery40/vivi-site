@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="robots" content="noindex,nofollow">
+  <title>Returns portal</title>
+  <link rel="stylesheet" href="/shoes/shoes.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="brand">VIVIFIED</div>
+  <nav>
+    <a href="/shoes/index.html">Shop</a>
+    <a href="https://www.amazon.com/s?k=sneakers" class="quiet-exit">Support</a>
+  </nav>
+</header>
+
+<main class="container">
+  <div class="form">
+    <h2>Track your return</h2>
+    <p class="small">Enter your Order # and ZIP to continue.</p>
+    <label>Order #</label>
+    <input id="order" type="text" autocomplete="off" inputmode="latin-prose" placeholder="ORD‑123456">
+    <label>ZIP code</label>
+    <input id="zip" type="text" autocomplete="off" inputmode="numeric" placeholder="#####">
+    <button class="primary" id="go">Continue</button>
+    <p id="status" class="small"></p>
+  </div>
+</main>
+
+<script>
+async function login(order, zip) {
+  const r = await fetch('/.netlify/functions/login', {
+    method: 'POST',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({ order, zip })
+  });
+  if (!r.ok) {
+    return { ok: false, m: 'Service temporarily unavailable. Try again later.' };
+  }
+  const data = await r.json().catch(()=>({}));
+  return data;
+}
+
+document.getElementById('go').addEventListener('click', async () => {
+  const order = document.getElementById('order').value.trim();
+  const zip = document.getElementById('zip').value.trim();
+  const out = document.getElementById('status');
+  out.textContent = 'Checking…';
+  const res = await login(order, zip);
+  if (res && res.ok) {
+    window.location.href = '/shoes/returns-portal.html';
+  } else {
+    out.textContent = 'Order not found. Please contact support later.';
+  }
+});
+</script>
+</body>
+</html>
