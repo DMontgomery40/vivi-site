@@ -28,10 +28,10 @@ export default async (req, context) => {
   // Token payload includes id and issued-at (ms). Expires in ~1 hour by client policy.
   const token = issueToken({ id: match.id, iat: Date.now() });
 
-  // HttpOnly session cookie, scoped to /shoes to reduce surface
+  // HttpOnly session cookie - Path=/ required for Netlify functions access
   const headers = new Headers({
     "Content-Type": "application/json",
-    "Set-Cookie": `nv_session=${token}; Path=/shoes; HttpOnly; Secure; SameSite=Lax; Max-Age=3600`
+    "Set-Cookie": `nv_session=${token}; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=3600`
   });
 
   return new Response(JSON.stringify({ ok: true }), { status: 200, headers });
