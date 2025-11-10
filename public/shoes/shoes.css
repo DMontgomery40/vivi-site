@@ -20,9 +20,14 @@ body {
   background: #fff;
   border-bottom: 1px solid #e5e5e5;
   position: sticky;
-  top: 35px; /* Account for fixed announcement bar */
+  top: 0;
   z-index: 100;
   box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+/* When there's an announcement bar above */
+.has-announcement .topbar {
+  top: 35px;
 }
 
 .topbar .brand {
