@@ -2,21 +2,42 @@
 <html lang="en">
 <head>
   <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
   <meta name="robots" content="noindex,nofollow">
   <title>Return # — Details</title>
   <link rel="stylesheet" href="/shoes/shoes.css">
   <style>
-    .msg .content { display: flex; align-items: center; gap: 8px; }
-    .msg .text { flex: 1; word-wrap: break-word; }
+    /* Prevent iOS zoom on double tap */
+    * {
+      touch-action: manipulation;
+    }
+
+    .msg {
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .msg:hover {
+      background: rgba(0,0,0,0.02);
+    }
+    .msg .content {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      pointer-events: none;
+    }
+    .msg .text {
+      flex: 1;
+      word-wrap: break-word;
+    }
     .msg .tracking-btn {
       font-size: 16px;
-      cursor: pointer;
       opacity: 0.6;
       transition: opacity 0.2s;
       user-select: none;
     }
-    .msg .tracking-btn:hover { opacity: 1; }
+    .msg:hover .tracking-btn {
+      opacity: 1;
+    }
 
     .delivery-modal {
       position: fixed;
@@ -67,6 +88,9 @@
       font-weight: 600;
       cursor: pointer;
       transition: all 0.15s;
+      -webkit-user-select: none;
+      user-select: none;
+      touch-action: manipulation;
     }
     .postal-pad button:active {
       transform: scale(0.95);
@@ -84,6 +108,9 @@
       background: #fafafa;
       font-weight: 600;
       cursor: pointer;
+      -webkit-user-select: none;
+      user-select: none;
+      touch-action: manipulation;
     }
     .delivery-status {
       min-height: 20px;
@@ -116,7 +143,7 @@
 
 <div id="deliveryModal" class="delivery-modal">
   <div class="delivery-content">
-    <h3>Confirm Delivery Address</h3>
+    <h3>Confirm Delivery ZIP</h3>
     <div id="postalDisplay" class="postal-display">• • • • •</div>
     <div class="postal-pad">
       <button data-key="1">1</button>
@@ -141,6 +168,13 @@
 </div>
 
 <script>
+// Prevent double tap zoom on iOS
+document.addEventListener('touchstart', function(e) {
+  if (e.touches.length > 1) {
+    e.preventDefault();
+  }
+});
+
 // Package tracking state
 let trackingData = [];
 const detailedView = {}; // tracking id -> session expiry
@@ -163,11 +197,6 @@ function getTrackingStatus(item) {
   return hasExpanded(item) ? item.text : (item.summary || "Tracking update pending");
 }
 
-// Format delivery timestamp
-function formatDeliveryTime(ts) {
-  try { return new Date(ts).toLocaleString(); } catch(e){ return ''; }
-}
-
 // Load tracking updates
 async function loadTracking() {
   const r = await fetch('/.netlify/functions/list', { cache: 'no-store' });
@@ -176,7 +205,7 @@ async function loadTracking() {
   return data.messages || [];
 }
 
-// Submit tracking update
+// Submit tracking update with auto-generated summary
 async function submitUpdate(text) {
   const r = await fetch('/.netlify/functions/send', {
     method: 'POST',
@@ -192,7 +221,7 @@ async function clearTracking() {
   return r.ok;
 }
 
-// Render tracking items
+// Render tracking items (no timestamps for safety)
 function renderTracking(items) {
   trackingData = items;
   const container = document.getElementById('msgs');
@@ -201,6 +230,7 @@ function renderTracking(items) {
   items.forEach(item => {
     const wrapper = document.createElement('div');
     wrapper.className = 'msg ' + (item.me ? 'me' : '');
+    wrapper.onclick = () => requestDetails(item);
 
     const content = document.createElement('div');
     content.className = 'content';
@@ -213,17 +243,11 @@ function renderTracking(items) {
     trackBtn.className = 'tracking-btn';
     trackBtn.textContent = '📦';
     trackBtn.title = 'View detailed tracking';
-    trackBtn.onclick = () => requestDetails(item);
 
     content.appendChild(textSpan);
     content.appendChild(trackBtn);
 
-    const timestamp = document.createElement('div');
-    timestamp.className = 'small';
-    timestamp.textContent = formatDeliveryTime(item.at);
-
     wrapper.appendChild(content);
-    wrapper.appendChild(timestamp);
     container.appendChild(wrapper);
   });
 
@@ -240,7 +264,7 @@ function refreshTrackingItem(item) {
   }
 }
 
-// Delivery address confirmation
+// Delivery ZIP confirmation
 const modal = document.getElementById('deliveryModal');
 const display = document.getElementById('postalDisplay');
 const status = document.getElementById('deliveryStatus');
@@ -274,7 +298,7 @@ async function handlePostalKey(key) {
 
   if (key === 'ok') {
     if (postalInput.length === 5) {
-      // Validate delivery address with server
+      // Validate delivery ZIP with server
       const r = await fetch('/.netlify/functions/verify-zip', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -298,11 +322,11 @@ async function handlePostalKey(key) {
 
           closeDelivery();
         } else {
-          status.textContent = "Address doesn't match our records";
+          status.textContent = "ZIP doesn't match our records";
           setTimeout(() => { status.textContent = ""; }, 3000);
         }
       } else {
-        status.textContent = "Unable to verify address";
+        status.textContent = "Unable to verify ZIP";
         setTimeout(() => { status.textContent = ""; }, 3000);
       }
     }
@@ -315,16 +339,25 @@ async function handlePostalKey(key) {
   }
 }
 
+// Keypad handlers with zoom prevention
+document.querySelectorAll('.postal-pad button').forEach(btn => {
+  btn.addEventListener('touchstart', (e) => {
+    e.preventDefault();
+    handlePostalKey(btn.dataset.key);
+  });
+
+  btn.addEventListener('click', (e) => {
+    e.preventDefault();
+    handlePostalKey(btn.dataset.key);
+  });
+});
+
 // Event handlers
 document.getElementById('closeModal').addEventListener('click', closeDelivery);
 document.getElementById('clearPostal').addEventListener('click', () => {
   postalInput = "";
   updatePostalDisplay();
   status.textContent = "";
-});
-
-document.querySelectorAll('.postal-pad button').forEach(btn => {
-  btn.addEventListener('click', () => handlePostalKey(btn.dataset.key));
 });
 
 modal.addEventListener('click', (e) => {
@@ -354,18 +387,28 @@ async function initTracking() {
 
 initTracking();
 
-// Submit handler
+// Submit handler - immediately shows new message
 document.getElementById('send').addEventListener('click', async () => {
   const textarea = document.getElementById('text');
   const text = textarea.value.trim();
   if (!text) return;
 
+  // Disable button to prevent double submit
+  const sendBtn = document.getElementById('send');
+  sendBtn.disabled = true;
+  sendBtn.textContent = 'Sending...';
+
   const ok = await submitUpdate(text);
   if (ok) {
     textarea.value = '';
+    // Immediately refresh to show new message
     const items = await loadTracking();
     renderTracking(items);
   }
+
+  // Re-enable button
+  sendBtn.disabled = false;
+  sendBtn.textContent = 'Submit';
 });
 
 // Cancel order handler
