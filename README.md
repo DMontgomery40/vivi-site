@@ -4,11 +4,23 @@ Encrypted messaging system disguised as an e-commerce returns portal.
 
 ## Demo Video
 
+### Embedded Auto-Playing Demo
+**Location**: Homepage at vivified.dev/shoes
+**File**: `public/shoes/demo.mp4` (2.1 MB)
+**Features**: Auto-plays, muted, loops continuously
+
+The homepage now features an embedded video demonstration in the "Track Your Returns" section that:
+- Automatically plays on page load (muted for compliance)
+- Loops continuously like a GIF
+- Shows the complete flow from shopping to encrypted messaging
+- Styled as a professional returns tracking feature
+
+### Full Screen Recording
 **File**: `shoes-site.mov` (235 MB) - stored locally only
 **Location**: `/Users/davidmontgomery/faxbot_folder/vivi-site/shoes-site.mov`
 **Date**: November 10, 2025
 
-Full walkthrough demonstration showing:
+Complete walkthrough demonstration showing:
 - Entry through vivified.dev/shoes shopping site
 - Hidden access via "Air Jordan 1 'Gordon 92'" product
 - Login with Order # and ZIP code
