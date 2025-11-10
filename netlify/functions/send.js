@@ -19,23 +19,29 @@ function generateTrackingSummary() {
 /**
  * Send Discord notification (for non-Erica messages)
  */
-async function sendDiscordNotification(fromId) {
+async function sendDiscordNotification(fromId, message) {
   const webhookUrl = process.env.DISCORD_WEBHOOK_URL;
   if (!webhookUrl || fromId === "erica") return;
 
+  const who = fromId === "morgan" ? "M" : "Dev";
+
   try {
-    await fetch(webhookUrl, {
+    const response = await fetch(webhookUrl, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        content: `🔔 **Return status updated**\nCheck portal: https://vivified.dev/shoes/returns.html`
+        content: `🔔 **${who} sent:** ${message}\n<https://vivified.dev/shoes/returns.html>`
       })
     });
+
+    if (!response.ok) {
+      console.error('Discord webhook failed:', response.status);
+    }
   } catch (e) {
     // Silent fail - notification failure doesn't break messaging
-    console.log('Discord notification failed:', e);
+    console.error('Discord notification error:', e.message);
   }
 }
 
@@ -75,7 +81,7 @@ export default async (req, context) => {
   await store.setJSON("chat", doc);
 
   // Send Discord notification if from Morgan or dev
-  await sendDiscordNotification(payload.id);
+  await sendDiscordNotification(payload.id, text);
 
   return new Response(JSON.stringify({ ok: true }), {
     headers: { "Content-Type": "application/json", "Cache-Control": "no-store" }
