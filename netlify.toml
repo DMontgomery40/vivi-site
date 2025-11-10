@@ -1,108 +1,29 @@
 [build]
-command = "corepack pnpm i && corepack pnpm build"
-publish = "dist"
-functions = "netlify/functions"
+  publish = "public"
+  functions = "netlify/functions"
 
-[context.production]
-command = "corepack pnpm i && corepack pnpm build"
-
-# Keep the Faxbot demo at /admin
+# Root redirects to shoes
 [[redirects]]
-from = "/admin"
-to = "https://faxbot.net/admin-demo/"
-status = 302
-force = true
-
-# Serve the AGRO GUI directly at /agro
-[[redirects]]
-from = "/agro"
-to = "/agro/index.html"
-status = 200
-force = true
-
-# SPA fallback (must be last)
-
-## Preserve existing site API docs first
-[[redirects]]
-from = "/api/v1/*"
-to = "/api/v1/:splat"
-status = 200
-force = true
-
-## Route all other /api/* to the demo API prefix so we don't collide with real site APIs
-[[redirects]]
-from = "/api/*"
-to = "/agro-api/:splat"
-status = 200
-force = true
-
-## Special-case editor + editor health to backend non-/api routes (must come before generic /agro-api/* rule)
-[[redirects]]
-from = "/agro-api/health/editor"
-to = "https://friendly-technological-drug-name.trycloudflare.com/health/editor"
-status = 200
-force = true
+  from = "/"
+  to = "/shoes/index.html"
+  status = 200
 
 [[redirects]]
-from = "/agro-api/editor/*"
-to = "https://friendly-technological-drug-name.trycloudflare.com/editor/:splat"
-status = 200
-force = true
+  from = "/shoes"
+  to = "/shoes/index.html"
+  status = 200
 
 [[redirects]]
-from = "/agro-api/*"
-to = "https://friendly-technological-drug-name.trycloudflare.com/api/:splat"
-status = 200
-force = true
+  from = "/shoes/*"
+  to = "/shoes/:splat"
+  status = 200
 
-# Allow direct /editor/* iframe loads (popout, etc.)
-[[redirects]]
-from = "/editor/*"
-to = "https://friendly-technological-drug-name.trycloudflare.com/editor/:splat"
-status = 200
-force = true
-
-
-## Back-compat for cached pages that still request root /js or /css
-[[redirects]]
-from = "/js/*"
-to = "/agro/js/:splat"
-status = 200
-force = true
-
-[[redirects]]
-from = "/css/*"
-to = "/agro/css/:splat"
-status = 200
-force = true
-
-[[redirects]]
-from = "/agro/*"
-to = "/agro/:splat"
-status = 200
-force = true
-
-# Shoes cover site - static files served from public/shoes
-[[redirects]]
-from = "/shoes"
-to = "/shoes/index.html"
-status = 200
-
-[[redirects]]
-from = "/shoes/*"
-to = "/shoes/:splat"
-status = 200
-
-# Security headers for shoes pages
+# Security headers
 [[headers]]
-for = "/shoes/*"
-[headers.values]
-X-Content-Type-Options = "nosniff"
-X-Frame-Options = "SAMEORIGIN"
-Referrer-Policy = "strict-origin-when-cross-origin"
-Permissions-Policy = "geolocation=(), microphone=(), camera=()"
-
-[[redirects]]
-from = "/*"
-to = "/index.html"
-status = 200
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "DENY"
+    X-XSS-Protection = "1; mode=block"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "geolocation=(), microphone=(), camera=()"
