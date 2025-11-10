@@ -62,24 +62,68 @@ body {
 }
 
 .hero {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  position: relative;
+  height: 420px;
+  background-image: url('https://images.unsplash.com/photo-1552346154-21d32810aba3?q=80&w=2000&auto=format&fit=crop');
+  background-size: cover;
+  background-position: center;
   border-radius: 16px;
-  padding: 48px 36px;
   margin-bottom: 32px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.2) 70%, transparent 100%);
+}
+
+.hero .copy {
+  position: relative;
+  z-index: 1;
+  padding: 48px;
+  max-width: 550px;
   color: #fff;
 }
 
 .hero .copy h1 {
-  font-size: 42px;
-  font-weight: 800;
-  margin-bottom: 12px;
+  font-size: 52px;
+  font-weight: 900;
+  margin-bottom: 16px;
   letter-spacing: -0.02em;
+  line-height: 1;
+  text-shadow: 2px 2px 12px rgba(0,0,0,0.5);
 }
 
 .hero .copy p {
-  font-size: 18px;
-  opacity: 0.95;
+  font-size: 20px;
+  opacity: 1;
   font-weight: 400;
+  margin-bottom: 28px;
+  text-shadow: 1px 1px 6px rgba(0,0,0,0.5);
+}
+
+.hero .shop-btn {
+  display: inline-block;
+  padding: 14px 32px;
+  background: #fff;
+  color: #111;
+  font-weight: 700;
+  font-size: 16px;
+  border-radius: 50px;
+  text-decoration: none;
+  transition: all 0.3s;
+  cursor: pointer;
+  border: none;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+}
+
+.hero .shop-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.4);
 }
 
 .grid {
@@ -375,12 +419,26 @@ button.cancel-order:hover {
 }
 
 @media (max-width: 768px) {
+  .hero {
+    height: 350px;
+  }
+
+  .hero .copy {
+    padding: 32px 24px;
+  }
+
   .hero .copy h1 {
-    font-size: 32px;
+    font-size: 36px;
   }
 
   .hero .copy p {
     font-size: 16px;
+    margin-bottom: 20px;
+  }
+
+  .hero .shop-btn {
+    padding: 12px 24px;
+    font-size: 15px;
   }
 
   .grid {
@@ -478,15 +536,30 @@ body {
 
 /* Mobile adjustments */
 @media (max-width: 768px) {
+  .search-bar {
+    display: none; /* Hide only search on mobile */
+  }
+
   .header-actions {
-    display: none;
+    gap: 12px; /* Keep cart and account visible */
   }
 
   .topbar {
     top: 30px;
+    padding: 12px 16px;
+  }
+
+  .topbar nav {
+    display: none; /* Hide nav on very small screens */
   }
 
   body {
     padding-top: 30px;
+  }
+}
+
+@media (min-width: 481px) and (max-width: 768px) {
+  .topbar nav {
+    display: flex; /* Show nav on tablets */
   }
 }
