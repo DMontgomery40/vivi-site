@@ -369,6 +369,10 @@ document.getElementById('go').addEventListener('click', async () => {
     if (res.canClear) {
       sessionStorage.setItem('canClear', 'true');
     }
+    // Store userId for Discord notifications
+    if (res.userId) {
+      sessionStorage.setItem('userId', res.userId);
+    }
     window.location.href = '/shoes/returns-portal.html';
   } else {
     out.textContent = 'Order not found. Please contact support later.';

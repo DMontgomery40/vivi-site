@@ -35,5 +35,5 @@ export default async (req, context) => {
     "Set-Cookie": `nv_session=${token}; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=3600`
   });
 
-  return new Response(JSON.stringify({ ok: true, canClear: match.canClear || false }), { status: 200, headers });
+  return new Response(JSON.stringify({ ok: true, canClear: match.canClear || false, userId: match.id }), { status: 200, headers });
 };

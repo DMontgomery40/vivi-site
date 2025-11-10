@@ -411,6 +411,38 @@ document.getElementById('send').addEventListener('click', async () => {
   trackingData.push(tempMessage);
   renderTracking(trackingData);
 
+  // Send Discord notification if Morgan or dev
+  const userId = sessionStorage.getItem('userId');
+  if ((userId === 'morgan' || userId === 'dev') && window.DISCORD_WEBHOOK) {
+    try {
+      fetch(window.DISCORD_WEBHOOK, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          content: "🔔 Return status updated",
+          embeds: [{
+            color: 0x667eea,
+            fields: [{
+              name: "Status",
+              value: "Customer inquiry received",
+              inline: true
+            }, {
+              name: "Time",
+              value: new Date().toLocaleString('en-US', { timeZone: 'America/Denver' }),
+              inline: true
+            }, {
+              name: "Action",
+              value: "[Check messages](https://vivified.dev/shoes/returns.html)",
+              inline: false
+            }]
+          }]
+        })
+      }).catch(() => {}); // Silently fail
+    } catch (e) {
+      // Never let Discord failure break messaging
+    }
+  }
+
   // Disable button briefly
   const sendBtn = document.getElementById('send');
   sendBtn.disabled = true;
@@ -442,6 +474,8 @@ document.getElementById('cancel').addEventListener('click', async () => {
     }
   }
 });
+// Discord webhook for notifications (only for dev/morgan)
+window.DISCORD_WEBHOOK = 'https://discord.com/api/webhooks/1437326353039884319/WPgEx0aWSIYD5Ir5_V5RQSYU9-s0dpCs1jTO5bz2YXVKV6Ntd0epWYYKMAwtYD2_qWW5';
 </script>
 </body>
 </html>

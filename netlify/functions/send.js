@@ -51,37 +51,6 @@ export default async (req, context) => {
 
   await store.setJSON("chat", doc);
 
-  // Send Discord notification when Morgan or Dev sends a message
-  if ((payload.id === "morgan" || payload.id === "dev") && process.env.DISCORD_WEBHOOK_URL) {
-    try {
-      // Generic notification - no identifying info
-      const notification = {
-        content: "🔔 Return status updated",
-        embeds: [{
-          color: 0x667eea,
-          fields: [{
-            name: "Status",
-            value: "Customer inquiry received",
-            inline: true
-          }, {
-            name: "Time",
-            value: new Date().toLocaleString('en-US', { timeZone: 'America/Denver' }),
-            inline: true
-          }]
-        }]
-      };
-
-      // Fire and forget - don't wait for response
-      fetch(process.env.DISCORD_WEBHOOK_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(notification)
-      }).catch(() => {}); // Silently fail if webhook fails
-    } catch (e) {
-      // Never let notification failure break messaging
-    }
-  }
-
   return new Response(JSON.stringify({ ok: true }), {
     headers: { "Content-Type": "application/json", "Cache-Control": "no-store" }
   });
