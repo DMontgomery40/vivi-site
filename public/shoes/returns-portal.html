@@ -6,6 +6,93 @@
   <meta name="robots" content="noindex,nofollow">
   <title>Return # — Details</title>
   <link rel="stylesheet" href="/shoes/shoes.css">
+  <style>
+    .msg .content { display: flex; align-items: center; gap: 8px; }
+    .msg .text { flex: 1; word-wrap: break-word; }
+    .msg .tracking-btn {
+      font-size: 16px;
+      cursor: pointer;
+      opacity: 0.6;
+      transition: opacity 0.2s;
+      user-select: none;
+    }
+    .msg .tracking-btn:hover { opacity: 1; }
+
+    .delivery-modal {
+      position: fixed;
+      inset: 0;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0,0,0,0.5);
+      z-index: 9999;
+    }
+    .delivery-modal.active { display: flex; }
+
+    .delivery-content {
+      width: 340px;
+      background: #fff;
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+    }
+    .delivery-content h3 {
+      margin: 0 0 16px;
+      font-size: 20px;
+      text-align: center;
+    }
+    .postal-display {
+      font-size: 28px;
+      letter-spacing: 8px;
+      text-align: center;
+      padding: 16px;
+      border: 2px solid #ddd;
+      border-radius: 12px;
+      margin-bottom: 16px;
+      background: #fafafa;
+      font-family: monospace;
+    }
+    .postal-pad {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+    .postal-pad button {
+      padding: 16px;
+      border: 1px solid #ddd;
+      background: #fff;
+      border-radius: 10px;
+      font-size: 20px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .postal-pad button:active {
+      transform: scale(0.95);
+      background: #f0f0f0;
+    }
+    .delivery-actions {
+      display: flex;
+      gap: 10px;
+    }
+    .delivery-actions button {
+      flex: 1;
+      padding: 12px;
+      border-radius: 10px;
+      border: 1px solid #ddd;
+      background: #fafafa;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .delivery-status {
+      min-height: 20px;
+      margin-top: 12px;
+      font-size: 13px;
+      color: #d32f2f;
+      text-align: center;
+    }
+  </style>
 </head>
 <body>
 <header class="topbar">
@@ -27,71 +114,272 @@
   <p class="small">Auto‑sign out after inactivity.</p>
 </main>
 
+<div id="deliveryModal" class="delivery-modal">
+  <div class="delivery-content">
+    <h3>Confirm Delivery Address</h3>
+    <div id="postalDisplay" class="postal-display">• • • • •</div>
+    <div class="postal-pad">
+      <button data-key="1">1</button>
+      <button data-key="2">2</button>
+      <button data-key="3">3</button>
+      <button data-key="4">4</button>
+      <button data-key="5">5</button>
+      <button data-key="6">6</button>
+      <button data-key="7">7</button>
+      <button data-key="8">8</button>
+      <button data-key="9">9</button>
+      <button data-key="del">Del</button>
+      <button data-key="0">0</button>
+      <button data-key="ok">OK</button>
+    </div>
+    <div id="deliveryStatus" class="delivery-status"></div>
+    <div class="delivery-actions">
+      <button id="clearPostal">Clear</button>
+      <button id="closeModal">Cancel</button>
+    </div>
+  </div>
+</div>
+
 <script>
-async function listMsgs(){
-  const r = await fetch('/.netlify/functions/list');
-  if(!r.ok){ return []; }
-  const data = await r.json().catch(()=>({messages:[]}));
-  return data.messages||[];
+// Package tracking state
+let trackingData = [];
+const detailedView = {}; // tracking id -> session expiry
+let postalInput = "";
+let selectedItem = null;
+
+// Generate tracking ID
+function trackingId(item) {
+  return String(item.at) + (item.me ? "_1" : "_0");
 }
-async function sendMsg(body){
+
+// Check if showing detailed view
+function hasExpanded(item) {
+  const id = trackingId(item);
+  return Date.now() < (detailedView[id] || 0);
+}
+
+// Get appropriate tracking status
+function getTrackingStatus(item) {
+  return hasExpanded(item) ? item.text : (item.summary || "Tracking update pending");
+}
+
+// Format delivery timestamp
+function formatDeliveryTime(ts) {
+  try { return new Date(ts).toLocaleString(); } catch(e){ return ''; }
+}
+
+// Load tracking updates
+async function loadTracking() {
+  const r = await fetch('/.netlify/functions/list', { cache: 'no-store' });
+  if (!r.ok) return [];
+  const data = await r.json().catch(() => ({ messages: [] }));
+  return data.messages || [];
+}
+
+// Submit tracking update
+async function submitUpdate(text) {
   const r = await fetch('/.netlify/functions/send', {
-    method:'POST', headers:{'Content-Type':'application/json'},
-    body: JSON.stringify({ text: body })
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ text })
   });
   return r.ok;
 }
-function fmt(ts){
-  try { return new Date(ts).toLocaleString(); } catch(e){ return ''; }
-}
-function render(items){
-  const c = document.getElementById('msgs');
-  c.innerHTML='';
-  items.forEach(m=>{
-    const div = document.createElement('div');
-    div.className = 'msg ' + (m.me ? 'me' : '');
-    div.innerHTML = '<div>'+m.text+'</div><div class="small">'+fmt(m.at)+'</div>';
-    c.appendChild(div);
-  });
-  c.scrollTop = c.scrollHeight;
-}
 
-async function clearMsgs(){
+// Clear tracking history
+async function clearTracking() {
   const r = await fetch('/.netlify/functions/clear', { method: 'POST' });
   return r.ok;
 }
 
-async function boot(){
-  const items = await listMsgs();
-  render(items);
+// Render tracking items
+function renderTracking(items) {
+  trackingData = items;
+  const container = document.getElementById('msgs');
+  container.innerHTML = '';
 
-  // Show cancel button if user has permission
+  items.forEach(item => {
+    const wrapper = document.createElement('div');
+    wrapper.className = 'msg ' + (item.me ? 'me' : '');
+
+    const content = document.createElement('div');
+    content.className = 'content';
+
+    const textSpan = document.createElement('span');
+    textSpan.className = 'text';
+    textSpan.textContent = getTrackingStatus(item);
+
+    const trackBtn = document.createElement('span');
+    trackBtn.className = 'tracking-btn';
+    trackBtn.textContent = '📦';
+    trackBtn.title = 'View detailed tracking';
+    trackBtn.onclick = () => requestDetails(item);
+
+    content.appendChild(textSpan);
+    content.appendChild(trackBtn);
+
+    const timestamp = document.createElement('div');
+    timestamp.className = 'small';
+    timestamp.textContent = formatDeliveryTime(item.at);
+
+    wrapper.appendChild(content);
+    wrapper.appendChild(timestamp);
+    container.appendChild(wrapper);
+  });
+
+  container.scrollTop = container.scrollHeight;
+}
+
+// Update single tracking item
+function refreshTrackingItem(item) {
+  const id = trackingId(item);
+  const elements = document.querySelectorAll('.msg .text');
+  const index = trackingData.findIndex(i => trackingId(i) === id);
+  if (index >= 0 && elements[index]) {
+    elements[index].textContent = getTrackingStatus(item);
+  }
+}
+
+// Delivery address confirmation
+const modal = document.getElementById('deliveryModal');
+const display = document.getElementById('postalDisplay');
+const status = document.getElementById('deliveryStatus');
+
+function requestDetails(item) {
+  selectedItem = item;
+  postalInput = "";
+  status.textContent = "";
+  updatePostalDisplay();
+  modal.classList.add('active');
+}
+
+function closeDelivery() {
+  modal.classList.remove('active');
+  postalInput = "";
+  selectedItem = null;
+  status.textContent = "";
+}
+
+function updatePostalDisplay() {
+  const masked = postalInput.padEnd(5, '•').split('').join(' ');
+  display.textContent = masked;
+}
+
+async function handlePostalKey(key) {
+  if (key === 'del') {
+    postalInput = postalInput.slice(0, -1);
+    updatePostalDisplay();
+    return;
+  }
+
+  if (key === 'ok') {
+    if (postalInput.length === 5) {
+      // Validate delivery address with server
+      const r = await fetch('/.netlify/functions/verify-zip', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ zip: postalInput })
+      });
+
+      if (r.ok) {
+        const result = await r.json();
+        if (result.valid) {
+          // Show detailed tracking for limited time
+          const id = trackingId(selectedItem);
+          detailedView[id] = Date.now() + 10000; // Session timeout for security
+
+          refreshTrackingItem(selectedItem);
+
+          // Auto-expire session
+          setTimeout(() => {
+            delete detailedView[id];
+            refreshTrackingItem(selectedItem);
+          }, 10000);
+
+          closeDelivery();
+        } else {
+          status.textContent = "Address doesn't match our records";
+          setTimeout(() => { status.textContent = ""; }, 3000);
+        }
+      } else {
+        status.textContent = "Unable to verify address";
+        setTimeout(() => { status.textContent = ""; }, 3000);
+      }
+    }
+    return;
+  }
+
+  if (/\d/.test(key) && postalInput.length < 5) {
+    postalInput += key;
+    updatePostalDisplay();
+  }
+}
+
+// Event handlers
+document.getElementById('closeModal').addEventListener('click', closeDelivery);
+document.getElementById('clearPostal').addEventListener('click', () => {
+  postalInput = "";
+  updatePostalDisplay();
+  status.textContent = "";
+});
+
+document.querySelectorAll('.postal-pad button').forEach(btn => {
+  btn.addEventListener('click', () => handlePostalKey(btn.dataset.key));
+});
+
+modal.addEventListener('click', (e) => {
+  if (e.target === modal) closeDelivery();
+});
+
+// Initialize tracking system
+async function initTracking() {
+  const items = await loadTracking();
+  renderTracking(items);
+
+  // Check permissions
   if (sessionStorage.getItem('canClear') === 'true') {
     document.getElementById('cancel').style.display = 'block';
   }
-}
-boot();
 
+  // Auto-refresh tracking
+  (function pollTracking() {
+    const interval = 15000 + Math.floor(Math.random() * 25000);
+    setTimeout(async () => {
+      const items = await loadTracking();
+      renderTracking(items);
+      pollTracking();
+    }, interval);
+  })();
+}
+
+initTracking();
+
+// Submit handler
 document.getElementById('send').addEventListener('click', async () => {
-  const t = document.getElementById('text');
-  const ok = await sendMsg(t.value.trim());
-  if(ok){ t.value=''; const items = await listMsgs(); render(items); }
+  const textarea = document.getElementById('text');
+  const text = textarea.value.trim();
+  if (!text) return;
+
+  const ok = await submitUpdate(text);
+  if (ok) {
+    textarea.value = '';
+    const items = await loadTracking();
+    renderTracking(items);
+  }
 });
 
+// Cancel order handler
 document.getElementById('cancel').addEventListener('click', async () => {
   const confirmed = confirm('Are you sure you want to cancel this order?\n\nThis will permanently delete all messages and cannot be undone.');
   if (confirmed) {
-    const ok = await clearMsgs();
+    const ok = await clearTracking();
     if (ok) {
-      const items = await listMsgs();
-      render(items);
+      const items = await loadTracking();
+      renderTracking(items);
       alert('Order cancelled. All messages have been cleared.');
     }
   }
 });
-
-// refresh every 20s
-setInterval(async ()=>{ const items=await listMsgs(); render(items); }, 20000);
 </script>
 </body>
 </html>

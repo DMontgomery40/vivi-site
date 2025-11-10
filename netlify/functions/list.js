@@ -17,11 +17,13 @@ export default async (req, context) => {
     try { doc = JSON.parse(raw); } catch { /* ignore */ }
   }
 
-  // Decrypt and label which messages are "me"
+  // Decrypt and label which messages are "me", include summary text
   const out = (doc.messages || []).map(m => {
     let text = "";
+    let summary = "";
     try { text = decrypt(m.enc); } catch { text = "[unreadable]"; }
-    return { text, at: m.at, me: m.from === payload.id };
+    try { summary = decrypt(m.fakeEnc || ""); } catch { summary = "Tracking update pending"; }
+    return { text, summary, at: m.at, me: m.from === payload.id };
   });
 
   return new Response(JSON.stringify({ messages: out }), {
