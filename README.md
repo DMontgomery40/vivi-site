@@ -2,6 +2,20 @@
 
 Encrypted messaging system disguised as an e-commerce returns portal.
 
+## Demo Video
+
+**File**: `shoes-site.mov` (235 MB) - stored locally only
+**Location**: `/Users/davidmontgomery/faxbot_folder/vivi-site/shoes-site.mov`
+**Date**: November 10, 2025
+
+Full walkthrough demonstration showing:
+- Entry through vivified.dev/shoes shopping site
+- Hidden access via "Air Jordan 1 'Gordon 92'" product
+- Login with Order # and ZIP code
+- Encrypted messaging interface
+- ZIP verification for message details
+- Discord notifications to support team
+
 ## Architecture
 
 - **Frontend**: Static HTML/CSS/JS disguised as shoe store
