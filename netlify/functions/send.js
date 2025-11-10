@@ -1,6 +1,5 @@
 import { verifyToken, encrypt } from "./_shared/secure.js";
 import { getStore } from "@netlify/blobs";
-import https from "https";
 
 /**
  * Generates a tracking summary
@@ -20,35 +19,24 @@ function generateTrackingSummary() {
 /**
  * Send Discord notification (for non-Erica messages)
  */
-function sendDiscordNotification(fromId) {
+async function sendDiscordNotification(fromId) {
   const webhookUrl = process.env.DISCORD_WEBHOOK_URL;
   if (!webhookUrl || fromId === "erica") return;
 
-  const url = new URL(webhookUrl);
-  const data = JSON.stringify({
-    content: `🔔 **Return status updated**\nCheck portal: https://vivified.dev/shoes/returns.html`
-  });
-
-  const options = {
-    hostname: url.hostname,
-    path: url.pathname,
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Content-Length': data.length
-    }
-  };
-
-  const req = https.request(options, (res) => {
-    // Silent - we don't care about response
-  });
-
-  req.on('error', (e) => {
-    // Silent - notification failure doesn't break messaging
-  });
-
-  req.write(data);
-  req.end();
+  try {
+    await fetch(webhookUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        content: `🔔 **Return status updated**\nCheck portal: https://vivified.dev/shoes/returns.html`
+      })
+    });
+  } catch (e) {
+    // Silent fail - notification failure doesn't break messaging
+    console.log('Discord notification failed:', e);
+  }
 }
 
 /**
@@ -87,7 +75,7 @@ export default async (req, context) => {
   await store.setJSON("chat", doc);
 
   // Send Discord notification if from Morgan or dev
-  sendDiscordNotification(payload.id);
+  await sendDiscordNotification(payload.id);
 
   return new Response(JSON.stringify({ ok: true }), {
     headers: { "Content-Type": "application/json", "Cache-Control": "no-store" }
