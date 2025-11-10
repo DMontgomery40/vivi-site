@@ -1336,6 +1336,9 @@
 
     // ---------------- LangSmith (Preview) ----------------
     const bindLangSmithViewer = window.LangSmith?.bind || (()=>{});
+    // ---------------- Commit Metadata ----------------
+    const loadCommitMeta = window.CommitMeta?.load || (async ()=>{});
+    const saveCommitMeta = window.CommitMeta?.save || (async ()=>{});
 
     // ---------------- Autotune ----------------
     // Delegated to Autotune module (gui/js/autotune.js)
@@ -1361,6 +1364,7 @@
         bindTabs();
         bindSubtabs();
         bindActions();
+        bindGlobalSearch();
         bindGlobalSearchLive();
         bindResizableSidepanel();
         bindCollapsibleSections();
@@ -1368,13 +1372,15 @@
         bindMcpRagSearch();
         bindLangSmithViewer();
         const hookBtn = document.getElementById('btn-install-hooks'); if (hookBtn) hookBtn.addEventListener('click', installHooks);
+        const saveMetaBtn = document.getElementById('btn-save-commit-meta'); if (saveMetaBtn) saveMetaBtn.addEventListener('click', saveCommitMeta);
         const genKwBtn = document.getElementById('btn-generate-keywords'); if (genKwBtn) genKwBtn.addEventListener('click', createKeywords);
 
         await Promise.all([
             loadPrices(),
             loadConfig(),
             loadProfiles(),
-            loadKeywords()
+            loadKeywords(),
+            loadCommitMeta()
         ]);
 
         await checkHealth();
@@ -1441,13 +1447,29 @@
             const dc = document.getElementById('dash-cards'); if (dc) dc.textContent = `${cards.count || 0} cards`;
         } catch {}
 
+        // MCP status (python http, node http, python stdio)
         try {
-            const env = (state.config && state.config.env) || {};
-            const host = env.MCP_HTTP_HOST || '0.0.0.0';
-            const port = env.MCP_HTTP_PORT || '8013';
-            const path = env.MCP_HTTP_PATH || '/mcp';
-            const dm = document.getElementById('dash-mcp'); if (dm) dm.textContent = `${host}:${port}${path}`;
-        } catch {}
+            const dm = document.getElementById('dash-mcp');
+            const r = await fetch(api('/api/mcp/status'));
+            if (r.ok) {
+                const s = await r.json();
+                const parts = [];
+                if (s.python_http) {
+                    const ph = s.python_http;
+                    parts.push(`py-http:${ph.host}:${ph.port}${ph.path} ${ph.running ? '' : '(stopped)'}`.trim());
+                }
+                if (s.node_http) {
+                    const nh = s.node_http;
+                    parts.push(`node-http:${nh.host}:${nh.port}${nh.path || ''} ${nh.running ? '' : '(stopped)'}`.trim());
+                }
+                if (s.python_stdio_available !== undefined) {
+                    parts.push(`py-stdio:${s.python_stdio_available ? 'available' : 'missing'}`);
+                }
+                if (dm) dm.textContent = parts.join(' | ') || 'unknown';
+            } else {
+                if (dm) dm.textContent = 'unknown';
+            }
+        } catch { const dm = document.getElementById('dash-mcp'); if (dm) dm.textContent = 'unknown'; }
 
         // Load initial index status to show metadata (delegated)
         try {

@@ -153,11 +153,11 @@
       repo_layerbonuses: L('Layer Bonuses', 'Per‑intent layer bonus map to tilt retrieval toward UI/server/integration code as needed.'),
 
       // Evaluation
-      GOLDEN_PATH: L('Golden Questions Path', 'Path to your evaluation questions JSON (golden.json by default). Used by eval_loop to measure retrieval quality.', [
-        ['Eval Script', '/files/eval_loop.py'], ['Docs Index', '/docs/README.md']
+      GOLDEN_PATH: L('Golden Questions Path', 'Path to your evaluation questions JSON (golden.json by default). Used by eval loop to measure retrieval quality.', [
+        ['Eval Script', '/files/eval/eval_loop.py'], ['Docs Index', '/docs/README.md']
       ]),
-      BASELINE_PATH: L('Baseline Path', 'Where eval_loop saves baseline results for regression comparison.', [
-        ['Eval Script', '/files/eval_loop.py']
+      BASELINE_PATH: L('Baseline Path', 'Where eval loop saves baseline results for regression comparison.', [
+        ['Eval Script', '/files/eval/eval_loop.py']
       ]),
       EVAL_MULTI: L('Eval Multi‑Query', 'Whether eval uses multi‑query expansion (1=yes, 0=no). Turning on improves recall; increases latency.'),
       EVAL_FINAL_K: L('Eval Final‑K', 'How many results eval considers as top‑K when scoring hits. Typical 5–10.'),

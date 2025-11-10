@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AGRO — Another Good RAG Option</title>
-    <link rel="stylesheet" href="/gui/css/tokens.css">
+    <link rel="stylesheet" href="/agro/css/tokens.css">
     <style>
         * {
             margin: 0;
@@ -795,7 +795,7 @@
         /* History button active state */
         #chat-history:hover { background: var(--bg-elev2) !important; }
     </style>
-    <link rel="stylesheet" href="/gui/css/storage-calculator.css">
+    <link rel="stylesheet" href="/agro/css/storage-calculator.css">
     <style>
         .dash-two {
             display: grid;
@@ -2422,6 +2422,22 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- Monitoring Logs (Dashboard snapshot) -->
+                <div class="settings-section" style="margin-top: 16px;">
+                    <h3>📜 Monitoring Logs</h3>
+                    <p class="small" style="color: var(--fg-muted); margin-bottom: 8px;">Recent alerts and system notices from Alertmanager webhook log. Full controls are under Analytics → Performance.</p>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; align-items: start;">
+                        <div style="background: var(--card-bg); border: 1px solid var(--line); border-radius: 6px; padding: 12px;">
+                            <h4 style="margin: 0 0 8px 0; color: var(--accent);">Recent Alerts</h4>
+                            <div id="alert-status-container" style="min-height: 48px; font-size: 12px; color: var(--fg);"></div>
+                        </div>
+                        <div style="background: var(--card-bg); border: 1px solid var(--line); border-radius: 6px; padding: 12px;">
+                            <h4 style="margin: 0 0 8px 0; color: var(--link);">Alert History</h4>
+                            <div id="alert-history-container" style="min-height: 48px; font-size: 12px; color: var(--fg);"></div>
+                        </div>
+                    </div>
+                </div>
             </div>
         <!-- Tab: Onboarding -->
         <div id="tab-onboarding" class="tab-content">
@@ -2718,7 +2734,7 @@
                                 <select id="chat-repo-select" style="background: var(--card-bg); border: 1px solid var(--line); color: var(--fg); padding: 6px 12px; border-radius: 4px; font-size: 12px;">
                                     <option value="">Auto-detect repo</option>
                                     <option value="agro">agro</option>
-                                    <option value="scrypted">scrypted</option>
+                                    <option value=""></option>
                                 </select>
 
                                 <!-- History Button with Dropdown -->
@@ -2983,11 +2999,11 @@
                                 <span class="help-icon">?</span>
                                 <div class="tooltip-bubble">
                                     <span class="tt-title">System Instructions</span>
-                                    Override default system prompt. Leave empty to use expert prompt (Scrypted plugin development + AGRO RAG specialist). Use to change tone, add rules, etc.
+                                    Override default system prompt. Leave empty to use expert prompt ( plugin development + AGRO RAG specialist). Use to change tone, add rules, etc.
                                 </div>
                             </span>
                         </label>
-                        <textarea id="chat-system-prompt" placeholder="Leave empty for expert system prompt (Scrypted plugin dev + AGRO RAG expert)" style="min-height: 80px;"></textarea>
+                        <textarea id="chat-system-prompt" placeholder="Leave empty for expert system prompt ( plugin dev + AGRO RAG expert)" style="min-height: 80px;"></textarea>
                     </div>
 
                     <!-- History Settings Section -->
@@ -3081,7 +3097,71 @@
                     <button class="subtab-btn" data-subtab="analytics-tracing" data-parent="analytics">Tracing</button>
                     <button class="subtab-btn" data-subtab="analytics-usage" data-parent="analytics">Usage</button>
                 </div>
+
+                <!-- Alert Thresholds for Cost & Token Burn -->
+                <div class="settings-section" style="border-left: 3px solid var(--warn);">
+                    <h3>⚠️ Cost & Token Burn Alerts</h3>
+                    <p class="small">Set thresholds to receive alerts when costs or token consumption spike or sustain high rates.</p>
+
+                    <div class="input-row">
+                        <div class="input-group">
+                            <label>Cost Spike Alert (USD/hour)</label>
+                            <input type="number" id="alert_cost_burn_spike_usd_per_hour" min="0.01" max="100" step="0.01" placeholder="0.10">
+                            <p class="small" style="color: var(--fg-muted); margin-top: 4px;">Alert when hourly burn exceeds this amount</p>
+                        </div>
+                        <div class="input-group">
+                            <label>Token Spike (tokens/min)</label>
+                            <input type="number" id="alert_token_burn_spike_per_minute" min="100" max="100000" step="100" placeholder="5000">
+                            <p class="small" style="color: var(--fg-muted); margin-top: 4px;">Alert on sudden spike above this rate</p>
+                        </div>
+                    </div>
+
+                    <div class="input-row">
+                        <div class="input-group">
+                            <label>Token Burn Sustained (tokens/min)</label>
+                            <input type="number" id="alert_token_burn_sustained_per_minute" min="100" max="100000" step="100" placeholder="2000">
+                            <p class="small" style="color: var(--fg-muted); margin-top: 4px;">Alert if sustained for 15+ minutes</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Budget Alerts -->
+                <div class="settings-section" style="border-left: 3px solid var(--accent);">
+                    <h3>💰 Budget Alerts</h3>
+                    <p class="small">Set monthly budget limits and warning thresholds.</p>
+
+                    <div class="input-row">
+                        <div class="input-group">
+                            <label>Monthly Budget (USD)</label>
+                            <input type="number" id="alert_monthly_budget_usd" min="1" max="10000" step="1" placeholder="500">
+                            <p class="small" style="color: var(--fg-muted); margin-top: 4px;">Hard limit for monthly spending</p>
+                        </div>
+                        <div class="input-group">
+                            <label>Budget Warning Level (USD)</label>
+                            <input type="number" id="alert_budget_warning_usd" min="1" max="10000" step="1" placeholder="400">
+                            <p class="small" style="color: var(--fg-muted); margin-top: 4px;">Alert when spending exceeds this</p>
+                        </div>
+                    </div>
+
+                    <div class="input-row">
+                        <div class="input-group">
+                            <label>Budget Critical Level (USD)</label>
+                            <input type="number" id="alert_budget_critical_usd" min="1" max="10000" step="1" placeholder="450">
+                            <p class="small" style="color: var(--fg-muted); margin-top: 4px;">Critical alert when spending exceeds this</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Storage Calculator -->
                 <div id="storage-calculator-container"></div>
+
+                <!-- Save Alert Thresholds -->
+                <div class="settings-section">
+                    <div class="input-row">
+                        <button class="small-button" id="btn-save-alert-thresholds" style="background: var(--accent); color: var(--accent-contrast); font-weight: 600; width: 100%;">💾 Save Alert Thresholds</button>
+                    </div>
+                    <div id="alert-save-status" style="font-size: 12px; color: var(--fg-muted); margin-top: 8px;"></div>
+                </div>
             </div>
 
             <!-- Tab: Learning Reranker (Dedicated Tab) -->
@@ -3497,7 +3577,7 @@
                                     <span class="help-icon">?</span>
                                     <div class="tooltip-bubble">
                                         <span class="tt-title">Semantic Synonym Expansion</span>
-                                        Expands queries with semantic synonyms to improve retrieval. Example: "auth" → "auth authentication oauth jwt bearer". Defined in semantic_synonyms.json. Default: ON.
+                                        Expands queries with semantic synonyms to improve retrieval. Example: "auth" → "auth authentication oauth jwt bearer". Defined in data/semantic_synonyms.json. Default: ON.
                                         <div class="tt-badges">
                                             <span class="tt-badge info">Better Recall</span>
                                             <span class="tt-badge">No Re-index</span>
@@ -4291,6 +4371,10 @@
                             <label><input type="checkbox" name="EDITOR_ENABLED" value="1"> Enable Embedded Editor</label>
                             <p class="small">Start OpenVSCode Server container on up.sh</p>
                         </div>
+                        <div class="input-group">
+                            <label><input type="checkbox" name="EDITOR_EMBED_ENABLED" value="1"> Enable Editor Embed (iframe)</label>
+                            <p class="small">Show the editor inline in the GUI (hides automatically in CI)</p>
+                        </div>
                     </div>
                     <div class="input-row">
                         <div class="input-group">
@@ -4865,6 +4949,56 @@ echo '{"jsonrpc":"2.0","id":1,"method":"tools/list","params":{}}' | python -m se
                         </div>
                     </div>
                 </div>
+
+                <div class="settings-section" style="margin-top:16px;">
+                    <h3>Commit Metadata (Agent/Session Signing)</h3>
+                    <p class="small">Append a Chat Session trailer to every commit and optionally set git user info. This helps trace changes to a local chat session ID.</p>
+
+                    <div class="input-row">
+                        <div class="input-group">
+                            <label>Agent Name</label>
+                            <input type="text" id="git-agent-name" placeholder="Codex Agent" />
+                        </div>
+                        <div class="input-group">
+                            <label>Agent Email</label>
+                            <input type="email" id="git-agent-email" placeholder="agent@example.com" />
+                        </div>
+                    </div>
+
+                    <div class="input-row">
+                        <div class="input-group">
+                            <label>Chat Session ID</label>
+                            <input type="text" id="git-chat-session" placeholder="paste your local chat session id" />
+                        </div>
+                        <div class="input-group">
+                            <label>Trailer Key</label>
+                            <input type="text" id="git-trailer-key" value="Chat-Session" />
+                        </div>
+                    </div>
+
+                    <div class="input-row">
+                        <div class="input-group">
+                            <label><input type="checkbox" id="git-set-user" /> Set git user.name/email</label>
+                        </div>
+                        <div class="input-group">
+                            <label><input type="checkbox" id="git-append-trailer" checked /> Append session trailer via hook</label>
+                        </div>
+                    </div>
+
+                    <div class="input-row">
+                        <div class="input-group">
+                            <label><input type="checkbox" id="git-enable-template" /> Use commit template</label>
+                        </div>
+                        <div class="input-group">
+                            <label><input type="checkbox" id="git-install-hook" checked /> Install/refresh prepare-commit-msg hook</label>
+                        </div>
+                    </div>
+
+                    <div style="display:flex; gap:8px; align-items:center;">
+                        <button class="small-button" id="btn-save-commit-meta" style="background: var(--accent); color: var(--accent-contrast);">💾 Save Commit Metadata</button>
+                        <div id="git-commit-meta-status" class="mono" style="font-size:12px; color: var(--fg-muted);">—</div>
+                    </div>
+                </div>
             </div>
 
             <!-- Tab: Analytics - Performance -->
@@ -4875,9 +5009,37 @@ echo '{"jsonrpc":"2.0","id":1,"method":"tools/list","params":{}}' | python -m se
                     <button class="subtab-btn" data-subtab="analytics-tracing" data-parent="analytics">Tracing</button>
                     <button class="subtab-btn" data-subtab="analytics-usage" data-parent="analytics">Usage</button>
                 </div>
-                <div class="settings-section">
-                    <h3>Performance Metrics</h3>
-                    <p class="small">Retrieval quality, latency stats (coming soon)</p>
+
+                <!-- Performance & Reliability Alerts -->
+                <div class="settings-section" style="border-left: 3px solid var(--link);">
+                    <h3>📊 Performance & Reliability Alerts</h3>
+                    <p class="small">Set thresholds for error rates, latency, and timeout incidents.</p>
+
+                    <div class="input-row">
+                        <div class="input-group">
+                            <label>Error Rate Threshold (%)</label>
+                            <input type="number" id="alert_error_rate_threshold_percent" min="0.1" max="50" step="0.1" placeholder="5.0">
+                            <p class="small" style="color: var(--fg-muted); margin-top: 4px;">Alert when error rate exceeds this percentage</p>
+                        </div>
+                        <div class="input-group">
+                            <label>Request Latency P99 (seconds)</label>
+                            <input type="number" id="alert_request_latency_p99_seconds" min="0.1" max="60" step="0.1" placeholder="5.0">
+                            <p class="small" style="color: var(--fg-muted); margin-top: 4px;">Alert when 99th percentile latency exceeds this</p>
+                        </div>
+                    </div>
+
+                    <div class="input-row">
+                        <div class="input-group">
+                            <label>Timeout Errors (per 5 min)</label>
+                            <input type="number" id="alert_timeout_errors_per_5min" min="1" max="1000" step="1" placeholder="10">
+                            <p class="small" style="color: var(--fg-muted); margin-top: 4px;">Alert when timeout count exceeds this</p>
+                        </div>
+                        <div class="input-group">
+                            <label>Rate Limit Errors (per 5 min)</label>
+                            <input type="number" id="alert_rate_limit_errors_per_5min" min="1" max="1000" step="1" placeholder="5">
+                            <p class="small" style="color: var(--fg-muted); margin-top: 4px;">Alert when rate limit hits exceed this</p>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -4932,9 +5094,32 @@ echo '{"jsonrpc":"2.0","id":1,"method":"tools/list","params":{}}' | python -m se
                     <button class="subtab-btn" data-subtab="analytics-tracing" data-parent="analytics">Tracing</button>
                     <button class="subtab-btn active" data-subtab="analytics-usage" data-parent="analytics">Usage</button>
                 </div>
-                <div class="settings-section">
-                    <h3>Usage Statistics</h3>
-                    <p class="small">Request counts, token usage over time (coming soon)</p>
+
+                <!-- API Anomaly Alerts -->
+                <div class="settings-section" style="border-left: 3px solid var(--accent);">
+                    <h3>🌐 API Anomaly Alerts</h3>
+                    <p class="small">Detect unusual API calling patterns that might indicate issues or loops.</p>
+
+                    <div class="input-row">
+                        <div class="input-group">
+                            <label>Endpoint Call Frequency (calls/min)</label>
+                            <input type="number" id="alert_endpoint_call_frequency_per_minute" min="1" max="1000" step="1" placeholder="10">
+                            <p class="small" style="color: var(--fg-muted); margin-top: 4px;">Alert when a single endpoint gets called this frequently</p>
+                        </div>
+                        <div class="input-group">
+                            <label>Sustained Frequency Duration (minutes)</label>
+                            <input type="number" id="alert_endpoint_frequency_sustained_minutes" min="1" max="60" step="1" placeholder="2">
+                            <p class="small" style="color: var(--fg-muted); margin-top: 4px;">Duration threshold for sustained frequency alert</p>
+                        </div>
+                    </div>
+
+                    <div class="input-row">
+                        <div class="input-group">
+                            <label>Cohere Rerank Calls (calls/min)</label>
+                            <input type="number" id="alert_cohere_rerank_calls_per_minute" min="1" max="1000" step="1" placeholder="30">
+                            <p class="small" style="color: var(--fg-muted); margin-top: 4px;">Alert when Cohere reranking calls spike</p>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -4975,6 +5160,65 @@ echo '{"jsonrpc":"2.0","id":1,"method":"tools/list","params":{}}' | python -m se
                             </div>
                         </div>
                     </div>
+                </div>
+
+                <div class="settings-section" style="border-left: 3px solid var(--link);">
+                    <h3><span style="color: var(--link);">●</span> Alert Notifications (Slack/Discord)</h3>
+                    <p class="small">Configure webhook URLs for alert notifications. Leave blank to disable notifications for that platform.</p>
+
+                    <div class="input-row">
+                        <div class="input-group">
+                            <label>Slack Webhook URL</label>
+                            <input type="password" id="webhook_slack_url" placeholder="https://hooks.slack.com/services/T00000000/B00000000/XXXXXXXXXXXXXXXXXXXX">
+                            <p class="small" style="color: var(--fg-muted); margin-top: 4px;">🔒 Password field for security - not saved in browser</p>
+                        </div>
+                    </div>
+
+                    <div class="input-row">
+                        <div class="input-group">
+                            <label>Discord Webhook URL</label>
+                            <input type="password" id="webhook_discord_url" placeholder="https://discordapp.com/api/webhooks/000000000000000000/XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX">
+                            <p class="small" style="color: var(--fg-muted); margin-top: 4px;">🔒 Password field for security - not saved in browser</p>
+                        </div>
+                    </div>
+
+                    <div class="input-row">
+                        <div class="input-group">
+                            <label>Notification Settings</label>
+                            <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 8px;">
+                                <label style="display: flex; align-items: center; gap: 8px; font-weight: 400; margin: 0;">
+                                    <input type="checkbox" id="webhook_enabled" checked>
+                                    <span>Enable notifications</span>
+                                </label>
+                                <div>
+                                    <label>Notify on severity:</label>
+                                    <div style="display: flex; gap: 12px; margin-top: 6px;">
+                                        <label style="display: flex; align-items: center; gap: 6px;">
+                                            <input type="checkbox" id="webhook_sev_critical" checked>
+                                            🔴 Critical
+                                        </label>
+                                        <label style="display: flex; align-items: center; gap: 6px;">
+                                            <input type="checkbox" id="webhook_sev_warning" checked>
+                                            ⚠️ Warning
+                                        </label>
+                                        <label style="display: flex; align-items: center; gap: 6px;">
+                                            <input type="checkbox" id="webhook_sev_info">
+                                            ℹ️ Info
+                                        </label>
+                                    </div>
+                                </div>
+                                <label style="display: flex; align-items: center; gap: 8px; font-weight: 400; margin: 0;">
+                                    <input type="checkbox" id="webhook_include_resolved" checked>
+                                    <span>Include resolved alerts</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="input-row">
+                        <button class="small-button" id="btn-save-webhooks" style="background: var(--accent); color: var(--accent-contrast); font-weight: 600; width: 100%;">💾 Save Webhook Configuration</button>
+                    </div>
+                    <div id="webhook-save-status" style="font-size: 12px; color: var(--fg-muted); margin-top: 8px;"></div>
                 </div>
             </div>
 
@@ -5184,37 +5428,76 @@ echo '{"jsonrpc":"2.0","id":1,"method":"tools/list","params":{}}' | python -m se
             <div id="tab-metrics" class="tab-content">
                 <div class="settings-section">
                     <h3>Grafana Metrics Dashboard</h3>
-                    <p class="small">Real-time observability powered by Prometheus + Grafana</p>
-                    <div style="margin-top: 16px; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; background: var(--card-bg); padding: 12px;">
-                        <div style="font-size:14px;font-weight:700;color:var(--fg);margin-bottom:8px;">Demo Mode</div>
-                        <p class="small" style="color: var(--fg-muted); line-height:1.6;">
-                            Sorry — the live embedded Grafana dashboard isn't available in this demo.
-                            But imagine the following panels streaming live:
-                        </p>
-                        <ul style="margin:8px 0 12px 18px; line-height:1.6; color: var(--fg);">
-                            <li>LangSmith tracing: runs, spans, tokens, error drill‑downs</li>
-                            <li>RAG query volume (1m/5m/1h)</li>
-                            <li>Top routes and latency percentiles (P50/P95/P99)</li>
-                            <li>Answer/context token usage</li>
-                            <li>No‑hit queries and routing fallbacks</li>
-                            <li>BM25 vs vector hit ratios</li>
-                            <li>Reranker confidence and win‑rate</li>
-                            <li>Indexing progress and chunk counts per repo</li>
-                            <li>Cards builder throughput and stage timings</li>
-                            <li>Cost per request (24h / 30d)</li>
-                            <li>Provider health checks and error rates</li>
-                            <li>Qdrant collections: points, IO, latency</li>
-                            <li>Redis cache hit/miss and memory</li>
-                            <li>Server CPU / memory utilization</li>
-                            <li>Canary results and SLO budget burn</li>
-                        </ul>
-                        <div class="small" style="color: var(--fg-muted); margin:6px 0 10px;">And because it's a demo…</div>
-                        <div style="border:1px solid var(--line); border-radius:6px; padding:10px; background: var(--panel);">
-                            <div style="font-weight:700; color: var(--link); margin-bottom:6px;">Here’s that T‑Rex game Google shows when it’s down</div>
-                            <canvas id="dino-canvas" width="600" height="140" style="width:100%; max-width:600px; height:160px; background: var(--card-bg); border:1px solid var(--line); border-radius:4px;"></canvas>
-                            <div class="small" style="color: var(--fg-muted); margin-top:6px;">Press Space or ↑ to jump. Avoid the cacti.</div>
+                    <p class="small">Configure and embed your live Grafana dashboard powered by Prometheus.</p>
+
+                    <div class="input-row">
+                        <div class="input-group">
+                            <label>
+                                <input type="checkbox" name="GRAFANA_EMBED_ENABLED" checked>
+                                Enable Embedded Grafana
+                            </label>
                         </div>
-                        <script src="/agro/js/dino.js"></script>
+                        <div class="input-group">
+                            <label>Grafana Base URL</label>
+                            <input type="text" name="GRAFANA_BASE_URL" value="http://127.0.0.1:3000" placeholder="http://127.0.0.1:3000">
+                        </div>
+                    </div>
+
+                    <div class="input-row">
+                        <div class="input-group">
+                            <label>Dashboard UID</label>
+                            <input type="text" name="GRAFANA_DASHBOARD_UID" value="agro-overview" placeholder="agro-overview">
+                        </div>
+                        <div class="input-group">
+                            <label>Dashboard Slug</label>
+                            <input type="text" name="GRAFANA_DASHBOARD_SLUG" value="agro-overview" placeholder="agro-overview">
+                        </div>
+                    </div>
+
+                    <div class="input-row">
+                        <div class="input-group">
+                            <label>Org ID</label>
+                            <input type="number" name="GRAFANA_ORG_ID" value="1" min="1">
+                        </div>
+                        <div class="input-group">
+                            <label>Refresh Interval</label>
+                            <input type="text" name="GRAFANA_REFRESH" value="10s" placeholder="10s">
+                        </div>
+                    </div>
+
+                    <div class="input-row">
+                        <div class="input-group">
+                            <label>Kiosk Mode</label>
+                            <select name="GRAFANA_KIOSK">
+                                <option value="">None</option>
+                                <option value="tv" selected>tv</option>
+                            </select>
+                        </div>
+                        <div class="input-group">
+                            <label>Auth Mode</label>
+                            <select name="GRAFANA_AUTH_MODE">
+                                <option value="anonymous" selected>Anonymous</option>
+                                <option value="token">Service Account Token</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="input-row">
+                        <div class="input-group">
+                            <label>Auth Token (optional)</label>
+                            <input type="text" name="GRAFANA_AUTH_TOKEN" placeholder="Token for auth_token=...">
+                        </div>
+                        <div class="input-group">
+                            <label>&nbsp;</label>
+                            <div style="display:flex; gap:8px;">
+                                <button id="grafana-preview" style="background: var(--link); color: var(--on-link); border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer; font-weight: 600;">Preview</button>
+                                <button id="grafana-open" style="background: var(--bg-elev1); color: var(--fg); border: 1px solid var(--line); padding: 8px 16px; border-radius: 4px; cursor: pointer; font-weight: 600;">Open Grafana</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="grafana-embed" style="margin-top: 16px; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; background: var(--card-bg); display:none;">
+                        <iframe id="grafana-iframe" style="width:100%; height:600px; border:0; background: var(--bg);"></iframe>
                     </div>
                 </div>
             </div>
@@ -5417,9 +5700,9 @@ echo '{"jsonrpc":"2.0","id":1,"method":"tools/list","params":{}}' | python -m se
 
     <datalist id="keywords-list"></datalist>
     <!-- Core utilities (must load first) -->
-    <script src="/agro/fetch-shim.js?v=1"></script>
-    <script src="/agro/js/core-utils.js?v=1"></script>
-    <script src="/agro/api-base-override.js?v=1"></script>
+    <script src="/agro/fetch-shim.js?v=1760443960222"></script>
+    <script src="/agro/js/core-utils.js?v=1760443960222"></script>
+    <script src="/agro/api-base-override.js?v=1760443960222"></script>
 
     <!-- UI helpers -->
     <script src="/agro/js/ui-helpers.js"></script>
@@ -5428,8 +5711,10 @@ echo '{"jsonrpc":"2.0","id":1,"method":"tools/list","params":{}}' | python -m se
     <!-- Feature modules -->
     <script src="/agro/js/tabs.js"></script>
     <script src="/agro/js/config.js"></script>
+    <script src="/agro/js/grafana.js"></script>
     <script src="/agro/js/health.js"></script>
     <script src="/agro/js/git-hooks.js"></script>
+    <script src="/agro/js/git-commit-meta.js"></script>
     <script src="/agro/js/keywords.js"></script>
     <script src="/agro/js/autotune.js"></script>
     <script src="/agro/js/search.js"></script>
@@ -5462,6 +5747,7 @@ echo '{"jsonrpc":"2.0","id":1,"method":"tools/list","params":{}}' | python -m se
     <script src="/agro/js/chat.js"></script>
     <script src="/agro/js/reranker.js"></script>
     <script src="/agro/js/trace.js"></script>
+    <script src="/agro/js/alerts.js"></script>
 
     <!-- Main app coordination (must load LAST) -->
     <script src="/agro/app.js"></script>

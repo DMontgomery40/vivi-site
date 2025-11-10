@@ -1,0 +1,87 @@
+[build]
+command = "corepack pnpm i && corepack pnpm build"
+publish = "dist"
+
+[context.production]
+command = "corepack pnpm i && corepack pnpm build"
+
+# Keep the Faxbot demo at /admin
+[[redirects]]
+from = "/admin"
+to = "https://faxbot.net/admin-demo/"
+status = 302
+force = true
+
+# Serve the AGRO GUI directly at /agro
+[[redirects]]
+from = "/agro"
+to = "/agro/index.html"
+status = 200
+force = true
+
+# SPA fallback (must be last)
+
+## Preserve existing site API docs first
+[[redirects]]
+from = "/api/v1/*"
+to = "/api/v1/:splat"
+status = 200
+force = true
+
+## Route all other /api/* to the demo API prefix to avoid HTML
+[[redirects]]
+from = "/api/*"
+to = "/agro-api/:splat"
+status = 200
+force = true
+
+## Special-case editor + editor health to backend non-/api routes (must come before generic /agro-api/* rule)
+[[redirects]]
+from = "/agro-api/health/editor"
+to = "https://blonde-champion-counter-eddie.trycloudflare.com/health/editor"
+status = 200
+force = true
+
+[[redirects]]
+from = "/agro-api/editor/*"
+to = "https://blonde-champion-counter-eddie.trycloudflare.com/editor/:splat"
+status = 200
+force = true
+
+[[redirects]]
+from = "/agro-api/*"
+to = "https://blonde-champion-counter-eddie.trycloudflare.com/api/:splat"
+status = 200
+force = true
+
+# Allow direct /editor/* iframe loads (popout, etc.)
+[[redirects]]
+from = "/editor/*"
+to = "https://blonde-champion-counter-eddie.trycloudflare.com/editor/:splat"
+status = 200
+force = true
+
+
+## Back-compat for cached pages that still request root /js or /css
+[[redirects]]
+from = "/js/*"
+to = "/agro/js/:splat"
+status = 200
+force = true
+
+[[redirects]]
+from = "/css/*"
+to = "/agro/css/:splat"
+status = 200
+force = true
+
+[[redirects]]
+from = "/agro/*"
+to = "/agro/:splat"
+status = 200
+force = true
+
+[[redirects]]
+from = "/*"
+to = "/index.html"
+status = 200

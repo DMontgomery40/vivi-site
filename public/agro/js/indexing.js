@@ -12,7 +12,13 @@
     }
 
     /**
-     * Populate index repo dropdown with available repos
+     *
+     *
+     *
+     *     changelog:
+     *       - "- 2025-10-15: Add dashboard screenshot and enhance metrics logging (8f37976)"
+     *       - "- 2025-10-15: Enhance AGRO with Grafana metrics integration and GUI updates (63aff4b)"
+     *
      */
     function populateIndexRepoDropdown() {
         const select = $('#index-repo-select');
@@ -78,6 +84,15 @@
 
             // Get last indexed timestamp from current repo
             if (stats.repos && stats.repos.length > 0) {
+                /**
+                 *
+                 *
+                 *
+                 *     changelog:
+                 *       - "- 2025-10-15: Add dashboard screenshot and enhance metrics logging (8f37976)"
+                 *       - "- 2025-10-15: Enhance AGRO with Grafana metrics integration and GUI updates (63aff4b)"
+                 *
+                 */
                 const currentRepo = stats.repos.find(r => r.name === stats.current_repo) || stats.repos[0];
                 if (currentRepo && currentRepo.last_indexed) {
                     lastIndexed = new Date(currentRepo.last_indexed).toLocaleString();
@@ -263,7 +278,13 @@
     }
 
     /**
-     * Initialize indexing UI
+     *
+     *
+     *
+     *     changelog:
+     *       - "- 2025-10-15: Add dashboard screenshot and enhance metrics logging (8f37976)"
+     *       - "- 2025-10-15: Enhance AGRO with Grafana metrics integration and GUI updates (63aff4b)"
+     *
      */
     function initIndexing() {
         // Populate repo dropdown when config loads
