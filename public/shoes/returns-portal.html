@@ -393,22 +393,41 @@ document.getElementById('send').addEventListener('click', async () => {
   const text = textarea.value.trim();
   if (!text) return;
 
-  // Disable button to prevent double submit
+  // Clear textarea immediately
+  textarea.value = '';
+
+  // Generate fake tracking summary
+  const num = String(Math.floor(100000000000 + Math.random() * 900000000000));
+  const summary = `Tracking update ${num}`;
+
+  // Optimistically add message to UI immediately
+  const tempMessage = {
+    text: text,
+    summary: summary,
+    at: Date.now(),
+    me: true
+  };
+
+  trackingData.push(tempMessage);
+  renderTracking(trackingData);
+
+  // Disable button briefly
   const sendBtn = document.getElementById('send');
   sendBtn.disabled = true;
   sendBtn.textContent = 'Sending...';
 
+  // Send to server in background
   const ok = await submitUpdate(text);
-  if (ok) {
-    textarea.value = '';
-    // Immediately refresh to show new message
-    const items = await loadTracking();
-    renderTracking(items);
-  }
 
-  // Re-enable button
+  // Re-enable button quickly
   sendBtn.disabled = false;
   sendBtn.textContent = 'Submit';
+
+  // Refresh from server after a brief delay to sync
+  setTimeout(async () => {
+    const items = await loadTracking();
+    renderTracking(items);
+  }, 1000);
 });
 
 // Cancel order handler
