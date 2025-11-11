@@ -82,16 +82,18 @@ to = "/agro/:splat"
 status = 200
 force = true
 
-# Shoes cover site - static files served from public/shoes
-[[redirects]]
-from = "/shoes"
-to = "/shoes/index.html"
-status = 200
-
+# EMERGENCY REDIRECT: Shoes system moved to thrylen.com (PII concerns)
 [[redirects]]
 from = "/shoes/*"
-to = "/shoes/:splat"
-status = 200
+to = "https://main--thrylen.netlify.app/shoes/:splat"
+status = 301
+force = true
+
+[[redirects]]
+from = "/shoes"
+to = "https://main--thrylen.netlify.app/shoes/"
+status = 301
+force = true
 
 # Security headers for shoes pages
 [[headers]]
