@@ -2,21 +2,25 @@
   publish = "public"
   functions = "netlify/functions"
 
-# Root redirects to shoes
+# EMERGENCY: Redirect to new safe site (thrylen)
 [[redirects]]
-  from = "/"
-  to = "/shoes/index.html"
-  status = 200
+  from = "/shoes/*"
+  to = "https://main--thrylen.netlify.app/shoes/:splat"
+  status = 301
+  force = true
 
 [[redirects]]
   from = "/shoes"
-  to = "/shoes/index.html"
-  status = 200
+  to = "https://main--thrylen.netlify.app/shoes/"
+  status = 301
+  force = true
 
+# Root also redirects to new safe site
 [[redirects]]
-  from = "/shoes/*"
-  to = "/shoes/:splat"
-  status = 200
+  from = "/"
+  to = "https://main--thrylen.netlify.app/shoes/"
+  status = 301
+  force = true
 
 # Security headers
 [[headers]]
